@@ -1,0 +1,44 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+htmlcov/
+.coverage
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local environment files
+.env
+.env.local
+.env.*
+!.env.example
+
+# Runtime data and logs
+data/
+tmp/
+*.log
+
+# Downloaded media
+vopros_dna/photos/
+vopros_dna/images/
+vopros_dna/video_files/
+vopros_dna/stickers/
+
+# OS files
+.DS_Store
+Thumbs.db
