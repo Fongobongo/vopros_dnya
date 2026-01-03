@@ -324,7 +324,12 @@ def _mistral_restore_text(
     prompt = (
         "You are an OCR reconciliation assistant. "
         "Return ONLY JSON: {\"restored_text\": \"...\"}. "
-        "Use the best possible reconstruction of the original phrase. "
+        "Reconstruct the most likely original phrase using only information "
+        "present in the three OCR variants. Do not add new words or phrases "
+        "that do not appear in any input. You may fix obvious OCR mistakes "
+        "(typos, missing/extra characters, spacing) and normalize spelling or "
+        "letter case. Adjust punctuation only when it is clearly supported by "
+        "the inputs; do not invent punctuation. "
         "If you cannot be confident, return an empty string."
     )
     payload = {

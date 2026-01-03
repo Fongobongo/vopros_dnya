@@ -22,6 +22,8 @@ IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp"}
 LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
 THUMB_RE = re.compile(r"^(?P<base>.+)_thumb(?P<ext>\.(?:jpg|jpeg|png|webp))$", re.IGNORECASE)
+DEFAULT_DOWNLOAD_RETRIES = 2
+DEFAULT_DOWNLOAD_RETRY_SLEEP = 1.0
 
 
 def _parse_message_id(data_post: str) -> int | None:
@@ -109,14 +111,40 @@ def _fetch_page(channel: str, before_id: int | None) -> str:
         return resp.read().decode("utf-8")
 
 
-def _download_image(url: str, dest: Path) -> None:
-    req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=30) as resp, dest.open("wb") as fh:
-        while True:
-            chunk = resp.read(1024 * 256)
-            if not chunk:
-                break
-            fh.write(chunk)
+def _download_image(url: str, dest: Path, retries: int, retry_sleep: float) -> None:
+    total_attempts = retries + 1
+    tmp_path = dest.with_name(f"{dest.name}.part")
+    for attempt in range(total_attempts):
+        try:
+            if tmp_path.exists():
+                tmp_path.unlink()
+            req = Request(url, headers={"User-Agent": USER_AGENT})
+            with urlopen(req, timeout=30) as resp, tmp_path.open("wb") as fh:
+                while True:
+                    chunk = resp.read(1024 * 256)
+                    if not chunk:
+                        break
+                    fh.write(chunk)
+            tmp_path.replace(dest)
+            return
+        except Exception as exc:  # noqa: BLE001
+            if tmp_path.exists():
+                try:
+                    tmp_path.unlink()
+                except OSError:
+                    pass
+            if attempt < retries:
+                LOGGER.warning(
+                    "Download failed (attempt %s/%s) for %s: %s",
+                    attempt + 1,
+                    total_attempts,
+                    url,
+                    exc,
+                )
+                if retry_sleep > 0:
+                    time.sleep(retry_sleep)
+                continue
+            raise
 
 
 def _load_env_file(path: Path) -> None:
@@ -148,6 +176,18 @@ def _resolve_float(value: float | None, env_key: str, default: float) -> float:
         return default
     try:
         return float(raw)
+    except ValueError:
+        return default
+
+
+def _resolve_int(value: int | None, env_key: str, default: int) -> int:
+    if value is not None:
+        return max(0, value)
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
+    try:
+        return max(0, int(raw))
     except ValueError:
         return default
 
@@ -350,9 +390,24 @@ def fetch_channel_images(
     page_sleep: float = 1.0,
     download_sleep: float = 0.3,
     skip_thumbs: bool = False,
+    download_retries: int | None = None,
+    download_retry_sleep: float | None = None,
 ) -> dict[str, list[dict[str, Any]]]:
     page_sleep = max(0.0, page_sleep)
     download_sleep = max(0.0, download_sleep)
+    download_retries = _resolve_int(
+        download_retries,
+        "TELEGRAM_DOWNLOAD_RETRIES",
+        DEFAULT_DOWNLOAD_RETRIES,
+    )
+    download_retry_sleep = max(
+        0.0,
+        _resolve_float(
+            download_retry_sleep,
+            "TELEGRAM_DOWNLOAD_RETRY_SLEEP",
+            DEFAULT_DOWNLOAD_RETRY_SLEEP,
+        ),
+    )
     out_dir.mkdir(parents=True, exist_ok=True)
     state = _load_state(state_file)
 
@@ -416,7 +471,7 @@ def fetch_channel_images(
                 if dest.exists():
                     continue
                 try:
-                    _download_image(url, dest)
+                    _download_image(url, dest, download_retries, download_retry_sleep)
                     downloaded.append(
                         {
                             "path": dest,

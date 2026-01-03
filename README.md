@@ -318,6 +318,12 @@ DAILY_LOG_FILE=data/telegram_daily.log
 python3 scripts/export_validated_to_sqlite.py --input-dir data
 ```
 
+Либо явно указать файлы:
+
+```
+python3 scripts/export_validated_to_sqlite.py --input-files data/questions_2025-12-22.json data/questions_2025-12-24.json
+```
+
 Очистить обе таблицы перед экспортом:
 
 ```

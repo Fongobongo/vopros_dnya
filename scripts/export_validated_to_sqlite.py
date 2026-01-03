@@ -174,6 +174,10 @@ def _init_db(conn: sqlite3.Connection) -> None:
                 datetime TEXT,
                 filename TEXT UNIQUE,
                 text TEXT,
+                tesseract_text TEXT,
+                easyocr_text TEXT,
+                ocrspace_text TEXT,
+                mistral_text TEXT,
                 tg_message_id INTEGER,
                 tg_datetime_utc TEXT,
                 is_correct INTEGER,
@@ -197,6 +201,15 @@ def _init_db(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def _ensure_columns(conn: sqlite3.Connection, table: str, columns: dict[str, str]) -> None:
+    existing = {row[1] for row in conn.execute(f"PRAGMA table_info({table})")}
+    for name, col_type in columns.items():
+        if name in existing:
+            continue
+        conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {col_type}")
+    conn.commit()
+
+
 def _truncate_tables(conn: sqlite3.Connection) -> None:
     for table in (VALIDATED_TABLE, UNVALIDATED_TABLE):
         conn.execute(f"DELETE FROM {table}")
@@ -211,6 +224,9 @@ def _truncate_tables(conn: sqlite3.Connection) -> None:
 
 
 def _load_paths(args: argparse.Namespace) -> list[Path]:
+    if args.input_files:
+        files = [Path(path) for path in args.input_files]
+        return [path for path in files if path.exists()]
     files = [Path(path) for path in args.json_files]
     if args.input_dir:
         input_dir = Path(args.input_dir)
@@ -261,6 +277,10 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             datetime,
             filename,
             text,
+            tesseract_text,
+            easyocr_text,
+            ocrspace_text,
+            mistral_text,
             tg_message_id,
             tg_datetime_utc,
             is_correct,
@@ -276,12 +296,16 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             source_json,
             imported_at_utc
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(filename) DO UPDATE SET
             date=excluded.date,
             number=excluded.number,
             datetime=excluded.datetime,
             text=excluded.text,
+            tesseract_text=excluded.tesseract_text,
+            easyocr_text=excluded.easyocr_text,
+            ocrspace_text=excluded.ocrspace_text,
+            mistral_text=excluded.mistral_text,
             tg_message_id=excluded.tg_message_id,
             tg_datetime_utc=excluded.tg_datetime_utc,
             is_correct=excluded.is_correct,
@@ -307,9 +331,15 @@ def main() -> int:
     )
     parser.add_argument("json_files", nargs="*", help="JSON files to process")
     parser.add_argument(
+        "--input-files",
+        nargs="*",
+        default=None,
+        help="Explicit JSON files to process (overrides positional args and --input-dir)",
+    )
+    parser.add_argument(
         "--input-dir",
-        default="data",
-        help="Directory to scan for JSON files (default: data)",
+        default=None,
+        help="Directory to scan for JSON files",
     )
     parser.add_argument(
         "--pattern",
@@ -353,6 +383,17 @@ def main() -> int:
     conn = sqlite3.connect(db_path)
     try:
         _init_db(conn)
+        for table in (VALIDATED_TABLE, UNVALIDATED_TABLE):
+            _ensure_columns(
+                conn,
+                table,
+                {
+                    "tesseract_text": "TEXT",
+                    "easyocr_text": "TEXT",
+                    "ocrspace_text": "TEXT",
+                    "mistral_text": "TEXT",
+                },
+            )
         if args.truncate:
             _truncate_tables(conn)
             LOGGER.info("Truncated SQLite tables")
@@ -404,6 +445,10 @@ def main() -> int:
                     record.get("datetime"),
                     filename,
                     record.get("text"),
+                    record.get("tesseract_text"),
+                    record.get("easyocr_text"),
+                    record.get("ocrspace_text"),
+                    record.get("mistral_text"),
                     record.get("tg_message_id"),
                     record.get("tg_datetime_utc"),
                     _bool_to_int(record.get("is_correct")),
