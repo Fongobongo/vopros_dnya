@@ -1,21 +1,24 @@
 import argparse
-import base64
 import json
 import logging
 import os
 import re
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-from urllib.request import Request, urlopen
+
+import easyocr
 
 
 LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
-DEFAULT_MISTRAL_TIMEOUT = 60.0
-DEFAULT_MODEL = "mistral-ocr-3"
-MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions"
+DEFAULT_LANGS = "ru,en"
+DEFAULT_WORKERS = 2
+FILENAME_RE = re.compile(r"photo_(\d+)@(\d{2}-\d{2}-\d{4})_(\d{2}-\d{2}-\d{2})")
+THUMB_RE = re.compile(r".+_thumb\.(?:jpg|jpeg|png|webp)$", re.IGNORECASE)
 FLAGS = [
     "is_sexual",
     "is_profanity",
@@ -25,6 +28,8 @@ FLAGS = [
     "is_harassment",
     "is_twitch_banned",
 ]
+
+_READER_LOCAL = threading.local()
 
 
 def _load_env_file(path: Path) -> None:
@@ -46,18 +51,6 @@ def _load_env_file(path: Path) -> None:
         if len(value) >= 2 and value[0] == value[-1] and value[0] in {"'", '"'}:
             value = value[1:-1]
         os.environ.setdefault(key, value)
-
-
-def _resolve_float(value: float | None, env_key: str, default: float) -> float:
-    if value is not None:
-        return max(1.0, value)
-    raw = os.getenv(env_key)
-    if not raw:
-        return default
-    try:
-        return max(1.0, float(raw))
-    except ValueError:
-        return default
 
 
 def _resolve_log_path(base_path: Path, now: datetime) -> Path:
@@ -133,66 +126,86 @@ def _setup_logging(base_path: Path) -> Path:
     return log_path
 
 
-def _default_flags() -> dict[str, bool]:
-    return {flag: True for flag in FLAGS}
+def _resolve_bool(explicit_true: bool, explicit_false: bool, env_key: str, default: bool) -> bool:
+    if explicit_true:
+        return True
+    if explicit_false:
+        return False
+    raw = os.getenv(env_key)
+    if raw is None:
+        return default
+    lowered = raw.strip().lower()
+    if lowered in {"1", "true", "yes", "on"}:
+        return True
+    if lowered in {"0", "false", "no", "off"}:
+        return False
+    return default
 
 
-def _list_images(input_dir: Path) -> list[dict[str, Any]]:
-    full_images: dict[str, Path] = {}
-    thumb_images: dict[str, Path] = {}
-    for path in sorted(input_dir.iterdir()):
-        if path.is_dir():
-            continue
-        if path.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"}:
-            continue
-        if path.name.endswith("_thumb.jpg"):
-            base = path.name.replace("_thumb.jpg", ".jpg")
-            thumb_images[base] = path
-        else:
-            full_images[path.name] = path
-
-    items = []
-    for name, full_path in full_images.items():
-        chosen = thumb_images.get(name, full_path)
-        items.append({"filename": name, "path": chosen})
-    return items
-
-
-def _load_existing_filenames(path: Path) -> set[str]:
-    if not path.exists():
-        return set()
+def _resolve_int(value: int | None, env_key: str, default: int) -> int:
+    if value is not None:
+        return max(1, value)
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
     try:
-        data = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return set()
-    if not isinstance(data, list):
-        return set()
-    filenames = set()
-    for item in data:
-        if isinstance(item, dict) and item.get("filename"):
-            filenames.add(item["filename"])
-    return filenames
+        return max(1, int(raw))
+    except ValueError:
+        return default
 
 
-def _merge_existing(path: Path, records: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    if not path.exists():
-        return records
+def _parse_langs(value: str) -> list[str]:
+    parts = re.split(r"[,+]", value)
+    return [part.strip() for part in parts if part.strip()]
+
+
+def _clean_text(text: str) -> str:
+    text = text.replace("\x0c", " ")
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\bvopros[_\s]*dna\b", "", text, flags=re.IGNORECASE)
+    return text.strip(" -–—")
+
+
+def _get_reader(langs: list[str], gpu: bool) -> easyocr.Reader:
+    reader = getattr(_READER_LOCAL, "reader", None)
+    if reader is None:
+        reader = easyocr.Reader(langs, gpu=gpu, verbose=False)
+        _READER_LOCAL.reader = reader
+    return reader
+
+
+def _read_text(path: Path, langs: list[str], gpu: bool) -> str:
+    reader = _get_reader(langs, gpu)
+    pieces = reader.readtext(str(path), detail=0, paragraph=True)
+    if isinstance(pieces, list):
+        text = " ".join(str(item) for item in pieces)
+    else:
+        text = str(pieces or "")
+    return _clean_text(text)
+
+
+def _parse_metadata(name: str) -> tuple[int | None, str | None]:
+    match = FILENAME_RE.search(name)
+    if not match:
+        return None, None
+    number = int(match.group(1))
+    date_part = match.group(2)
+    time_part = match.group(3)
     try:
-        existing = json.loads(path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        existing = []
-    if not isinstance(existing, list):
-        existing = []
-    seen = set()
-    for item in existing:
-        if isinstance(item, dict) and item.get("filename"):
-            seen.add(item["filename"])
-    merged = list(existing)
-    for record in records:
-        if record.get("filename") in seen:
-            continue
-        merged.append(record)
-    return merged
+        dt = datetime.strptime(f"{date_part} {time_part}", "%d-%m-%Y %H-%M-%S")
+        dt_str = dt.strftime("%Y-%m-%d %H:%M:%S")
+    except ValueError:
+        dt_str = None
+    return number, dt_str
+
+
+def _date_from_value(value: str | None, fallback: datetime) -> str:
+    if isinstance(value, str):
+        if " " in value:
+            return value.split(" ")[0]
+        if "T" in value:
+            return value.split("T")[0]
+    return fallback.strftime("%Y-%m-%d")
 
 
 def _build_output_path(out_json: str | None, date_str: str) -> Path:
@@ -243,13 +256,99 @@ def _write_index(path: Path, index: dict[str, Any]) -> None:
     path.write_text(json.dumps(sorted_index, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _date_from_value(value: str | None, fallback: datetime) -> str:
-    if isinstance(value, str):
-        if " " in value:
-            return value.split(" ")[0]
-        if "T" in value:
-            return value.split("T")[0]
-    return fallback.strftime("%Y-%m-%d")
+def _default_flags() -> dict[str, bool]:
+    return {flag: True for flag in FLAGS}
+
+
+def _list_images(input_dir: Path) -> list[dict[str, Any]]:
+    items = []
+    for path in sorted(input_dir.iterdir()):
+        if path.is_dir():
+            continue
+        if path.suffix.lower() not in {".jpg", ".jpeg", ".png", ".webp"}:
+            continue
+        if THUMB_RE.match(path.name):
+            continue
+        items.append({"filename": path.name, "path": path})
+    return items
+
+
+def _load_existing_filenames(path: Path) -> set[str]:
+    if not path.exists():
+        return set()
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return set()
+    if not isinstance(data, list):
+        return set()
+    filenames = set()
+    for item in data:
+        if isinstance(item, dict) and item.get("filename"):
+            filenames.add(item["filename"])
+    return filenames
+
+
+def _merge_existing(path: Path, records: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not path.exists():
+        return records
+    try:
+        existing = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        existing = []
+    if not isinstance(existing, list):
+        existing = []
+    seen = set()
+    for item in existing:
+        if isinstance(item, dict) and item.get("filename"):
+            seen.add(item["filename"])
+    merged = list(existing)
+    for record in records:
+        if record.get("filename") in seen:
+            continue
+        merged.append(record)
+    return merged
+
+
+def _ocr_items(
+    items: list[dict[str, Any]],
+    langs: list[str],
+    gpu: bool,
+    workers: int,
+) -> list[dict[str, Any]]:
+    results = []
+    if not items:
+        return results
+    with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
+        futures = {executor.submit(_read_text, item["path"], langs, gpu): item for item in items}
+        for future in as_completed(futures):
+            item = futures[future]
+            try:
+                text = future.result()
+            except Exception as exc:  # noqa: BLE001
+                LOGGER.warning("OCR failed for %s: %s", item["filename"], exc)
+                text = ""
+            number, dt_str = _parse_metadata(item["filename"])
+            record = {
+                "number": number,
+                "datetime": dt_str,
+                "filename": item["filename"],
+                "text": text,
+                "llm_validated": False,
+                "human_validated": False,
+                "is_correct": False,
+                "tg_message_id": item.get("tg_message_id"),
+                "tg_datetime_utc": item.get("tg_datetime_utc"),
+            }
+            record.update(_default_flags())
+            results.append(record)
+    results.sort(key=lambda item: item["filename"])
+    fallback_index = 1
+    for record in results:
+        if not record.get("number"):
+            record["number"] = fallback_index
+            fallback_index += 1
+    return results
 
 
 def _ocr_stats(records: list[dict[str, Any]]) -> dict[str, int]:
@@ -263,62 +362,18 @@ def _ocr_stats(records: list[dict[str, Any]]) -> dict[str, int]:
     return {"total": total, "extracted": extracted, "failed": failed}
 
 
-def _mime_type(path: Path) -> str:
-    ext = path.suffix.lower()
-    if ext in {".jpg", ".jpeg"}:
-        return "image/jpeg"
-    if ext == ".png":
-        return "image/png"
-    if ext == ".webp":
-        return "image/webp"
-    return "application/octet-stream"
-
-
-def _mistral_ocr(
-    path: Path,
-    api_key: str,
-    model: str,
-    timeout: float,
-) -> str:
-    data = path.read_bytes()
-    b64 = base64.b64encode(data).decode("ascii")
-    mime = _mime_type(path)
-    payload = {
-        "model": model,
-        "temperature": 0,
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are an OCR assistant. Return only the extracted text.",
-            },
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": "Extract all readable text."},
-                    {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-                ],
-            },
-        ],
-    }
-    req = Request(
-        MISTRAL_URL,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
-    )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
-    content = response_json["choices"][0]["message"]["content"]
-    if isinstance(content, str):
-        return content.strip()
-    return ""
+def _group_by_date(records: list[dict[str, Any]], now: datetime) -> dict[str, list[dict[str, Any]]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        dt_str = record.get("tg_datetime_utc") or record.get("datetime")
+        date_str = _date_from_value(dt_str, now)
+        grouped.setdefault(date_str, []).append(record)
+    return grouped
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="OCR images with Mistral and write per-date JSON files.",
+        description="OCR images from a directory using EasyOCR and write per-date JSON files.",
     )
     parser.add_argument("input_dir", help="Directory with images")
     parser.add_argument(
@@ -327,20 +382,26 @@ def main() -> int:
         help="Output JSON base path, supports {date} (default: data/questions_YYYY-MM-DD.json)",
     )
     parser.add_argument(
-        "--mistral-model",
+        "--langs",
         default=None,
-        help="Mistral vision model (default: env MISTRAL_OCR_MODEL or pixtral-12b)",
+        help="EasyOCR languages, e.g. ru,en (default: env EASYOCR_LANGS or ru,en)",
+    )
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--gpu",
+        action="store_true",
+        help="Use GPU for EasyOCR (default: env EASYOCR_GPU or false)",
+    )
+    group.add_argument(
+        "--cpu",
+        action="store_true",
+        help="Force CPU for EasyOCR (overrides --gpu)",
     )
     parser.add_argument(
-        "--mistral-api-key",
+        "--workers",
+        type=int,
         default=None,
-        help="Mistral API key (default: env MISTRAL_API_KEY)",
-    )
-    parser.add_argument(
-        "--timeout",
-        type=float,
-        default=None,
-        help="Request timeout in seconds (default: env MISTRAL_OCR_TIMEOUT or MISTRAL_TIMEOUT)",
+        help="Parallel OCR workers (default: env EASYOCR_WORKERS or 2)",
     )
     parser.add_argument(
         "--env-file",
@@ -350,7 +411,7 @@ def main() -> int:
     parser.add_argument(
         "--log-file",
         default=None,
-        help="Log file base path, supports {date} (default: data/mistral_ocr.log)",
+        help="Log file base path, supports {date} (default: data/easyocr.log)",
     )
     parser.add_argument(
         "--manifest-file",
@@ -365,20 +426,21 @@ def main() -> int:
     args = parser.parse_args()
 
     _load_env_file(Path(args.env_file))
-    log_file = args.log_file or os.getenv("MISTRAL_OCR_LOG_FILE") or "data/mistral_ocr.log"
+    log_file = args.log_file or os.getenv("EASYOCR_LOG_FILE") or "data/easyocr.log"
     _setup_logging(Path(log_file))
-
-    api_key = args.mistral_api_key or os.getenv("MISTRAL_API_KEY")
-    if not api_key:
-        LOGGER.warning("MISTRAL_API_KEY not set; aborting.")
-        return 2
-    model = args.mistral_model or os.getenv("MISTRAL_OCR_MODEL", DEFAULT_MODEL)
-    timeout = _resolve_float(args.timeout, "MISTRAL_OCR_TIMEOUT", DEFAULT_MISTRAL_TIMEOUT)
 
     input_dir = Path(args.input_dir)
     if not input_dir.exists():
         LOGGER.warning("Input directory not found: %s", input_dir)
         return 1
+
+    lang_spec = args.langs or os.getenv("EASYOCR_LANGS", DEFAULT_LANGS)
+    langs = _parse_langs(lang_spec)
+    if not langs:
+        LOGGER.warning("No EasyOCR languages configured.")
+        return 1
+    gpu = _resolve_bool(args.gpu, args.cpu, "EASYOCR_GPU", False)
+    workers = _resolve_int(args.workers, "EASYOCR_WORKERS", DEFAULT_WORKERS)
 
     now = datetime.now(timezone.utc)
     manifest_file = (
@@ -398,7 +460,8 @@ def main() -> int:
         meta = manifest.get(item["filename"], {})
         item["tg_message_id"] = meta.get("message_id")
         item["tg_datetime_utc"] = meta.get("message_datetime_utc")
-        item["date"] = _date_from_value(item["tg_datetime_utc"], now)
+        _, dt_str = _parse_metadata(item["filename"])
+        item["date"] = _date_from_value(item["tg_datetime_utc"] or dt_str, now)
 
     existing_by_date: dict[str, set[str]] = {}
     todo = []
@@ -415,34 +478,14 @@ def main() -> int:
         LOGGER.info("No new images to OCR.")
         return 0
 
-    records = []
-    for item in todo:
-        try:
-            text = _mistral_ocr(item["path"], api_key, model, timeout)
-        except Exception as exc:  # noqa: BLE001
-            LOGGER.warning("Mistral OCR failed for %s: %s", item["filename"], exc)
-            text = ""
-        record = {
-            "number": None,
-            "datetime": None,
-            "filename": item["filename"],
-            "text": text,
-            "llm_validated": False,
-            "human_validated": False,
-            "is_correct": False,
-            "tg_message_id": item.get("tg_message_id"),
-            "tg_datetime_utc": item.get("tg_datetime_utc"),
-        }
-        record.update(_default_flags())
-        records.append(record)
+    records = _ocr_items(todo, langs, gpu, workers)
+    if not records:
+        return 0
 
-    grouped: dict[str, list[dict[str, Any]]] = {}
-    for record in records:
-        date_str = _date_from_value(record.get("tg_datetime_utc"), now)
-        grouped.setdefault(date_str, []).append(record)
-
+    grouped = _group_by_date(records, now)
     index_path = Path(index_file)
     index = _load_index(index_path)
+
     for date_str, items in grouped.items():
         out_path = _build_output_path(args.out_json, date_str)
         merged = _merge_existing(out_path, items)

@@ -3,9 +3,9 @@ import json
 import logging
 import os
 import re
+import subprocess
 import sys
 import time
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -15,7 +15,7 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from scripts.extract_questions import extract_text
+from scripts.ocr_images import build_records
 from scripts.fetch_channel_images import fetch_channel_images
 
 
@@ -26,8 +26,8 @@ LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
 DEFAULT_BATCH_SIZE = 10
 DEFAULT_MISTRAL_TIMEOUT = 60.0
-QUALITY_KEY = "is_correct"
-FILENAME_RE = re.compile(r"photo_(\d+)@(\d{2}-\d{2}-\d{4})_(\d{2}-\d{2}-\d{2})")
+DEFAULT_MISTRAL_SLEEP = 0.0
+THUMB_RE = re.compile(r".+_thumb\\.(?:jpg|jpeg|png|webp)$", re.IGNORECASE)
 FLAGS = [
     "is_sexual",
     "is_profanity",
@@ -79,6 +79,32 @@ def _resolve_float(value: float | None, env_key: str, default: float) -> float:
         return default
 
 
+def _resolve_nonnegative_float(value: float | None, env_key: str, default: float) -> float:
+    if value is not None:
+        return max(0.0, value)
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
+    try:
+        return max(0.0, float(raw))
+    except ValueError:
+        return default
+
+
+def _resolve_bool(value: bool | None, env_key: str, default: bool) -> bool:
+    if value is not None:
+        return value
+    raw = os.getenv(env_key)
+    if raw is None:
+        return default
+    lowered = raw.strip().lower()
+    if lowered in {"1", "true", "yes", "on"}:
+        return True
+    if lowered in {"0", "false", "no", "off"}:
+        return False
+    return default
+
+
 def _resolve_int(value: int | None, env_key: str, default: int) -> int:
     if value is not None:
         return max(1, value)
@@ -89,6 +115,10 @@ def _resolve_int(value: int | None, env_key: str, default: int) -> int:
         return max(1, int(raw))
     except ValueError:
         return default
+
+
+def _resolve_sleep(value: float | None, env_key: str, default: float) -> float:
+    return _resolve_nonnegative_float(value, env_key, default)
 
 
 def _resolve_log_path(base_path: Path, now: datetime) -> Path:
@@ -178,23 +208,72 @@ def _log_invalid_mistral_response(content: str, base_path: Path) -> Path:
     return path
 
 
-def _parse_metadata(name: str) -> tuple[int | None, str | None]:
-    match = FILENAME_RE.search(name)
-    if not match:
-        return None, None
-    number = int(match.group(1))
-    date_part = match.group(2)
-    time_part = match.group(3)
-    try:
-        dt = datetime.strptime(f"{date_part} {time_part}", "%d-%m-%Y %H-%M-%S")
-        dt_str = dt.strftime("%Y-%m-%d %H:%M:%S")
-    except ValueError:
-        dt_str = None
-    return number, dt_str
+def _run_preprocess(images: list[dict[str, Any]], input_dir: Path, env_file: Path) -> int:
+    if not images:
+        return 0
+    script_path = ROOT_DIR / "scripts" / "preprocess_questions.py"
+    if not script_path.exists():
+        LOGGER.warning("Preprocess script not found: %s", script_path)
+        return 1
+    file_args = [
+        str(Path(item["path"]).resolve())
+        for item in images
+        if item.get("path")
+    ]
+    if not file_args:
+        return 0
+    cmd = [
+        sys.executable,
+        str(script_path),
+        str(input_dir),
+        "--env-file",
+        str(env_file),
+        "--files",
+        *file_args,
+    ]
+    LOGGER.info("Running preprocess step")
+    result = subprocess.run(cmd, check=False)
+    if result.returncode != 0:
+        LOGGER.warning("Preprocess step failed with code %s", result.returncode)
+    return result.returncode
 
 
-def _default_flags() -> dict[str, bool]:
-    return {flag: True for flag in FLAGS}
+def _remove_thumbs(target_dir: Path) -> int:
+    if not target_dir.exists():
+        return 0
+    removed = 0
+    for path in target_dir.rglob("*"):
+        if not path.is_file():
+            continue
+        if THUMB_RE.match(path.name):
+            try:
+                path.unlink()
+                removed += 1
+            except OSError as exc:
+                LOGGER.warning("Failed to remove thumb %s: %s", path.name, exc)
+    return removed
+
+
+def _run_sqlite_export(env_file: Path) -> int:
+    script_path = ROOT_DIR / "scripts" / "export_validated_to_sqlite.py"
+    if not script_path.exists():
+        LOGGER.warning("SQLite export script not found: %s", script_path)
+        return 1
+    cmd = [
+        sys.executable,
+        str(script_path),
+        "--input-dir",
+        "data",
+        "--pattern",
+        "questions_*.json",
+        "--env-file",
+        str(env_file),
+    ]
+    LOGGER.info("Running SQLite export")
+    result = subprocess.run(cmd, check=False)
+    if result.returncode != 0:
+        LOGGER.warning("SQLite export failed with code %s", result.returncode)
+    return result.returncode
 
 
 def _build_output_path(out_json: str | None, date_str: str) -> Path:
@@ -235,49 +314,20 @@ def _ocr_images(
     psm: int,
     workers: int,
 ) -> list[dict[str, Any]]:
-    results = []
     if not items:
-        return results
-    meta_by_path: dict[Path, tuple[int | None, str | None]] = {}
-    item_by_path: dict[Path, dict[str, Any]] = {}
+        return []
+    ocr_items = []
     for item in items:
         path = Path(item["path"])
-        item_by_path[path] = item
-        meta_by_path[path] = _parse_metadata(path.name)
-    with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
-        futures = {
-            executor.submit(extract_text, path, crop, lang, psm): path
-            for path in meta_by_path
-        }
-        for future in as_completed(futures):
-            path = futures[future]
-            try:
-                text = future.result()
-            except Exception as exc:  # noqa: BLE001
-                LOGGER.warning("OCR failed for %s: %s", path.name, exc)
-                text = ""
-            number, dt_str = meta_by_path.get(path, (None, None))
-            item = item_by_path.get(path, {})
-            record = {
-                "number": number,
-                "datetime": dt_str,
+        ocr_items.append(
+            {
                 "filename": path.name,
-                "text": text,
-                "llm_validated": False,
-                "human_validated": False,
-                "is_correct": False,
+                "path": path,
                 "tg_message_id": item.get("message_id"),
                 "tg_datetime_utc": item.get("message_datetime_utc"),
             }
-            record.update(_default_flags())
-            results.append(record)
-    results.sort(key=lambda item: item["filename"])
-    fallback_index = 1
-    for record in results:
-        if not record.get("number"):
-            record["number"] = fallback_index
-            fallback_index += 1
-    return results
+        )
+    return build_records(ocr_items, crop, lang, psm, workers)
 
 
 def _group_by_date(records: list[dict[str, Any]], now: datetime) -> dict[str, list[dict[str, Any]]]:
@@ -411,10 +461,9 @@ def _normalize_bool(payload: dict[str, Any], key: str) -> bool | None:
 
 def _normalize_mistral_payload(payload: dict[str, Any]) -> dict[str, Any] | None:
     flags = _normalize_flags(payload)
-    is_correct = _normalize_bool(payload, QUALITY_KEY)
-    if len(flags) != len(FLAGS) or not isinstance(is_correct, bool):
+    if len(flags) != len(FLAGS):
         return None
-    return {**flags, QUALITY_KEY: is_correct}
+    return flags
 
 
 def _validate_batch_payload(payload: Any) -> list[dict[str, Any]] | None:
@@ -443,12 +492,11 @@ def _mistral_request(
     if len(trimmed) > MAX_TEXT_CHARS:
         trimmed = trimmed[:MAX_TEXT_CHARS]
     system_prompt = (
-        "You are a moderation assistant. Return only JSON with keys: is_sexual, is_profanity, "
-        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned, is_correct. "
-        "Use true if a category is present or has clear signs. Use false only if confident absent. "
-        "Set is_correct=true only if the phrase is readable, meaningful, and has no obvious OCR "
-        "garbage or stray symbols; otherwise false. If text is empty or insufficient, return all "
-        "censor flags true and is_correct=false."
+        "You are a strict moderation assistant. Return only JSON with keys: "
+        "is_sexual, is_profanity, is_politics, is_insults, is_threats, is_harassment, "
+        "is_twitch_banned. Use true if a category is present or has clear signs. "
+        "Use false only if you are confident it is absent. "
+        "If text is empty or insufficient, return all censor flags true."
     )
     payload = {
         "model": model,
@@ -494,14 +542,12 @@ def _mistral_batch_request(
             }
         )
     system_prompt = (
-        "You are a moderation assistant. Return ONLY a JSON array. "
+        "You are a strict moderation assistant. Return ONLY a JSON array. "
         "Each item must be an object with keys: id, is_sexual, is_profanity, "
-        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned, is_correct. "
+        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned. "
         "Use true if the category is present or has clear signs. "
         "Use false only if you are confident it is absent. "
-        "Set is_correct=true only if the phrase is readable, meaningful, and has no obvious OCR "
-        "garbage or stray symbols; otherwise false. "
-        "If the text is empty or insufficient, return all censor flags true and is_correct=false."
+        "If text is empty or insufficient, return all censor flags true."
     )
     payload = {
         "model": model,
@@ -552,6 +598,7 @@ def _apply_mistral(
     invalid_log_path: Path | None,
     batch_size: int,
     timeout: float,
+    request_sleep: float,
 ) -> None:
     if not records:
         return
@@ -577,6 +624,8 @@ def _apply_mistral(
                 except Exception as exc:  # noqa: BLE001
                     LOGGER.warning("Mistral error for %s: %s", record.get("filename"), exc)
                     continue
+                if request_sleep > 0:
+                    time.sleep(request_sleep)
                 if not verdict:
                     continue
                 for key, value in verdict.items():
@@ -590,6 +639,8 @@ def _apply_mistral(
                 continue
             for key, value in verdict.items():
                 record[key] = value
+        if request_sleep > 0:
+            time.sleep(request_sleep)
 
 
 def main() -> int:
@@ -599,7 +650,7 @@ def main() -> int:
     parser.add_argument("--channel", default="vopros_dna", help="Telegram channel name")
     parser.add_argument(
         "--out-dir",
-        default="vopros_dna/photos",
+        default="data/photos",
         help="Directory to save images",
     )
     parser.add_argument(
@@ -630,6 +681,12 @@ def main() -> int:
         type=float,
         default=None,
         help="Sleep seconds between image downloads (default: 0.3)",
+    )
+    parser.add_argument(
+        "--skip-thumbs",
+        action="store_true",
+        default=None,
+        help="Remove *_thumb.* files when full image exists (default: env TELEGRAM_SKIP_THUMBS)",
     )
     parser.add_argument(
         "--backfill",
@@ -680,6 +737,12 @@ def main() -> int:
         help="Mistral API key (default: env MISTRAL_API_KEY)",
     )
     parser.add_argument(
+        "--mistral-request-sleep",
+        type=float,
+        default=None,
+        help="Sleep between Mistral requests (default: env MISTRAL_REQUEST_SLEEP or 0)",
+    )
+    parser.add_argument(
         "--env-file",
         default=".env",
         help="Path to .env file (default: .env)",
@@ -703,11 +766,17 @@ def main() -> int:
     model = args.mistral_model or os.getenv("MISTRAL_MODEL", "mistral-small-latest")
     page_sleep = _resolve_float(args.page_sleep, "TELEGRAM_PAGE_SLEEP", 1.0)
     download_sleep = _resolve_float(args.download_sleep, "TELEGRAM_DOWNLOAD_SLEEP", 0.3)
+    skip_thumbs = _resolve_bool(args.skip_thumbs, "TELEGRAM_SKIP_THUMBS", False)
     invalid_log_path = Path(
         os.getenv("MISTRAL_INVALID_LOG_FILE", "data/mistral_invalid.log")
     )
     batch_size = _resolve_int(None, "MISTRAL_BATCH_SIZE", DEFAULT_BATCH_SIZE)
     mistral_timeout = _resolve_float(None, "MISTRAL_TIMEOUT", DEFAULT_MISTRAL_TIMEOUT)
+    mistral_request_sleep = _resolve_sleep(
+        args.mistral_request_sleep,
+        "MISTRAL_REQUEST_SLEEP",
+        DEFAULT_MISTRAL_SLEEP,
+    )
 
     now = datetime.now(timezone.utc)
     index_file = args.index_file or os.getenv("DAILY_INDEX_FILE") or "data/daily_index.json"
@@ -721,6 +790,7 @@ def main() -> int:
         backfill=args.backfill or args.full_history,
         page_sleep=page_sleep,
         download_sleep=download_sleep,
+        skip_thumbs=skip_thumbs,
     )
     downloaded = result["downloaded"]
     failed = result["failed"]
@@ -729,8 +799,32 @@ def main() -> int:
     if args.download_only:
         return 0
 
+    removed_thumbs = _remove_thumbs(Path(args.out_dir))
+    if removed_thumbs:
+        LOGGER.info("Removed %s thumbnail files", removed_thumbs)
+    preprocess_code = _run_preprocess(downloaded, Path(args.out_dir), Path(args.env_file))
+    if preprocess_code != 0:
+        LOGGER.warning("Preprocess step failed; continuing with remaining images.")
+    cropped_dir = Path(os.getenv("PREPROCESS_CROPPED_DIR", "data/cropped"))
+    cropped_items = []
+    skipped_no_crop = 0
+    for item in downloaded:
+        name = Path(item["path"]).name
+        cropped_path = cropped_dir / name
+        if cropped_path.exists():
+            updated = dict(item)
+            updated["path"] = str(cropped_path)
+            cropped_items.append(updated)
+        else:
+            skipped_no_crop += 1
+    if skipped_no_crop:
+        LOGGER.info("Skipped %s images without crop output", skipped_no_crop)
+    if not cropped_items:
+        LOGGER.info("No images left after preprocess step.")
+        return 0
+
     crop = _parse_crop(args.crop)
-    records = _ocr_images(downloaded, crop, args.lang, args.psm, args.workers)
+    records = _ocr_images(cropped_items, crop, args.lang, args.psm, args.workers)
     if not records:
         return 0
 
@@ -784,11 +878,20 @@ def main() -> int:
     for out_path, items in new_records_by_path.items():
         if not items:
             continue
-        _apply_mistral(items, api_key, model, invalid_log_path, batch_size, mistral_timeout)
+        _apply_mistral(
+            items,
+            api_key,
+            model,
+            invalid_log_path,
+            batch_size,
+            mistral_timeout,
+            mistral_request_sleep,
+        )
         merged = merged_by_path.get(out_path, items)
         _write_json(out_path, merged)
         LOGGER.info("Updated moderation flags in %s", out_path)
-    return 0
+    export_code = _run_sqlite_export(Path(args.env_file))
+    return 0 if export_code == 0 else 2
 
 
 if __name__ == "__main__":

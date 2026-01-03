@@ -33,12 +33,6 @@ data/
 tmp/
 *.log
 
-# Downloaded media
-vopros_dna/photos/
-vopros_dna/images/
-vopros_dna/video_files/
-vopros_dna/stickers/
-
 # OS files
 .DS_Store
 Thumbs.db

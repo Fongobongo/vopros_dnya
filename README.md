@@ -19,7 +19,7 @@ pip install -r requirements.txt
 Извлечь текст из центра изображений и сохранить в JSON:
 
 ```
-python scripts/extract_questions.py ./vopros_dna/photos --out data/questions.json
+python scripts/extract_questions.py ./data/photos --out data/questions.json
 ```
 
 Параметры:
@@ -36,19 +36,19 @@ python scripts/extract_questions.py ./vopros_dna/photos --out data/questions.jso
 Пример разового запуска:
 
 ```
-python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir vopros_dna/photos
+python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir data/photos
 ```
 
 Частичный бэктфил с продолжением в следующих запусках:
 
 ```
-python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir vopros_dna/photos --backfill --max-pages 50
+python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir data/photos --backfill --max-pages 50
 ```
 
 Ограничение скорости запросов:
 
 ```
-python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir vopros_dna/photos --page-sleep 1.0 --download-sleep 0.3
+python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir data/photos --page-sleep 1.0 --download-sleep 0.3
 ```
 
 Логи пишутся в консоль и файл с датой (UTC время в каждой строке),
@@ -56,13 +56,13 @@ python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir vopros_dn
 автоматически. Можно использовать `{date}` в пути. Базовый путь можно задать так:
 
 ```
-python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir vopros_dna/photos --log-file data/telegram_fetch.log
+python3 scripts/fetch_channel_images.py --channel vopros_dna --out-dir data/photos --log-file data/telegram_fetch.log
 ```
 
 Пример ежедневного запуска в полночь через cron:
 
 ```
-0 0 * * * /opt/ocr/.venv/bin/python /opt/ocr/scripts/fetch_channel_images.py --channel vopros_dna --out-dir /opt/ocr/vopros_dna/photos --state-file /opt/ocr/data/telegram_state.json
+0 0 * * * /opt/ocr/.venv/bin/python /opt/ocr/scripts/fetch_channel_images.py --channel vopros_dna --out-dir /opt/ocr/data/photos --state-file /opt/ocr/data/telegram_state.json
 ```
 
 Скрипт обновляет манифест `data/telegram_manifest.json` (метаданные постов)
@@ -75,10 +75,13 @@ OCR скрипт создаёт отдельный JSON на каждую дат
 обновляет флаги цензуры через Mistral AI.
 По умолчанию файлы создаются как `data/questions_YYYY-MM-DD.json`.
 Внутри для каждой картинки есть `number`, `datetime`, `filename`, `text`,
+`tesseract_text`, `easyocr_text`, `ocrspace_text`, `mistral_text`,
 `llm_validated`, `human_validated`, `is_correct`, `tg_message_id`, `tg_datetime_utc`
 и поля цензуры `is_sexual`,
 `is_profanity`, `is_politics`, `is_insults`, `is_threats`, `is_harassment`,
 `is_twitch_banned` (изначально `true`). Время из Telegram пишется в UTC+0.
+Поле `text` заполняется только когда `is_correct=true` (совпали минимум два OCR‑варианта),
+иначе `text` остаётся пустым, а варианты сохраняются в `*_text`.
 Дополнительно создаётся индекс `data/daily_index.json` со списком дат,
 путями к JSON и статистикой по загрузке и OCR.
 Поля индекса: `date`, `json_path`, `download_success`, `download_failed`,
@@ -95,6 +98,10 @@ OCR скрипт создаёт отдельный JSON на каждую дат
     "datetime": "2024-10-07 10:10:05",
     "filename": "photo_123@07-10-2024_10-10-05.jpg",
     "text": "Какая ваша любимая книга?",
+    "tesseract_text": "Какая ваша любимая книга?",
+    "easyocr_text": "Какая ваша любимая книга?",
+    "ocrspace_text": "",
+    "mistral_text": "",
     "llm_validated": false,
     "human_validated": false,
     "is_correct": false,
@@ -136,11 +143,17 @@ OCR скрипт создаёт отдельный JSON на каждую дат
 
 Скрипт берёт изображения из каталога, использует манифест Telegram (если есть)
 и пишет JSON по датам (UTC). Также обновляет `data/daily_index.json`.
+Он параллельно распознаёт каждый файл через Tesseract и EasyOCR, при расхождении
+добавляет OCR.space, и если совпадают минимум два варианта — записывает `text`
+и ставит `is_correct=true`. Если все три варианта различаются, он запрашивает
+Mistral и сохраняет результат в `mistral_text`. После этого, если совпадают
+минимум два из четырёх вариантов, `text` заполняется и `is_correct=true`;
+если все четыре различаются — `text` остаётся пустым.
 
 Пример запуска:
 
 ```
-python3 scripts/ocr_images.py ./vopros_dna/photos
+python3 scripts/ocr_images.py ./data/cropped
 ```
 
 Переопределить путь можно через `--out-json` (поддерживает `{date}`).
@@ -149,30 +162,55 @@ python3 scripts/ocr_images.py ./vopros_dna/photos
 Логи пишутся в консоль и файл с датой (UTC время в каждой строке),
 например `data/ocr_YYYY-MM-DD.log`. Логи старше 30 дней удаляются автоматически.
 
-## OCR через Mistral (vision)
+## Предобработка изображений
 
-Скрипт делает OCR через Mistral и пишет JSON по датам (UTC).
+Скрипт проверяет нижнюю часть картинки через Tesseract на наличие
+`vopros` / `vopros.dna` / `vopros_dna`, а также `.dna` / `_dna` / `dna`.
+Если текст найден, картинка обрезается сверху и снизу на 1/4 плюс
+дополнительно 23 пикселя сверху, и сохраняется в `data/cropped`
+под тем же именем. Если текст не найден, копия изображения
+сохраняется в `data/not_question`. Оригиналы остаются в `data/photos`.
+Перед обработкой все миниатюры `*_thumb.*` удаляются.
 
 Пример запуска:
 
 ```
-python3 scripts/mistral_ocr.py ./vopros_dna/photos
+python3 scripts/preprocess_questions.py ./data/photos
+```
+
+## OCR через OCR.space
+
+Скрипт делает OCR через OCR.space и пишет JSON по датам (UTC).
+Параметр `OCRSPACE_LANGUAGE` принимает 3‑буквенные коды (`rus`, `eng`)
+или `auto` для autodetect (только при `OCRSPACE_OCR_ENGINE=2`).
+
+Пример запуска:
+
+```
+python3 scripts/ocr_space.py ./data/cropped
+```
+
+## OCR через EasyOCR
+
+Скрипт делает OCR через EasyOCR и пишет JSON по датам (UTC).
+Языки задаются через `EASYOCR_LANGS` или флаг `--langs`, GPU/CPU —
+через `EASYOCR_GPU` или `--gpu/--cpu`.
+
+Пример запуска:
+
+```
+python3 scripts/ocr_easyocr.py ./data/cropped
 ```
 
 ## Модерация JSON через Mistral
 
-Скрипт обновляет флаги цензуры в указанных JSON файлах.
-После первого прогона для записей с `is_correct=false` он делает OCR через Mistral,
-пишет файл `*_ai_ocr.json`, снова прогоняет модерацию и:
-- если `is_correct=false` — переносит запись в `*_ocr_failed_YYYY-MM-DD.json`
-  (дата в UTC) и удаляет её из основного JSON;
-- если `is_correct=true` — ставит `llm_validated=true` и обновляет запись в основном JSON.
-Для OCR-фоллбэка нужен каталог изображений (`--images-dir` или `OCR_IMAGES_DIR`).
+Скрипт обновляет только флаги цензуры в указанных JSON файлах.
+Он не меняет `is_correct` и не выполняет дополнительные OCR‑фоллбэки.
 
 Пример запуска:
 
 ```
-python3 scripts/moderate_json.py data/questions_2024-10-07.json --images-dir vopros_dna/photos
+python3 scripts/moderate_json.py data/questions_2024-10-07.json --images-dir data/cropped
 ```
 
 Можно обработать папку:
@@ -203,41 +241,97 @@ MISTRAL_MODEL=mistral-small-latest
 MISTRAL_BATCH_SIZE=10
 # Mistral request timeout in seconds.
 MISTRAL_TIMEOUT=60
-# Mistral OCR model (vision).
-MISTRAL_OCR_MODEL=mistral-ocr-3
-# Mistral OCR request timeout in seconds.
-MISTRAL_OCR_TIMEOUT=60
-# Directory with images for Mistral OCR fallback.
-OCR_IMAGES_DIR=vopros_dna/photos
+# Sleep between Mistral requests (seconds).
+MISTRAL_REQUEST_SLEEP=10
+# OCR.space API key.
+OCRSPACE_API_KEY=your_key_here
+# OCR.space API base URL.
+OCRSPACE_API_URL=https://api.ocr.space/parse/image
+# OCR.space language (3-letter code like rus, eng; or auto for engine 2).
+OCRSPACE_LANGUAGE=rus
+# OCR.space OCR engine (1 or 2).
+OCRSPACE_OCR_ENGINE=2
+# OCR.space request timeout in seconds.
+OCRSPACE_TIMEOUT=60
+# Sleep between OCR.space requests (seconds).
+OCRSPACE_REQUEST_SLEEP=10
+# Crop for external OCR (left,top,right,bottom).
+EXTERNAL_OCR_CROP=0.08,0.18,0.08,0.20
+# Directory with images for external OCR fallback.
+OCR_IMAGES_DIR=data/cropped
 # Delay between page fetches from Telegram (seconds).
 TELEGRAM_PAGE_SLEEP=1.0
 # Delay between image downloads (seconds).
 TELEGRAM_DOWNLOAD_SLEEP=0.3
+# Remove *_thumb.* files when full image exists.
+TELEGRAM_SKIP_THUMBS=1
 # Base path for fetch logs; daily date will be appended.
 TELEGRAM_LOG_FILE=data/telegram_fetch.log
 # Manifest with Telegram metadata per file.
 TELEGRAM_MANIFEST_FILE=data/telegram_manifest.json
 # Base path for OCR logs; daily date will be appended.
 OCR_LOG_FILE=data/ocr.log
+# Base path for EasyOCR logs; daily date will be appended.
+EASYOCR_LOG_FILE=data/easyocr.log
+# EasyOCR languages (comma- or plus-separated).
+EASYOCR_LANGS=ru,en
+# Use GPU for EasyOCR (0/1).
+EASYOCR_GPU=0
+# Parallel EasyOCR workers.
+EASYOCR_WORKERS=2
+# Base path for preprocess logs; daily date will be appended.
+PREPROCESS_LOG_FILE=data/preprocess.log
+# Manifest for preprocess status.
+PREPROCESS_MANIFEST_FILE=data/preprocess_manifest.json
+# Directory for non-question images.
+PREPROCESS_NOT_A_QUESTION_DIR=data/not_question
+# Directory for cropped images used for OCR.
+PREPROCESS_CROPPED_DIR=data/cropped
 # Base path for Mistral moderation logs; daily date will be appended.
 MISTRAL_LOG_FILE=data/mistral.log
-# Base path for Mistral OCR logs; daily date will be appended.
-MISTRAL_OCR_LOG_FILE=data/mistral_ocr.log
+# Base path for OCR.space logs; daily date will be appended.
+OCRSPACE_LOG_FILE=data/ocrspace.log
 # Base path for invalid Mistral batch responses; daily date will be appended.
 MISTRAL_INVALID_LOG_FILE=data/mistral_invalid.log
+# SQLite database path for validated phrases.
+SQLITE_DB_PATH=data/questions.sqlite
+# Base path for SQLite export logs; daily date will be appended.
+SQLITE_LOG_FILE=data/sqlite_export.log
 # Daily index JSON file path.
 DAILY_INDEX_FILE=data/daily_index.json
 # Base path for daily pipeline logs; daily date will be appended.
 DAILY_LOG_FILE=data/telegram_daily.log
 ```
 
+## Экспорт валидированных фраз в SQLite
+
+Скрипт проходит по JSON и сохраняет фразы в SQLite в две таблицы:
+`phrases_validated` (где `is_correct=true`) и `phrases_unvalidated`
+(остальные записи). Файлы `*_ocr_failed_*`, `*_ocr_variants_*`
+и `*_mistral_incorrect_*` игнорируются. По умолчанию строки, которые уже
+есть в целевой таблице, не перезаписываются (можно отключить через
+`--no-skip-existing`).
+
 Пример запуска:
 
 ```
-python3 scripts/daily_pipeline.py --channel vopros_dna --out-dir vopros_dna/photos
+python3 scripts/export_validated_to_sqlite.py --input-dir data
+```
+
+Очистить обе таблицы перед экспортом:
+
+```
+python3 scripts/export_validated_to_sqlite.py --truncate --input-dir data
+```
+
+Пример запуска:
+
+```
+python3 scripts/daily_pipeline.py --channel vopros_dna --out-dir data/photos
 ```
 
 ## Опционально: единый запуск
 
 Если нужен один скрипт для всех шагов, можно использовать `scripts/daily_pipeline.py`.
-Он объединяет скачивание, OCR и модерацию, но рекомендуется разделённый запуск.
+Он объединяет скачивание, OCR, модерацию и финальный экспорт в SQLite,
+но рекомендуется разделённый запуск.

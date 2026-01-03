@@ -21,6 +21,7 @@ PHOTO_CLASSES = {
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp"}
 LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
+THUMB_RE = re.compile(r"^(?P<base>.+)_thumb(?P<ext>\.(?:jpg|jpeg|png|webp))$", re.IGNORECASE)
 
 
 def _parse_message_id(data_post: str) -> int | None:
@@ -56,7 +57,7 @@ def _format_utc(dt: datetime | None) -> str | None:
 
 
 def _extract_background_url(style: str) -> str | None:
-    match = re.search(r"background-image:url\\(['\\\"]?(.*?)['\\\"]?\\)", style)
+    match = re.search(r"background-image:url\(['\"]?(.*?)['\"]?\)", style)
     if match:
         return match.group(1)
     return None
@@ -149,6 +150,20 @@ def _resolve_float(value: float | None, env_key: str, default: float) -> float:
         return float(raw)
     except ValueError:
         return default
+
+
+def _resolve_bool(value: bool | None, env_key: str, default: bool) -> bool:
+    if value is not None:
+        return value
+    raw = os.getenv(env_key)
+    if raw is None:
+        return default
+    lowered = raw.strip().lower()
+    if lowered in {"1", "true", "yes", "on"}:
+        return True
+    if lowered in {"0", "false", "no", "off"}:
+        return False
+    return default
 
 
 def _resolve_log_path(base_path: Path, now: datetime) -> Path:
@@ -278,6 +293,36 @@ def _write_index(path: Path, index: dict[str, Any]) -> None:
     path.write_text(json.dumps(sorted_index, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def _is_thumb_file(path: Path) -> tuple[bool, Path | None]:
+    match = THUMB_RE.match(path.name)
+    if not match:
+        return False, None
+    base_name = f"{match.group('base')}{match.group('ext')}"
+    return True, path.with_name(base_name)
+
+
+def _cleanup_thumbs(out_dir: Path) -> int:
+    removed = 0
+    for path in out_dir.iterdir():
+        if not path.is_file():
+            continue
+        is_thumb, base_path = _is_thumb_file(path)
+        if not is_thumb or not base_path:
+            continue
+        if base_path.exists():
+            try:
+                path.unlink()
+                removed += 1
+            except OSError as exc:
+                LOGGER.warning("Failed to remove thumb %s: %s", path.name, exc)
+    return removed
+
+
+def _should_drop_thumb(path: Path) -> bool:
+    is_thumb, base_path = _is_thumb_file(path)
+    return bool(is_thumb and base_path and base_path.exists())
+
+
 def _download_stats_by_date(
     downloaded: list[dict[str, Any]],
     failed: list[dict[str, Any]],
@@ -304,6 +349,7 @@ def fetch_channel_images(
     backfill: bool = False,
     page_sleep: float = 1.0,
     download_sleep: float = 0.3,
+    skip_thumbs: bool = False,
 ) -> dict[str, list[dict[str, Any]]]:
     page_sleep = max(0.0, page_sleep)
     download_sleep = max(0.0, download_sleep)
@@ -428,6 +474,15 @@ def fetch_channel_images(
             state_update["backfill_complete"] = backfill_complete_state
     _save_state(state_file, state_update)
     LOGGER.info("Fetch done downloaded=%s backfill_complete=%s", len(downloaded), backfill_complete)
+    if skip_thumbs:
+        removed = _cleanup_thumbs(out_dir)
+        if removed:
+            downloaded = [
+                item
+                for item in downloaded
+                if not _should_drop_thumb(Path(item["path"]))
+            ]
+            LOGGER.info("Removed %s thumbnail files", removed)
     return {"downloaded": downloaded, "failed": failed}
 
 
@@ -438,7 +493,7 @@ def main() -> int:
     parser.add_argument("--channel", default="vopros_dna", help="Telegram channel name")
     parser.add_argument(
         "--out-dir",
-        default="vopros_dna/photos",
+        default="data/photos",
         help="Directory to save images",
     )
     parser.add_argument(
@@ -469,6 +524,12 @@ def main() -> int:
         type=float,
         default=None,
         help="Sleep seconds between image downloads (default: 0.3)",
+    )
+    parser.add_argument(
+        "--skip-thumbs",
+        action="store_true",
+        default=None,
+        help="Remove *_thumb.* files when full image exists (default: env TELEGRAM_SKIP_THUMBS)",
     )
     parser.add_argument(
         "--backfill",
@@ -505,6 +566,7 @@ def main() -> int:
     _load_env_file(Path(args.env_file))
     page_sleep = _resolve_float(args.page_sleep, "TELEGRAM_PAGE_SLEEP", 1.0)
     download_sleep = _resolve_float(args.download_sleep, "TELEGRAM_DOWNLOAD_SLEEP", 0.3)
+    skip_thumbs = _resolve_bool(args.skip_thumbs, "TELEGRAM_SKIP_THUMBS", False)
     log_file = args.log_file or os.getenv("TELEGRAM_LOG_FILE") or "data/telegram_fetch.log"
     _setup_logging(Path(log_file))
     manifest_file = (
@@ -523,6 +585,7 @@ def main() -> int:
         backfill=args.backfill or args.full_history,
         page_sleep=page_sleep,
         download_sleep=download_sleep,
+        skip_thumbs=skip_thumbs,
     )
     downloaded = result["downloaded"]
     failed = result["failed"]

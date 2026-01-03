@@ -1,15 +1,22 @@
 import argparse
+import io
 import json
 import logging
 import os
 import re
 import sys
+import threading
 import time
+import uuid
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
+import easyocr
+from PIL import Image
 ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
@@ -19,6 +26,18 @@ from scripts.extract_questions import extract_text
 
 LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
+MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions"
+USER_AGENT = "Mozilla/5.0 (compatible; OCRFetcher/1.0; +https://t.me)"
+MAX_TEXT_CHARS = 4000
+DEFAULT_MISTRAL_TIMEOUT = 60.0
+DEFAULT_MISTRAL_SLEEP = 0.0
+DEFAULT_OCRSPACE_API_URL = "https://api.ocr.space/parse/image"
+DEFAULT_OCRSPACE_ENGINE = 2
+DEFAULT_OCRSPACE_LANGUAGE = "rus"
+DEFAULT_OCRSPACE_TIMEOUT = 60.0
+DEFAULT_OCRSPACE_SLEEP = 0.0
+DEFAULT_EASYOCR_LANGS = "ru,en"
+DEFAULT_EASYOCR_WORKERS = 2
 FILENAME_RE = re.compile(r"photo_(\d+)@(\d{2}-\d{2}-\d{4})_(\d{2}-\d{2}-\d{2})")
 FLAGS = [
     "is_sexual",
@@ -29,6 +48,8 @@ FLAGS = [
     "is_harassment",
     "is_twitch_banned",
 ]
+
+_EASYOCR_LOCAL = threading.local()
 
 
 def _load_env_file(path: Path) -> None:
@@ -51,6 +72,78 @@ def _load_env_file(path: Path) -> None:
             value = value[1:-1]
         os.environ.setdefault(key, value)
 
+
+def _resolve_float(value: float | None, env_key: str, default: float) -> float:
+    if value is not None:
+        return value
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        return default
+
+
+def _resolve_nonnegative_float(value: float | None, env_key: str, default: float) -> float:
+    if value is not None:
+        return max(0.0, value)
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
+    try:
+        return max(0.0, float(raw))
+    except ValueError:
+        return default
+
+
+def _resolve_bool(value: bool | None, env_key: str, default: bool) -> bool:
+    if value is not None:
+        return value
+    raw = os.getenv(env_key)
+    if raw is None:
+        return default
+    lowered = raw.strip().lower()
+    if lowered in {"1", "true", "yes", "on"}:
+        return True
+    if lowered in {"0", "false", "no", "off"}:
+        return False
+    return default
+
+
+def _resolve_int(value: int | None, env_key: str, default: int) -> int:
+    if value is not None:
+        return max(1, value)
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
+    try:
+        return max(1, int(raw))
+    except ValueError:
+        return default
+
+
+def _parse_langs(value: str) -> list[str]:
+    parts = re.split(r"[,+]", value)
+    return [part.strip() for part in parts if part.strip()]
+
+
+def _clean_text(text: str) -> str:
+    text = text.replace("\x0c", " ")
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\bvopros[_\s]*dna\b", "", text, flags=re.IGNORECASE)
+    return text.strip(" -–—")
+
+
+def _extract_json(content: str) -> dict[str, Any] | None:
+    start = content.find("{")
+    end = content.rfind("}")
+    if start == -1 or end == -1 or end <= start:
+        return None
+    try:
+        return json.loads(content[start : end + 1])
+    except json.JSONDecodeError:
+        return None
 
 def _resolve_log_path(base_path: Path, now: datetime) -> Path:
     date_str = now.strftime("%Y-%m-%d")
@@ -124,6 +217,215 @@ def _setup_logging(base_path: Path) -> Path:
     _cleanup_old_logs(base_path, now)
     return log_path
 
+
+def _get_easyocr_reader(langs: list[str], gpu: bool) -> easyocr.Reader:
+    reader = getattr(_EASYOCR_LOCAL, "reader", None)
+    if reader is None:
+        reader = easyocr.Reader(langs, gpu=gpu, verbose=False)
+        _EASYOCR_LOCAL.reader = reader
+    return reader
+
+
+def _easyocr_text(path: Path, langs: list[str], gpu: bool) -> str:
+    reader = _get_easyocr_reader(langs, gpu)
+    pieces = reader.readtext(str(path), detail=0, paragraph=True)
+    if isinstance(pieces, list):
+        text = " ".join(str(item) for item in pieces)
+    else:
+        text = str(pieces or "")
+    return _clean_text(text)
+
+
+def _image_to_jpeg_bytes(path: Path) -> bytes:
+    image = Image.open(path).convert("RGB")
+    buffer = io.BytesIO()
+    image.save(buffer, format="JPEG", quality=90)
+    return buffer.getvalue()
+
+
+def _encode_multipart_form(
+    fields: dict[str, str],
+    files: list[tuple[str, str, bytes, str]],
+) -> tuple[bytes, str]:
+    boundary = uuid.uuid4().hex
+    lines: list[bytes] = []
+    for name, value in fields.items():
+        lines.append(f"--{boundary}".encode("utf-8"))
+        lines.append(f'Content-Disposition: form-data; name="{name}"'.encode("utf-8"))
+        lines.append(b"")
+        lines.append(str(value).encode("utf-8"))
+    for field_name, filename, data, content_type in files:
+        lines.append(f"--{boundary}".encode("utf-8"))
+        disposition = f'Content-Disposition: form-data; name="{field_name}"; filename="{filename}"'
+        lines.append(disposition.encode("utf-8"))
+        lines.append(f"Content-Type: {content_type}".encode("utf-8"))
+        lines.append(b"")
+        lines.append(data)
+    lines.append(f"--{boundary}--".encode("utf-8"))
+    lines.append(b"")
+    body = b"\r\n".join(lines)
+    content_type = f"multipart/form-data; boundary={boundary}"
+    return body, content_type
+
+
+def _ocr_space_text(
+    path: Path,
+    api_key: str,
+    api_url: str,
+    language: str,
+    engine: int,
+    timeout: float,
+) -> str:
+    image_bytes = _image_to_jpeg_bytes(path)
+    fields = {
+        "apikey": api_key,
+        "language": language,
+        "isOverlayRequired": "false",
+        "OCREngine": str(engine),
+    }
+    files = [("file", "image.jpg", image_bytes, "image/jpeg")]
+    body, content_type = _encode_multipart_form(fields, files)
+    req = Request(
+        api_url,
+        data=body,
+        headers={
+            "Content-Type": content_type,
+            "User-Agent": USER_AGENT,
+        },
+    )
+    try:
+        with urlopen(req, timeout=timeout) as resp:
+            response_json = json.loads(resp.read().decode("utf-8"))
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", "replace")
+        LOGGER.warning("OCR.space HTTP %s: %s", exc.code, detail.strip())
+        return ""
+    if response_json.get("IsErroredOnProcessing"):
+        message = response_json.get("ErrorMessage") or response_json.get("ErrorDetails")
+        LOGGER.warning("OCR.space error: %s", message)
+        return ""
+    results = response_json.get("ParsedResults")
+    if not isinstance(results, list) or not results:
+        return ""
+    parsed_text = results[0].get("ParsedText") if isinstance(results[0], dict) else ""
+    if isinstance(parsed_text, str):
+        return _clean_text(parsed_text)
+    return ""
+
+
+def _mistral_restore_text(
+    tesseract_text: str,
+    easyocr_text: str,
+    ocrspace_text: str,
+    api_key: str,
+    model: str,
+    timeout: float,
+) -> str:
+    prompt = (
+        "You are an OCR reconciliation assistant. "
+        "Return ONLY JSON: {\"restored_text\": \"...\"}. "
+        "Use the best possible reconstruction of the original phrase. "
+        "If you cannot be confident, return an empty string."
+    )
+    payload = {
+        "model": model,
+        "temperature": 0.1,
+        "messages": [
+            {"role": "system", "content": prompt},
+            {
+                "role": "user",
+                "content": json.dumps(
+                    {
+                        "tesseract_text": tesseract_text[:MAX_TEXT_CHARS],
+                        "easyocr_text": easyocr_text[:MAX_TEXT_CHARS],
+                        "ocrspace_text": ocrspace_text[:MAX_TEXT_CHARS],
+                    },
+                    ensure_ascii=False,
+                ),
+            },
+        ],
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = Request(
+        MISTRAL_URL,
+        data=data,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": USER_AGENT,
+        },
+    )
+    with urlopen(req, timeout=timeout) as resp:
+        response_json = json.loads(resp.read().decode("utf-8"))
+    content = response_json["choices"][0]["message"]["content"]
+    parsed = _extract_json(content)
+    if not parsed:
+        return ""
+    restored_text = parsed.get("restored_text")
+    if not isinstance(restored_text, str):
+        return ""
+    return restored_text.strip()
+
+
+def _consensus_text(values: list[str]) -> str | None:
+    counts: dict[str, int] = {}
+    for value in values:
+        if not value:
+            continue
+        counts[value] = counts.get(value, 0) + 1
+        if counts[value] >= 2:
+            return value
+    return None
+
+
+def _resolve_easyocr_settings(
+    langs_override: str | None,
+    gpu_override: bool | None,
+    cpu_override: bool | None,
+    workers_override: int | None,
+) -> tuple[list[str], bool, int]:
+    langs_raw = langs_override or os.getenv("EASYOCR_LANGS", DEFAULT_EASYOCR_LANGS)
+    langs = _parse_langs(langs_raw)
+    if not langs:
+        raise ValueError("EasyOCR languages not configured")
+    if gpu_override is True:
+        gpu = True
+    elif cpu_override is True:
+        gpu = False
+    else:
+        gpu = _resolve_bool(None, "EASYOCR_GPU", False)
+    workers = _resolve_int(workers_override, "EASYOCR_WORKERS", DEFAULT_EASYOCR_WORKERS)
+    return langs, gpu, workers
+
+
+def _resolve_ocrspace_config() -> tuple[dict[str, Any], float]:
+    cfg = {
+        "api_key": os.getenv("OCRSPACE_API_KEY"),
+        "api_url": os.getenv("OCRSPACE_API_URL", DEFAULT_OCRSPACE_API_URL),
+        "language": os.getenv("OCRSPACE_LANGUAGE", DEFAULT_OCRSPACE_LANGUAGE),
+        "engine": os.getenv("OCRSPACE_OCR_ENGINE", str(DEFAULT_OCRSPACE_ENGINE)),
+        "timeout": os.getenv("OCRSPACE_TIMEOUT", str(DEFAULT_OCRSPACE_TIMEOUT)),
+    }
+    request_sleep = _resolve_nonnegative_float(
+        None,
+        "OCRSPACE_REQUEST_SLEEP",
+        DEFAULT_OCRSPACE_SLEEP,
+    )
+    return cfg, request_sleep
+
+
+def _resolve_mistral_config() -> tuple[dict[str, Any], float]:
+    cfg = {
+        "api_key": os.getenv("MISTRAL_API_KEY"),
+        "model": os.getenv("MISTRAL_MODEL", "mistral-small-latest"),
+        "timeout": os.getenv("MISTRAL_TIMEOUT", str(DEFAULT_MISTRAL_TIMEOUT)),
+    }
+    request_sleep = _resolve_nonnegative_float(
+        None,
+        "MISTRAL_REQUEST_SLEEP",
+        DEFAULT_MISTRAL_SLEEP,
+    )
+    return cfg, request_sleep
 
 def _parse_crop(value: str) -> tuple[float, float, float, float]:
     parts = [float(p) for p in value.split(",")]
@@ -266,39 +568,155 @@ def _merge_existing(path: Path, records: list[dict[str, Any]]) -> list[dict[str,
     return merged
 
 
+def _run_dual_ocr(
+    items: list[dict[str, Any]],
+    crop: tuple[float, float, float, float],
+    lang: str,
+    psm: int,
+    tesseract_workers: int,
+    easyocr_langs: list[str],
+    easyocr_gpu: bool,
+    easyocr_workers: int,
+) -> dict[str, dict[str, str]]:
+    results: dict[str, dict[str, str]] = {
+        item["filename"]: {"tesseract_text": "", "easyocr_text": ""} for item in items
+    }
+    total_workers = max(1, tesseract_workers + easyocr_workers)
+    with ThreadPoolExecutor(max_workers=total_workers) as executor:
+        futures = {}
+        for item in items:
+            futures[
+                executor.submit(extract_text, item["path"], crop, lang, psm)
+            ] = (item["filename"], "tesseract")
+            futures[
+                executor.submit(_easyocr_text, item["path"], easyocr_langs, easyocr_gpu)
+            ] = (item["filename"], "easyocr")
+        for future in as_completed(futures):
+            filename, kind = futures[future]
+            try:
+                text = future.result()
+            except Exception as exc:  # noqa: BLE001
+                LOGGER.warning("%s OCR failed for %s: %s", kind, filename, exc)
+                text = ""
+            results[filename][f"{kind}_text"] = text
+    return results
+
+
 def _ocr_items(
     items: list[dict[str, Any]],
     crop: tuple[float, float, float, float],
     lang: str,
     psm: int,
     workers: int,
+    easyocr_langs: list[str],
+    easyocr_gpu: bool,
+    easyocr_workers: int,
+    ocrspace_cfg: dict[str, Any],
+    ocrspace_request_sleep: float,
+    mistral_cfg: dict[str, Any],
+    mistral_request_sleep: float,
 ) -> list[dict[str, Any]]:
     results = []
     if not items:
         return results
-    with ThreadPoolExecutor(max_workers=max(1, workers)) as executor:
-        futures = {executor.submit(extract_text, item["path"], crop, lang, psm): item for item in items}
-        for future in as_completed(futures):
-            item = futures[future]
-            try:
-                text = future.result()
-            except Exception as exc:  # noqa: BLE001
-                LOGGER.warning("OCR failed for %s: %s", item["filename"], exc)
-                text = ""
-            number, dt_str = _parse_metadata(item["filename"])
-            record = {
-                "number": number,
-                "datetime": dt_str,
-                "filename": item["filename"],
-                "text": text,
-                "llm_validated": False,
-                "human_validated": False,
-                "is_correct": False,
-                "tg_message_id": item.get("tg_message_id"),
-                "tg_datetime_utc": item.get("tg_datetime_utc"),
-            }
-            record.update(_default_flags())
-            results.append(record)
+    dual_results = _run_dual_ocr(
+        items,
+        crop,
+        lang,
+        psm,
+        workers,
+        easyocr_langs,
+        easyocr_gpu,
+        easyocr_workers,
+    )
+    ocrspace_api_key = ocrspace_cfg.get("api_key")
+    ocrspace_api_url = ocrspace_cfg.get("api_url")
+    ocrspace_language = ocrspace_cfg.get("language")
+    ocrspace_engine = ocrspace_cfg.get("engine")
+    ocrspace_timeout = ocrspace_cfg.get("timeout")
+
+    mistral_api_key = mistral_cfg.get("api_key")
+    mistral_model = mistral_cfg.get("model")
+    mistral_timeout = mistral_cfg.get("timeout")
+
+    for item in items:
+        filename = item["filename"]
+        variants = dual_results.get(filename, {})
+        tesseract_text = variants.get("tesseract_text", "")
+        easyocr_text = variants.get("easyocr_text", "")
+        ocrspace_text = ""
+        mistral_text = ""
+        text = ""
+        is_correct = False
+
+        if tesseract_text and tesseract_text == easyocr_text:
+            text = tesseract_text
+            is_correct = True
+        else:
+            need_ocrspace = tesseract_text != easyocr_text or not tesseract_text
+            if need_ocrspace and ocrspace_api_key:
+                try:
+                    ocrspace_text = _ocr_space_text(
+                        Path(item["path"]),
+                        ocrspace_api_key,
+                        ocrspace_api_url or DEFAULT_OCRSPACE_API_URL,
+                        ocrspace_language or DEFAULT_OCRSPACE_LANGUAGE,
+                        int(ocrspace_engine or DEFAULT_OCRSPACE_ENGINE),
+                        float(ocrspace_timeout or DEFAULT_OCRSPACE_TIMEOUT),
+                    )
+                except Exception as exc:  # noqa: BLE001
+                    LOGGER.warning("OCR.space failed for %s: %s", filename, exc)
+                if ocrspace_request_sleep > 0:
+                    time.sleep(ocrspace_request_sleep)
+            elif need_ocrspace and not ocrspace_api_key:
+                LOGGER.warning("OCR.space API key not set; skipping for %s", filename)
+
+            consensus = _consensus_text([tesseract_text, easyocr_text, ocrspace_text])
+            if consensus:
+                text = consensus
+                is_correct = True
+            else:
+                if mistral_api_key:
+                    try:
+                        mistral_text = _mistral_restore_text(
+                            tesseract_text,
+                            easyocr_text,
+                            ocrspace_text,
+                            mistral_api_key,
+                            mistral_model or "mistral-small-latest",
+                            float(mistral_timeout or DEFAULT_MISTRAL_TIMEOUT),
+                        )
+                    except Exception as exc:  # noqa: BLE001
+                        LOGGER.warning("Mistral restore failed for %s: %s", filename, exc)
+                    if mistral_request_sleep > 0:
+                        time.sleep(mistral_request_sleep)
+                else:
+                    LOGGER.warning("MISTRAL_API_KEY not set; skipping restore for %s", filename)
+                consensus = _consensus_text(
+                    [tesseract_text, easyocr_text, ocrspace_text, mistral_text]
+                )
+                if consensus:
+                    text = consensus
+                    is_correct = True
+
+        number, dt_str = _parse_metadata(filename)
+        record = {
+            "number": number,
+            "datetime": dt_str,
+            "filename": filename,
+            "text": text if is_correct else "",
+            "tesseract_text": tesseract_text,
+            "easyocr_text": easyocr_text,
+            "ocrspace_text": ocrspace_text,
+            "mistral_text": mistral_text,
+            "llm_validated": False,
+            "human_validated": False,
+            "is_correct": is_correct,
+            "tg_message_id": item.get("tg_message_id"),
+            "tg_datetime_utc": item.get("tg_datetime_utc"),
+        }
+        record.update(_default_flags())
+        results.append(record)
     results.sort(key=lambda item: item["filename"])
     fallback_index = 1
     for record in results:
@@ -306,6 +724,45 @@ def _ocr_items(
             record["number"] = fallback_index
             fallback_index += 1
     return results
+
+
+def build_records(
+    items: list[dict[str, Any]],
+    crop: tuple[float, float, float, float],
+    lang: str,
+    psm: int,
+    workers: int,
+    easyocr_langs: str | None = None,
+    easyocr_gpu: bool | None = None,
+    easyocr_cpu: bool | None = None,
+    easyocr_workers: int | None = None,
+) -> list[dict[str, Any]]:
+    try:
+        langs, gpu, easy_workers = _resolve_easyocr_settings(
+            easyocr_langs,
+            easyocr_gpu,
+            easyocr_cpu,
+            easyocr_workers,
+        )
+    except ValueError:
+        LOGGER.warning("EasyOCR languages not configured.")
+        return []
+    ocrspace_cfg, ocrspace_request_sleep = _resolve_ocrspace_config()
+    mistral_cfg, mistral_request_sleep = _resolve_mistral_config()
+    return _ocr_items(
+        items,
+        crop,
+        lang,
+        psm,
+        workers,
+        langs,
+        gpu,
+        easy_workers,
+        ocrspace_cfg,
+        ocrspace_request_sleep,
+        mistral_cfg,
+        mistral_request_sleep,
+    )
 
 
 def _ocr_stats(records: list[dict[str, Any]]) -> dict[str, int]:
@@ -357,6 +814,28 @@ def main() -> int:
         help="Parallel OCR workers (default: 2)",
     )
     parser.add_argument(
+        "--easyocr-langs",
+        default=None,
+        help="EasyOCR languages (default: env EASYOCR_LANGS or ru,en)",
+    )
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--easyocr-gpu",
+        action="store_true",
+        help="Use GPU for EasyOCR (default: env EASYOCR_GPU or false)",
+    )
+    group.add_argument(
+        "--easyocr-cpu",
+        action="store_true",
+        help="Force CPU for EasyOCR",
+    )
+    parser.add_argument(
+        "--easyocr-workers",
+        type=int,
+        default=None,
+        help="EasyOCR workers (default: env EASYOCR_WORKERS or 2)",
+    )
+    parser.add_argument(
         "--env-file",
         default=".env",
         help="Path to .env file (default: .env)",
@@ -400,6 +879,19 @@ def main() -> int:
         LOGGER.info("No images found in %s", input_dir)
         return 0
 
+    try:
+        easyocr_langs, easyocr_gpu, easyocr_workers = _resolve_easyocr_settings(
+            args.easyocr_langs,
+            args.easyocr_gpu,
+            args.easyocr_cpu,
+            args.easyocr_workers,
+        )
+    except ValueError:
+        LOGGER.warning("EasyOCR languages not configured.")
+        return 1
+    ocrspace_cfg, ocrspace_request_sleep = _resolve_ocrspace_config()
+    mistral_cfg, mistral_request_sleep = _resolve_mistral_config()
+
     manifest = _load_manifest(Path(manifest_file))
     for item in items:
         meta = manifest.get(item["filename"], {})
@@ -424,7 +916,20 @@ def main() -> int:
         return 0
 
     crop = _parse_crop(args.crop)
-    records = _ocr_items(todo, crop, args.lang, args.psm, args.workers)
+    records = _ocr_items(
+        todo,
+        crop,
+        args.lang,
+        args.psm,
+        args.workers,
+        easyocr_langs,
+        easyocr_gpu,
+        easyocr_workers,
+        ocrspace_cfg,
+        ocrspace_request_sleep,
+        mistral_cfg,
+        mistral_request_sleep,
+    )
     if not records:
         return 0
 

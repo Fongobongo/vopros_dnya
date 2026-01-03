@@ -1,23 +1,30 @@
 import argparse
-import base64
+import io
 import json
 import logging
 import os
 import re
 import time
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
+from PIL import Image
 
 LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
 DEFAULT_BATCH_SIZE = 10
 DEFAULT_MISTRAL_TIMEOUT = 60.0
-DEFAULT_OCR_TIMEOUT = 60.0
-DEFAULT_OCR_MODEL = "mistral-ocr-3"
-QUALITY_KEY = "is_correct"
+DEFAULT_MISTRAL_SLEEP = 0.0
+DEFAULT_OCRSPACE_TIMEOUT = 60.0
+DEFAULT_OCRSPACE_SLEEP = 0.0
+DEFAULT_OCRSPACE_ENGINE = 2
+DEFAULT_OCRSPACE_LANGUAGE = "rus"
+DEFAULT_OCRSPACE_URL = "https://api.ocr.space/parse/image"
+DEFAULT_EXTERNAL_CROP = "0.08,0.18,0.08,0.20"
 MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions"
 MAX_TEXT_CHARS = 4000
 FLAGS = [
@@ -76,6 +83,38 @@ def _resolve_float(value: float | None, env_key: str, default: float) -> float:
         return max(1.0, float(raw))
     except ValueError:
         return default
+
+
+def _resolve_nonnegative_float(value: float | None, env_key: str, default: float) -> float:
+    if value is not None:
+        return max(0.0, value)
+    raw = os.getenv(env_key)
+    if not raw:
+        return default
+    try:
+        return max(0.0, float(raw))
+    except ValueError:
+        return default
+
+
+def _parse_crop(value: str) -> tuple[float, float, float, float]:
+    parts = [float(p.strip()) for p in value.split(",") if p.strip()]
+    if len(parts) != 4:
+        raise ValueError("Invalid crop format. Use: left,top,right,bottom")
+    for part in parts:
+        if part < 0 or part >= 1:
+            raise ValueError("Crop values must be in [0, 1)")
+    return tuple(parts)  # type: ignore[return-value]
+
+
+def _crop_center(image: Image.Image, crop: tuple[float, float, float, float]) -> Image.Image:
+    width, height = image.size
+    left_pct, top_pct, right_pct, bottom_pct = crop
+    left = int(width * left_pct)
+    top = int(height * top_pct)
+    right = int(width * (1.0 - right_pct))
+    bottom = int(height * (1.0 - bottom_pct))
+    return image.crop((left, top, right, bottom))
 
 
 def _resolve_log_path(base_path: Path, now: datetime) -> Path:
@@ -220,10 +259,9 @@ def _normalize_bool(payload: dict[str, Any], key: str) -> bool | None:
 
 def _normalize_mistral_payload(payload: dict[str, Any]) -> dict[str, Any] | None:
     flags = _normalize_flags(payload)
-    is_correct = _normalize_bool(payload, QUALITY_KEY)
-    if len(flags) != len(FLAGS) or not isinstance(is_correct, bool):
+    if len(flags) != len(FLAGS):
         return None
-    return {**flags, QUALITY_KEY: is_correct}
+    return flags
 
 
 def _default_flags() -> dict[str, bool]:
@@ -246,6 +284,190 @@ def _validate_batch_payload(payload: Any) -> list[dict[str, Any]] | None:
     return valid_items if valid_items else None
 
 
+def _normalize_restore_payload(payload: dict[str, Any]) -> dict[str, Any] | None:
+    restored_text = payload.get("restored_text")
+    if not isinstance(restored_text, str):
+        return None
+    is_confident = _normalize_bool(payload, "is_confident")
+    if is_confident is None:
+        return None
+    return {"restored_text": restored_text.strip(), "is_confident": is_confident}
+
+
+def _validate_restore_payload(payload: Any) -> list[dict[str, Any]] | None:
+    if not isinstance(payload, list):
+        return None
+    valid_items: list[dict[str, Any]] = []
+    for item in payload:
+        if not isinstance(item, dict):
+            continue
+        if "id" not in item:
+            continue
+        normalized = _normalize_restore_payload(item)
+        if not normalized:
+            continue
+        valid_items.append({"id": item["id"], **normalized})
+    return valid_items if valid_items else None
+
+
+def _mistral_restore_batch_request(
+    records: list[dict[str, Any]],
+    api_key: str,
+    model: str,
+    invalid_log_path: Path | None = None,
+    timeout: float = DEFAULT_MISTRAL_TIMEOUT,
+) -> dict[str, dict[str, Any]] | None:
+    items = []
+    for record in records:
+        items.append(
+            {
+                "id": record.get("filename"),
+                "tesseract_text": (record.get("tesseract_text") or "")[:MAX_TEXT_CHARS],
+                "ocr_space_text": (record.get("ocr_space_text") or "")[:MAX_TEXT_CHARS],
+            }
+        )
+    system_prompt = (
+        "You are an OCR correction assistant. Return ONLY a JSON array. "
+        "Each item must be an object with keys: id, restored_text, is_confident. "
+        "Use the OCR variants to reconstruct the most likely original phrase. "
+        "If you are not confident or all inputs are empty/garbled, return restored_text=\"\" "
+        "and is_confident=false. Do not add commentary."
+    )
+    payload = {
+        "model": model,
+        "temperature": 0,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": json.dumps(items, ensure_ascii=False)},
+        ],
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = Request(
+        MISTRAL_URL,
+        data=data,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": USER_AGENT,
+        },
+    )
+    with urlopen(req, timeout=timeout) as resp:
+        response_json = json.loads(resp.read().decode("utf-8"))
+    content = response_json["choices"][0]["message"]["content"]
+    parsed = _extract_json_any(content)
+    valid = _validate_restore_payload(parsed)
+    if not valid:
+        if invalid_log_path:
+            saved_to = _log_invalid_mistral_response(content, invalid_log_path)
+            LOGGER.warning("Mistral restore response invalid; saved to %s", saved_to)
+        else:
+            LOGGER.warning("Mistral restore response invalid")
+        return None
+    result: dict[str, dict[str, Any]] = {}
+    for item in valid:
+        item_id = item.pop("id")
+        result[str(item_id)] = item
+    return result
+
+
+def _mistral_restore_single_request(
+    record: dict[str, Any],
+    api_key: str,
+    model: str,
+    timeout: float,
+) -> dict[str, Any] | None:
+    system_prompt = (
+        "You are an OCR correction assistant. Return only JSON with keys: "
+        "restored_text, is_confident. Use the OCR variants to reconstruct the phrase. "
+        "If not confident, set restored_text to empty string and is_confident=false."
+    )
+    payload = {
+        "model": model,
+        "temperature": 0,
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {
+                "role": "user",
+                "content": json.dumps(
+                    {
+                        "tesseract_text": (record.get("tesseract_text") or "")[:MAX_TEXT_CHARS],
+                        "ocr_space_text": (record.get("ocr_space_text") or "")[:MAX_TEXT_CHARS],
+                    },
+                    ensure_ascii=False,
+                ),
+            },
+        ],
+    }
+    data = json.dumps(payload).encode("utf-8")
+    req = Request(
+        MISTRAL_URL,
+        data=data,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": USER_AGENT,
+        },
+    )
+    with urlopen(req, timeout=timeout) as resp:
+        response_json = json.loads(resp.read().decode("utf-8"))
+    content = response_json["choices"][0]["message"]["content"]
+    parsed = _extract_json(content)
+    if not parsed:
+        return None
+    return _normalize_restore_payload(parsed)
+
+
+def _apply_mistral_restore(
+    records: list[dict[str, Any]],
+    api_key: str,
+    model: str,
+    invalid_log_path: Path | None,
+    batch_size: int,
+    timeout: float,
+    request_sleep: float,
+) -> dict[str, dict[str, Any]]:
+    if not records:
+        return {}
+    results: dict[str, dict[str, Any]] = {}
+    chunks = _chunked(records, batch_size)
+    for chunk in chunks:
+        try:
+            batch = _mistral_restore_batch_request(
+                chunk,
+                api_key,
+                model,
+                invalid_log_path,
+                timeout,
+            )
+        except Exception as exc:  # noqa: BLE001
+            LOGGER.warning("Mistral restore batch error: %s", exc)
+            batch = None
+        if not batch:
+            LOGGER.warning("Mistral restore response invalid; falling back to per-item")
+            for record in chunk:
+                try:
+                    item = _mistral_restore_single_request(record, api_key, model, timeout)
+                except Exception as exc:  # noqa: BLE001
+                    LOGGER.warning("Mistral restore error for %s: %s", record.get("filename"), exc)
+                    item = None
+                if request_sleep > 0:
+                    time.sleep(request_sleep)
+                if not item:
+                    continue
+                results[str(record.get("filename"))] = item
+            continue
+        for record in chunk:
+            item_id = str(record.get("filename"))
+            item = batch.get(item_id)
+            if not item:
+                LOGGER.warning("Mistral restore missing result for %s", item_id)
+                continue
+            results[item_id] = item
+        if request_sleep > 0:
+            time.sleep(request_sleep)
+    return results
+
+
 def _mistral_request(
     text: str,
     api_key: str,
@@ -256,12 +478,11 @@ def _mistral_request(
     if len(trimmed) > MAX_TEXT_CHARS:
         trimmed = trimmed[:MAX_TEXT_CHARS]
     system_prompt = (
-        "You are a moderation assistant. Return only JSON with keys: is_sexual, is_profanity, "
-        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned, is_correct. "
-        "Use true if a category is present or has clear signs. Use false only if confident absent. "
-        "Set is_correct=true only if the phrase is readable, meaningful, and has no obvious OCR "
-        "garbage or stray symbols; otherwise false. If text is empty or insufficient, return all "
-        "censor flags true and is_correct=false."
+        "You are a strict moderation assistant. Return only JSON with keys: "
+        "is_sexual, is_profanity, is_politics, is_insults, is_threats, is_harassment, "
+        "is_twitch_banned. Use true if a category is present or has clear signs. "
+        "Use false only if you are confident it is absent. "
+        "If text is empty or insufficient, return all censor flags true."
     )
     payload = {
         "model": model,
@@ -307,14 +528,12 @@ def _mistral_batch_request(
             }
         )
     system_prompt = (
-        "You are a moderation assistant. Return ONLY a JSON array. "
+        "You are a strict moderation assistant. Return ONLY a JSON array. "
         "Each item must be an object with keys: id, is_sexual, is_profanity, "
-        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned, is_correct. "
+        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned. "
         "Use true if the category is present or has clear signs. "
         "Use false only if you are confident it is absent. "
-        "Set is_correct=true only if the phrase is readable, meaningful, and has no obvious OCR "
-        "garbage or stray symbols; otherwise false. "
-        "If the text is empty or insufficient, return all censor flags true and is_correct=false."
+        "If the text is empty or insufficient, return all censor flags true."
     )
     payload = {
         "model": model,
@@ -365,6 +584,7 @@ def _apply_mistral(
     invalid_log_path: Path | None,
     batch_size: int,
     timeout: float,
+    request_sleep: float,
 ) -> None:
     if not records:
         return
@@ -390,6 +610,8 @@ def _apply_mistral(
                 except Exception as exc:  # noqa: BLE001
                     LOGGER.warning("Mistral error for %s: %s", record.get("filename"), exc)
                     continue
+                if request_sleep > 0:
+                    time.sleep(request_sleep)
                 if not verdict:
                     continue
                 for key, value in verdict.items():
@@ -403,60 +625,84 @@ def _apply_mistral(
                 continue
             for key, value in verdict.items():
                 record[key] = value
+        if request_sleep > 0:
+            time.sleep(request_sleep)
 
 
-def _mime_type(path: Path) -> str:
-    ext = path.suffix.lower()
-    if ext in {".jpg", ".jpeg"}:
-        return "image/jpeg"
-    if ext == ".png":
-        return "image/png"
-    if ext == ".webp":
-        return "image/webp"
-    return "application/octet-stream"
+def _image_to_jpeg_bytes(path: Path, crop: tuple[float, float, float, float]) -> bytes:
+    image = Image.open(path).convert("RGB")
+    image = _crop_center(image, crop)
+    buffer = io.BytesIO()
+    image.save(buffer, format="JPEG", quality=90)
+    return buffer.getvalue()
 
 
-def _mistral_ocr(
-    path: Path,
+def _encode_multipart_form(
+    fields: dict[str, str],
+    files: list[tuple[str, str, bytes, str]],
+) -> tuple[bytes, str]:
+    boundary = uuid.uuid4().hex
+    lines: list[bytes] = []
+    for name, value in fields.items():
+        lines.append(f"--{boundary}".encode("utf-8"))
+        lines.append(f'Content-Disposition: form-data; name="{name}"'.encode("utf-8"))
+        lines.append(b"")
+        lines.append(str(value).encode("utf-8"))
+    for field_name, filename, data, content_type in files:
+        lines.append(f"--{boundary}".encode("utf-8"))
+        disposition = f'Content-Disposition: form-data; name="{field_name}"; filename="{filename}"'
+        lines.append(disposition.encode("utf-8"))
+        lines.append(f"Content-Type: {content_type}".encode("utf-8"))
+        lines.append(b"")
+        lines.append(data)
+    lines.append(f"--{boundary}--".encode("utf-8"))
+    lines.append(b"")
+    body = b"\r\n".join(lines)
+    content_type = f"multipart/form-data; boundary={boundary}"
+    return body, content_type
+
+
+def _ocr_space_text(
+    image_bytes: bytes,
     api_key: str,
-    model: str,
+    api_url: str,
+    language: str,
+    engine: int,
     timeout: float,
 ) -> str:
-    data = path.read_bytes()
-    b64 = base64.b64encode(data).decode("ascii")
-    mime = _mime_type(path)
-    payload = {
-        "model": model,
-        "temperature": 0,
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are an OCR assistant. Return only the extracted text.",
-            },
-            {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": "Extract all readable text."},
-                    {"type": "image_url", "image_url": {"url": f"data:{mime};base64,{b64}"}},
-                ],
-            },
-        ],
+    fields = {
+        "apikey": api_key,
+        "language": language,
+        "isOverlayRequired": "false",
+        "OCREngine": str(engine),
     }
-    data = json.dumps(payload).encode("utf-8")
+    files = [("file", "image.jpg", image_bytes, "image/jpeg")]
+    body, content_type = _encode_multipart_form(fields, files)
     req = Request(
-        MISTRAL_URL,
-        data=data,
+        api_url,
+        data=body,
         headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
+            "Content-Type": content_type,
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
-    content = response_json["choices"][0]["message"]["content"]
-    if isinstance(content, str):
-        return content.strip()
+    try:
+        with urlopen(req, timeout=timeout) as resp:
+            response_json = json.loads(resp.read().decode("utf-8"))
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", "replace")
+        LOGGER.warning("OCR.space HTTP %s: %s", exc.code, detail.strip())
+        return ""
+    if response_json.get("IsErroredOnProcessing"):
+        message = response_json.get("ErrorMessage") or response_json.get("ErrorDetails")
+        LOGGER.warning("OCR.space error: %s", message)
+        return ""
+    results = response_json.get("ParsedResults")
+    if not isinstance(results, list) or not results:
+        return ""
+    parsed_text = results[0].get("ParsedText") if isinstance(results[0], dict) else ""
+    if isinstance(parsed_text, str):
+        return parsed_text.strip()
     return ""
 
 
@@ -498,8 +744,31 @@ def _merge_by_filename(path: Path, records: list[dict[str, Any]]) -> None:
     _write_json(path, merged)
 
 
-def _build_ai_ocr_path(path: Path) -> Path:
-    return path.with_name(f"{path.stem}_ai_ocr{path.suffix}")
+def _upsert_by_filename(path: Path, records: list[dict[str, Any]]) -> None:
+    if not records:
+        return
+    existing = _load_json_records(path) if path.exists() else []
+    if existing is None:
+        existing = []
+    by_filename: dict[str, dict[str, Any]] = {}
+    for item in existing:
+        filename = item.get("filename")
+        if isinstance(filename, str):
+            by_filename[filename] = item
+    for record in records:
+        filename = record.get("filename")
+        if isinstance(filename, str):
+            by_filename[filename] = record
+    merged = list(by_filename.values())
+    _write_json(path, merged)
+
+
+def _build_mistral_incorrect_path(path: Path, date_str: str) -> Path:
+    return path.with_name(f"{path.stem}_mistral_incorrect_{date_str}{path.suffix}")
+
+
+def _build_ocr_variants_path(path: Path, date_str: str) -> Path:
+    return path.with_name(f"{path.stem}_ocr_variants_{date_str}{path.suffix}")
 
 
 def _build_ocr_failed_path(path: Path, date_str: str) -> Path:
@@ -527,12 +796,12 @@ def _build_image_index(images_dir: Path) -> dict[str, Path]:
     return resolved
 
 
-def _ai_ocr_records(
+def _build_ocr_variants(
     records: list[dict[str, Any]],
     images_dir: Path,
-    api_key: str,
-    model: str,
-    timeout: float,
+    crop: tuple[float, float, float, float],
+    ocrspace_cfg: dict[str, Any],
+    ocrspace_sleep: float,
 ) -> list[dict[str, Any]]:
     image_index = _build_image_index(images_dir)
     results: list[dict[str, Any]] = []
@@ -541,27 +810,43 @@ def _ai_ocr_records(
         if not isinstance(filename, str):
             continue
         image_path = image_index.get(filename)
+        tesseract_text = record.get("text") or ""
+        ocr_space_text = ""
         if not image_path:
             LOGGER.warning("Image not found for %s", filename)
-            text = ""
         else:
             try:
-                text = _mistral_ocr(image_path, api_key, model, timeout)
+                image_bytes = _image_to_jpeg_bytes(image_path, crop)
             except Exception as exc:  # noqa: BLE001
-                LOGGER.warning("Mistral OCR failed for %s: %s", filename, exc)
-                text = ""
+                LOGGER.warning("Failed to prepare image %s: %s", filename, exc)
+                image_bytes = b""
+            if image_bytes:
+                if ocrspace_cfg.get("api_key"):
+                    try:
+                        ocr_space_text = _ocr_space_text(
+                            image_bytes,
+                            ocrspace_cfg["api_key"],
+                            ocrspace_cfg["api_url"],
+                            ocrspace_cfg["language"],
+                            ocrspace_cfg["engine"],
+                            ocrspace_cfg["timeout"],
+                        )
+                    except Exception as exc:  # noqa: BLE001
+                        LOGGER.warning("OCR.space failed for %s: %s", filename, exc)
+                        ocr_space_text = ""
+                    if ocrspace_sleep > 0:
+                        time.sleep(ocrspace_sleep)
+                else:
+                    LOGGER.warning("OCR.space API key missing; skipping OCR.space for %s", filename)
         results.append(
             {
                 "number": record.get("number"),
                 "datetime": record.get("datetime"),
                 "filename": filename,
-                "text": text,
-                "llm_validated": False,
-                "human_validated": record.get("human_validated") is True,
-                "is_correct": False,
                 "tg_message_id": record.get("tg_message_id"),
                 "tg_datetime_utc": record.get("tg_datetime_utc"),
-                **_default_flags(),
+                "tesseract_text": tesseract_text,
+                "ocr_space_text": ocr_space_text,
             }
         )
     return results
@@ -605,20 +890,53 @@ def main() -> int:
         help="Request timeout in seconds (default: env MISTRAL_TIMEOUT or 60)",
     )
     parser.add_argument(
-        "--images-dir",
-        default=None,
-        help="Directory with images for Mistral OCR fallback (default: env OCR_IMAGES_DIR)",
-    )
-    parser.add_argument(
-        "--ocr-model",
-        default=None,
-        help="Mistral OCR model (default: env MISTRAL_OCR_MODEL or mistral-ocr-3)",
-    )
-    parser.add_argument(
-        "--ocr-timeout",
+        "--mistral-request-sleep",
         type=float,
         default=None,
-        help="Mistral OCR timeout (default: env MISTRAL_OCR_TIMEOUT or 60)",
+        help="Sleep between Mistral requests (default: env MISTRAL_REQUEST_SLEEP or 0)",
+    )
+    parser.add_argument(
+        "--images-dir",
+        default=None,
+        help="Directory with images for external OCR fallback (default: env OCR_IMAGES_DIR)",
+    )
+    parser.add_argument(
+        "--ocrspace-api-key",
+        default=None,
+        help="OCR.space API key (default: env OCRSPACE_API_KEY)",
+    )
+    parser.add_argument(
+        "--ocrspace-api-url",
+        default=None,
+        help="OCR.space API URL (default: env OCRSPACE_API_URL)",
+    )
+    parser.add_argument(
+        "--ocrspace-language",
+        default=None,
+        help="OCR.space language (default: env OCRSPACE_LANGUAGE)",
+    )
+    parser.add_argument(
+        "--ocrspace-engine",
+        type=int,
+        default=None,
+        help="OCR.space OCR engine (default: env OCRSPACE_OCR_ENGINE or 2)",
+    )
+    parser.add_argument(
+        "--ocrspace-timeout",
+        type=float,
+        default=None,
+        help="OCR.space timeout (default: env OCRSPACE_TIMEOUT or 60)",
+    )
+    parser.add_argument(
+        "--ocrspace-request-sleep",
+        type=float,
+        default=None,
+        help="Sleep between OCR.space requests (default: env OCRSPACE_REQUEST_SLEEP or 0)",
+    )
+    parser.add_argument(
+        "--external-ocr-crop",
+        default=None,
+        help="External OCR crop as left,top,right,bottom (default: env EXTERNAL_OCR_CROP)",
     )
     parser.add_argument(
         "--env-file",
@@ -648,12 +966,46 @@ def main() -> int:
     model = args.mistral_model or os.getenv("MISTRAL_MODEL", "mistral-small-latest")
     batch_size = _resolve_int(args.batch_size, "MISTRAL_BATCH_SIZE", DEFAULT_BATCH_SIZE)
     mistral_timeout = _resolve_float(args.timeout, "MISTRAL_TIMEOUT", DEFAULT_MISTRAL_TIMEOUT)
+    mistral_request_sleep = _resolve_nonnegative_float(
+        args.mistral_request_sleep,
+        "MISTRAL_REQUEST_SLEEP",
+        DEFAULT_MISTRAL_SLEEP,
+    )
     invalid_log_path = Path(
         args.invalid_log_file or os.getenv("MISTRAL_INVALID_LOG_FILE", "data/mistral_invalid.log")
     )
     images_dir_value = args.images_dir or os.getenv("OCR_IMAGES_DIR")
-    ocr_model = args.ocr_model or os.getenv("MISTRAL_OCR_MODEL", DEFAULT_OCR_MODEL)
-    ocr_timeout = _resolve_float(args.ocr_timeout, "MISTRAL_OCR_TIMEOUT", DEFAULT_OCR_TIMEOUT)
+    ocrspace_api_key = args.ocrspace_api_key or os.getenv("OCRSPACE_API_KEY")
+    ocrspace_api_url = args.ocrspace_api_url or os.getenv(
+        "OCRSPACE_API_URL", DEFAULT_OCRSPACE_URL
+    )
+    ocrspace_language = args.ocrspace_language or os.getenv(
+        "OCRSPACE_LANGUAGE",
+        DEFAULT_OCRSPACE_LANGUAGE,
+    )
+    raw_engine = args.ocrspace_engine or os.getenv("OCRSPACE_OCR_ENGINE")
+    try:
+        ocrspace_engine = int(raw_engine) if raw_engine else DEFAULT_OCRSPACE_ENGINE
+    except ValueError:
+        ocrspace_engine = DEFAULT_OCRSPACE_ENGINE
+    if ocrspace_engine not in {1, 2}:
+        ocrspace_engine = DEFAULT_OCRSPACE_ENGINE
+    ocrspace_timeout = _resolve_float(
+        args.ocrspace_timeout,
+        "OCRSPACE_TIMEOUT",
+        DEFAULT_OCRSPACE_TIMEOUT,
+    )
+    ocrspace_request_sleep = _resolve_nonnegative_float(
+        args.ocrspace_request_sleep,
+        "OCRSPACE_REQUEST_SLEEP",
+        DEFAULT_OCRSPACE_SLEEP,
+    )
+    crop_raw = args.external_ocr_crop or os.getenv("EXTERNAL_OCR_CROP", DEFAULT_EXTERNAL_CROP)
+    try:
+        external_crop = _parse_crop(crop_raw)
+    except ValueError as exc:
+        LOGGER.warning("Invalid EXTERNAL_OCR_CROP: %s", exc)
+        return 2
 
     files = [Path(p) for p in args.json_files]
     if args.input_dir:
@@ -665,7 +1017,11 @@ def main() -> int:
         return 1
 
     for path in files:
-        if path.stem.endswith("_ai_ocr") or "_ocr_failed_" in path.stem:
+        if (
+            "_ocr_failed_" in path.stem
+            or "_ocr_variants_" in path.stem
+            or "_mistral_incorrect_" in path.stem
+        ):
             LOGGER.info("Skipping auxiliary file %s", path)
             continue
         records = _load_json_records(path)
@@ -673,66 +1029,17 @@ def main() -> int:
             LOGGER.warning("Invalid JSON format in %s", path)
             continue
         LOGGER.info("Moderating %s (%s records)", path, len(records))
-        _apply_mistral(records, api_key, model, invalid_log_path, batch_size, mistral_timeout)
-        incorrect = [record for record in records if record.get(QUALITY_KEY) is not True]
-        if not incorrect:
-            _write_json(path, records)
-            LOGGER.info("Updated %s", path)
-            continue
-        if not images_dir_value:
-            LOGGER.warning("OCR_IMAGES_DIR not set; skipping Mistral OCR fallback for %s", path)
-            _write_json(path, records)
-            continue
-        images_dir = Path(images_dir_value)
-        if not images_dir.exists():
-            LOGGER.warning("Images dir not found: %s", images_dir)
-            _write_json(path, records)
-            continue
-
-        LOGGER.info("Running Mistral OCR for %s records", len(incorrect))
-        ai_records = _ai_ocr_records(incorrect, images_dir, api_key, ocr_model, ocr_timeout)
-        ai_path = _build_ai_ocr_path(path)
-        if ai_records:
-            _write_json(ai_path, ai_records)
-            LOGGER.info("Wrote AI OCR output to %s", ai_path)
-            _apply_mistral(ai_records, api_key, model, invalid_log_path, batch_size, mistral_timeout)
-            _write_json(ai_path, ai_records)
-
-        corrected: list[dict[str, Any]] = []
-        failed: list[dict[str, Any]] = []
-        for record in ai_records:
-            if record.get(QUALITY_KEY) is True:
-                record["llm_validated"] = True
-                corrected.append(record)
-            else:
-                failed.append(record)
-
-        if corrected:
-            corrected_by_filename = {
-                item["filename"]: item
-                for item in corrected
-                if isinstance(item.get("filename"), str)
-            }
-            for record in records:
-                filename = record.get("filename")
-                if isinstance(filename, str) and filename in corrected_by_filename:
-                    record.update(corrected_by_filename[filename])
-        if failed:
-            failed_filenames = {
-                item.get("filename") for item in failed if isinstance(item.get("filename"), str)
-            }
-            records = [
-                record
-                for record in records
-                if record.get("filename") not in failed_filenames
-            ]
-            today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-            failed_path = _build_ocr_failed_path(path, today)
-            _merge_by_filename(failed_path, failed)
-            LOGGER.info("Wrote OCR failed output to %s", failed_path)
-
+        _apply_mistral(
+            records,
+            api_key,
+            model,
+            invalid_log_path,
+            batch_size,
+            mistral_timeout,
+            mistral_request_sleep,
+        )
         _write_json(path, records)
-        LOGGER.info("Updated %s (corrected: %s, failed: %s)", path, len(corrected), len(failed))
+        LOGGER.info("Updated %s", path)
     return 0
 
 
