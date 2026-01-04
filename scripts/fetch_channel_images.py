@@ -666,7 +666,10 @@ def main() -> int:
         for date_str, stat in stats.items():
             entry = index.get(date_str, {})
             downloaded_count = int(entry.get("downloaded_count", 0)) + stat["downloaded"]
-            failed_count = int(entry.get("download_failed_count", 0)) + stat["failed"]
+            if stat["failed"] == 0 and stat["downloaded"] > 0:
+                failed_count = 0
+            else:
+                failed_count = int(entry.get("download_failed_count", 0)) + stat["failed"]
             entry.update(
                 {
                     "date": date_str,

@@ -31,6 +31,8 @@ FLAGS = [
     "is_threats",
     "is_harassment",
     "is_twitch_banned",
+    "is_ad",
+    "is_racist",
 ]
 
 
@@ -152,8 +154,8 @@ def _setup_logging(base_path: Path) -> Path:
     return log_path
 
 
-def _default_flags() -> dict[str, bool]:
-    return {flag: True for flag in FLAGS}
+def _default_flags() -> dict[str, Any]:
+    return {flag: None for flag in FLAGS}
 
 
 def _list_images(input_dir: Path) -> list[dict[str, Any]]:
@@ -527,6 +529,10 @@ def main() -> int:
         except Exception as exc:  # noqa: BLE001
             LOGGER.warning("OCR.space failed for %s: %s", item["filename"], exc)
             text = ""
+        if isinstance(text, str):
+            text = text.strip() or None
+        else:
+            text = None
         if request_sleep > 0:
             time.sleep(request_sleep)
         record = {
@@ -534,9 +540,9 @@ def main() -> int:
             "datetime": None,
             "filename": item["filename"],
             "text": text,
-            "llm_validated": False,
-            "human_validated": False,
-            "is_correct": False,
+            "llm_validated": None,
+            "human_validated": None,
+            "is_correct": None,
             "tg_message_id": item.get("tg_message_id"),
             "tg_datetime_utc": item.get("tg_datetime_utc"),
         }

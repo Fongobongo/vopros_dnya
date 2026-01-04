@@ -79,9 +79,11 @@ OCR скрипт создаёт отдельный JSON на каждую дат
 `llm_validated`, `human_validated`, `is_correct`, `tg_message_id`, `tg_datetime_utc`
 и поля цензуры `is_sexual`,
 `is_profanity`, `is_politics`, `is_insults`, `is_threats`, `is_harassment`,
-`is_twitch_banned` (изначально `true`). Время из Telegram пишется в UTC+0.
+`is_twitch_banned`, `is_ad`, `is_racist`. По умолчанию `llm_validated`,
+`human_validated`, `is_correct` и поля цензуры — `null`.
+Время из Telegram пишется в UTC+0.
 Поле `text` заполняется только когда `is_correct=true` (совпали минимум два OCR‑варианта),
-иначе `text` остаётся пустым, а варианты сохраняются в `*_text`.
+иначе `text` остаётся `null`, а варианты сохраняются в `*_text`.
 Дополнительно создаётся индекс `data/daily_index.json` со списком дат,
 путями к JSON и статистикой по загрузке и OCR.
 Поля индекса: `date`, `json_path`, `download_success`, `download_failed`,
@@ -100,20 +102,22 @@ OCR скрипт создаёт отдельный JSON на каждую дат
     "text": "Какая ваша любимая книга?",
     "tesseract_text": "Какая ваша любимая книга?",
     "easyocr_text": "Какая ваша любимая книга?",
-    "ocrspace_text": "",
-    "mistral_text": "",
-    "llm_validated": false,
-    "human_validated": false,
-    "is_correct": false,
+    "ocrspace_text": null,
+    "mistral_text": null,
+    "llm_validated": null,
+    "human_validated": null,
+    "is_correct": true,
     "tg_message_id": 5511,
     "tg_datetime_utc": "2024-10-07 10:10:05",
-    "is_sexual": true,
-    "is_profanity": true,
-    "is_politics": true,
-    "is_insults": true,
-    "is_threats": true,
-    "is_harassment": true,
-    "is_twitch_banned": true
+    "is_sexual": null,
+    "is_profanity": null,
+    "is_politics": null,
+    "is_insults": null,
+    "is_threats": null,
+    "is_harassment": null,
+    "is_twitch_banned": null,
+    "is_ad": null,
+    "is_racist": null
   }
 ]
 ```

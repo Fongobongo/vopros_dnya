@@ -47,6 +47,8 @@ FLAGS = [
     "is_threats",
     "is_harassment",
     "is_twitch_banned",
+    "is_ad",
+    "is_racist",
 ]
 
 _EASYOCR_LOCAL = threading.local()
@@ -133,6 +135,13 @@ def _clean_text(text: str) -> str:
     text = re.sub(r"\s+", " ", text).strip()
     text = re.sub(r"\bvopros[_\s]*dna\b", "", text, flags=re.IGNORECASE)
     return text.strip(" -–—")
+
+
+def _normalize_text_value(value: str | None) -> str | None:
+    if not value:
+        return None
+    cleaned = value.strip()
+    return cleaned or None
 
 
 def _extract_json(content: str) -> dict[str, Any] | None:
@@ -511,8 +520,8 @@ def _write_index(path: Path, index: dict[str, Any]) -> None:
     path.write_text(json.dumps(sorted_index, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _default_flags() -> dict[str, bool]:
-    return {flag: True for flag in FLAGS}
+def _default_flags() -> dict[str, Any]:
+    return {flag: None for flag in FLAGS}
 
 
 def _list_images(input_dir: Path) -> list[dict[str, Any]]:
@@ -705,18 +714,20 @@ def _ocr_items(
                     is_correct = True
 
         number, dt_str = _parse_metadata(filename)
+        normalized_text = _normalize_text_value(text) if is_correct else None
+        is_correct_value = True if normalized_text else None
         record = {
             "number": number,
             "datetime": dt_str,
             "filename": filename,
-            "text": text if is_correct else "",
-            "tesseract_text": tesseract_text,
-            "easyocr_text": easyocr_text,
-            "ocrspace_text": ocrspace_text,
-            "mistral_text": mistral_text,
-            "llm_validated": False,
-            "human_validated": False,
-            "is_correct": is_correct,
+            "text": normalized_text,
+            "tesseract_text": _normalize_text_value(tesseract_text),
+            "easyocr_text": _normalize_text_value(easyocr_text),
+            "ocrspace_text": _normalize_text_value(ocrspace_text),
+            "mistral_text": _normalize_text_value(mistral_text),
+            "llm_validated": None,
+            "human_validated": None,
+            "is_correct": is_correct_value,
             "tg_message_id": item.get("tg_message_id"),
             "tg_datetime_utc": item.get("tg_datetime_utc"),
         }

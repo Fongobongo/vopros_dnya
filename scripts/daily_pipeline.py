@@ -36,6 +36,8 @@ FLAGS = [
     "is_threats",
     "is_harassment",
     "is_twitch_banned",
+    "is_ad",
+    "is_racist",
 ]
 
 
@@ -488,13 +490,15 @@ def _mistral_request(
     model: str,
     timeout: float,
 ) -> dict[str, Any] | None:
+    if not isinstance(text, str):
+        text = ""
     trimmed = text.strip()
     if len(trimmed) > MAX_TEXT_CHARS:
         trimmed = trimmed[:MAX_TEXT_CHARS]
     system_prompt = (
         "You are a strict moderation assistant. Return only JSON with keys: "
         "is_sexual, is_profanity, is_politics, is_insults, is_threats, is_harassment, "
-        "is_twitch_banned. Use true if a category is present or has clear signs. "
+        "is_twitch_banned, is_ad, is_racist. Use true if a category is present or has clear signs. "
         "Use false only if you are confident it is absent. "
         "If text is empty or insufficient, return all censor flags true."
     )
@@ -544,7 +548,7 @@ def _mistral_batch_request(
     system_prompt = (
         "You are a strict moderation assistant. Return ONLY a JSON array. "
         "Each item must be an object with keys: id, is_sexual, is_profanity, "
-        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned. "
+        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned, is_ad, is_racist. "
         "Use true if the category is present or has clear signs. "
         "Use false only if you are confident it is absent. "
         "If text is empty or insufficient, return all censor flags true."
@@ -618,7 +622,7 @@ def _apply_mistral(
         if not batch:
             LOGGER.warning("Mistral batch response invalid; falling back to per-item")
             for record in chunk:
-                text = record.get("text", "")
+                text = record.get("text") or ""
                 try:
                     verdict = _mistral_request(text, api_key, model, timeout)
                 except Exception as exc:  # noqa: BLE001

@@ -190,6 +190,8 @@ def _init_db(conn: sqlite3.Connection) -> None:
                 is_threats INTEGER,
                 is_harassment INTEGER,
                 is_twitch_banned INTEGER,
+                is_ad INTEGER,
+                is_racist INTEGER,
                 source_json TEXT,
                 imported_at_utc TEXT
             )
@@ -293,10 +295,12 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             is_threats,
             is_harassment,
             is_twitch_banned,
+            is_ad,
+            is_racist,
             source_json,
             imported_at_utc
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(filename) DO UPDATE SET
             date=excluded.date,
             number=excluded.number,
@@ -318,6 +322,8 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             is_threats=excluded.is_threats,
             is_harassment=excluded.is_harassment,
             is_twitch_banned=excluded.is_twitch_banned,
+            is_ad=excluded.is_ad,
+            is_racist=excluded.is_racist,
             source_json=excluded.source_json,
             imported_at_utc=excluded.imported_at_utc
         """,
@@ -392,6 +398,8 @@ def main() -> int:
                     "easyocr_text": "TEXT",
                     "ocrspace_text": "TEXT",
                     "mistral_text": "TEXT",
+                    "is_ad": "INTEGER",
+                    "is_racist": "INTEGER",
                 },
             )
         if args.truncate:
@@ -461,6 +469,8 @@ def main() -> int:
                     _bool_to_int(record.get("is_threats")),
                     _bool_to_int(record.get("is_harassment")),
                     _bool_to_int(record.get("is_twitch_banned")),
+                    _bool_to_int(record.get("is_ad")),
+                    _bool_to_int(record.get("is_racist")),
                     str(path),
                     now,
                 )

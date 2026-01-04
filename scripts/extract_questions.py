@@ -196,14 +196,18 @@ def main() -> int:
             if not number:
                 number = fallback_index
                 fallback_index += 1
+            if isinstance(text, str):
+                text = text.strip() or None
+            else:
+                text = None
             results.append(
                 {
                     "number": number,
                     "datetime": meta.get("datetime"),
                     "filename": meta.get("filename") or Path(path_str).name,
                     "text": text,
-                    "llm_validated": False,
-                    "human_validated": False,
+                    "llm_validated": None,
+                    "human_validated": None,
                 }
             )
             processed += 1

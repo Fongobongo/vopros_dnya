@@ -27,6 +27,8 @@ FLAGS = [
     "is_threats",
     "is_harassment",
     "is_twitch_banned",
+    "is_ad",
+    "is_racist",
 ]
 
 _READER_LOCAL = threading.local()
@@ -256,8 +258,8 @@ def _write_index(path: Path, index: dict[str, Any]) -> None:
     path.write_text(json.dumps(sorted_index, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
-def _default_flags() -> dict[str, bool]:
-    return {flag: True for flag in FLAGS}
+def _default_flags() -> dict[str, Any]:
+    return {flag: None for flag in FLAGS}
 
 
 def _list_images(input_dir: Path) -> list[dict[str, Any]]:
@@ -328,15 +330,19 @@ def _ocr_items(
             except Exception as exc:  # noqa: BLE001
                 LOGGER.warning("OCR failed for %s: %s", item["filename"], exc)
                 text = ""
+            if isinstance(text, str):
+                text = text.strip() or None
+            else:
+                text = None
             number, dt_str = _parse_metadata(item["filename"])
             record = {
                 "number": number,
                 "datetime": dt_str,
                 "filename": item["filename"],
                 "text": text,
-                "llm_validated": False,
-                "human_validated": False,
-                "is_correct": False,
+                "llm_validated": None,
+                "human_validated": None,
+                "is_correct": None,
                 "tg_message_id": item.get("tg_message_id"),
                 "tg_datetime_utc": item.get("tg_datetime_utc"),
             }
