@@ -1,0 +1,42 @@
+services:
+  pipeline:
+    build: .
+    image: vopros_dnya:latest
+    working_dir: /app
+    env_file:
+      - ./config/app.env
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PIPELINE_RUN_ON_START: "1"
+      PIPELINE_KEEPALIVE: "0"
+      PIPELINE_IDLE_SLEEP: "3600"
+      SUPABASE_EXPORT_ENABLED: "1"
+      TELEGRAM_LOG_FILE: /app/logs/telegram_fetch.log
+      OCR_LOG_FILE: /app/logs/ocr.log
+      EASYOCR_LOG_FILE: /app/logs/easyocr.log
+      PREPROCESS_LOG_FILE: /app/logs/preprocess.log
+      DAILY_LOG_FILE: /app/logs/telegram_daily.log
+      MISTRAL_LOG_FILE: /app/logs/mistral.log
+      OCRSPACE_LOG_FILE: /app/logs/ocrspace.log
+      MISTRAL_INVALID_LOG_FILE: /app/logs/mistral_invalid.log
+      SQLITE_LOG_FILE: /app/logs/sqlite_export.log
+      SUPABASE_LOG_FILE: /app/logs/supabase_export.log
+    volumes:
+      - data:/app/data
+      - logs:/app/logs
+    restart: no
+    healthcheck:
+      test: ["CMD", "python", "/app/scripts/healthcheck.py"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+volumes:
+  data:
+  logs:

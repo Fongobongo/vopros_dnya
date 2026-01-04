@@ -17,6 +17,7 @@ if str(ROOT_DIR) not in sys.path:
 
 from scripts.ocr_images import build_records
 from scripts.fetch_channel_images import fetch_channel_images
+from scripts.retry_utils import load_retry_config, run_with_retry
 
 
 USER_AGENT = "Mozilla/5.0 (compatible; OCRFetcher/1.0; +https://t.me)"
@@ -278,6 +279,24 @@ def _run_sqlite_export(env_file: Path) -> int:
     return result.returncode
 
 
+def _run_supabase_export(env_file: Path) -> int:
+    script_path = ROOT_DIR / "scripts" / "export_validated_to_supabase.py"
+    if not script_path.exists():
+        LOGGER.warning("Supabase export script not found: %s", script_path)
+        return 1
+    cmd = [
+        sys.executable,
+        str(script_path),
+        "--env-file",
+        str(env_file),
+    ]
+    LOGGER.info("Running Supabase export")
+    result = subprocess.run(cmd, check=False)
+    if result.returncode != 0:
+        LOGGER.warning("Supabase export failed with code %s", result.returncode)
+    return result.returncode
+
+
 def _build_output_path(out_json: str | None, date_str: str) -> Path:
     if out_json:
         path = Path(out_json)
@@ -520,8 +539,22 @@ def _mistral_request(
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
+    retry_config = load_retry_config("MISTRAL", "REQUEST")
+
+    def _do_request() -> dict[str, Any]:
+        with urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Mistral request failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    response_json = run_with_retry(_do_request, retry_config, _on_retry)
     content = response_json["choices"][0]["message"]["content"]
     parsed = _extract_json(content)
     if not parsed:
@@ -571,8 +604,22 @@ def _mistral_batch_request(
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
+    retry_config = load_retry_config("MISTRAL", "REQUEST")
+
+    def _do_request() -> dict[str, Any]:
+        with urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Mistral batch request failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    response_json = run_with_retry(_do_request, retry_config, _on_retry)
     content = response_json["choices"][0]["message"]["content"]
     parsed = _extract_json_any(content)
     valid = _validate_batch_payload(parsed)
@@ -757,6 +804,12 @@ def main() -> int:
         help="Log file base path, supports {date} (default: data/telegram_daily.log)",
     )
     parser.add_argument(
+        "--export-supabase",
+        action=argparse.BooleanOptionalAction,
+        default=None,
+        help="Export validated phrases to Supabase (default: env SUPABASE_EXPORT_ENABLED)",
+    )
+    parser.add_argument(
         "--index-file",
         default=None,
         help="Index JSON file path (default: data/daily_index.json)",
@@ -780,6 +833,11 @@ def main() -> int:
         args.mistral_request_sleep,
         "MISTRAL_REQUEST_SLEEP",
         DEFAULT_MISTRAL_SLEEP,
+    )
+    export_supabase = _resolve_bool(
+        args.export_supabase,
+        "SUPABASE_EXPORT_ENABLED",
+        False,
     )
 
     now = datetime.now(timezone.utc)
@@ -895,7 +953,12 @@ def main() -> int:
         _write_json(out_path, merged)
         LOGGER.info("Updated moderation flags in %s", out_path)
     export_code = _run_sqlite_export(Path(args.env_file))
-    return 0 if export_code == 0 else 2
+    if export_code != 0:
+        return 2
+    if export_supabase:
+        supabase_code = _run_supabase_export(Path(args.env_file))
+        return 0 if supabase_code == 0 else 2
+    return 0
 
 
 if __name__ == "__main__":

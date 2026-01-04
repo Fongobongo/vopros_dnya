@@ -14,6 +14,7 @@ from urllib.request import Request, urlopen
 
 from PIL import Image
 
+from scripts.retry_utils import load_retry_config, run_with_retry
 LOGGER = logging.getLogger(__name__)
 LOG_RETENTION_DAYS = 30
 DEFAULT_BATCH_SIZE = 10
@@ -353,8 +354,22 @@ def _mistral_restore_batch_request(
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
+    retry_config = load_retry_config("MISTRAL", "REQUEST")
+
+    def _do_request() -> dict[str, Any]:
+        with urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Mistral restore batch failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    response_json = run_with_retry(_do_request, retry_config, _on_retry)
     content = response_json["choices"][0]["message"]["content"]
     parsed = _extract_json_any(content)
     valid = _validate_restore_payload(parsed)
@@ -410,8 +425,22 @@ def _mistral_restore_single_request(
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
+    retry_config = load_retry_config("MISTRAL", "REQUEST")
+
+    def _do_request() -> dict[str, Any]:
+        with urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Mistral restore failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    response_json = run_with_retry(_do_request, retry_config, _on_retry)
     content = response_json["choices"][0]["message"]["content"]
     parsed = _extract_json(content)
     if not parsed:
@@ -506,8 +535,22 @@ def _mistral_request(
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
+    retry_config = load_retry_config("MISTRAL", "REQUEST")
+
+    def _do_request() -> dict[str, Any]:
+        with urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Mistral request failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    response_json = run_with_retry(_do_request, retry_config, _on_retry)
     content = response_json["choices"][0]["message"]["content"]
     parsed = _extract_json(content)
     if not parsed:
@@ -557,8 +600,22 @@ def _mistral_batch_request(
             "User-Agent": USER_AGENT,
         },
     )
-    with urlopen(req, timeout=timeout) as resp:
-        response_json = json.loads(resp.read().decode("utf-8"))
+    retry_config = load_retry_config("MISTRAL", "REQUEST")
+
+    def _do_request() -> dict[str, Any]:
+        with urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Mistral batch request failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    response_json = run_with_retry(_do_request, retry_config, _on_retry)
     content = response_json["choices"][0]["message"]["content"]
     parsed = _extract_json_any(content)
     valid = _validate_batch_payload(parsed)
@@ -691,11 +748,28 @@ def _ocr_space_text(
         },
     )
     try:
-        with urlopen(req, timeout=timeout) as resp:
-            response_json = json.loads(resp.read().decode("utf-8"))
+        retry_config = load_retry_config("OCRSPACE", "REQUEST")
+
+        def _do_request() -> dict[str, Any]:
+            with urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+
+        def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+            LOGGER.warning(
+                "OCR.space request failed (attempt %s/%s): %s; retrying in %.1fs",
+                attempt,
+                total,
+                exc,
+                delay,
+            )
+
+        response_json = run_with_retry(_do_request, retry_config, _on_retry)
     except HTTPError as exc:
         detail = exc.read().decode("utf-8", "replace")
         LOGGER.warning("OCR.space HTTP %s: %s", exc.code, detail.strip())
+        return ""
+    except Exception as exc:  # noqa: BLE001
+        LOGGER.warning("OCR.space request failed: %s", exc)
         return ""
     if response_json.get("IsErroredOnProcessing"):
         message = response_json.get("ErrorMessage") or response_json.get("ErrorDetails")

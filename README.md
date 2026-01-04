@@ -2,7 +2,7 @@
 
 ## Установка
 
-1. Нужен Python 3.12+.
+1. Нужен Python 3.11+.
 
 2. Создайте виртуальное окружение и установите зависимости:
 
@@ -13,6 +13,56 @@ pip install -r requirements.txt
 ```
 
 2. Убедитесь, что установлен tesseract и языки `rus`/`eng`.
+
+## Docker (VPS)
+
+В репозитории есть `Dockerfile` и `docker-compose.yml`. Контейнер держит
+тома для `data/` и `logs/`, пишет логи в stdout и использует ротацию логов
+Docker (см. `docker-compose.yml`).
+
+1. Создайте файл окружения для контейнера:
+
+```
+cp config/app.env.example config/app.env
+```
+
+2. Заполните `config/app.env` ключами (Mistral/OCR.space/Supabase).
+
+3. Запустите сервис:
+
+```
+docker compose up -d
+```
+
+По умолчанию контейнер не запускает пайплайн сам и просто ждёт.
+Чтобы запускать пайплайн при старте контейнера, установите
+`PIPELINE_RUN_ON_START=1` (и при необходимости `PIPELINE_STEPS=all`)
+в `docker-compose.yml`.
+
+### Запуск по шагам
+
+Каждый этап можно запускать отдельно через `scripts/pipeline_steps.py`:
+
+```
+docker compose exec pipeline python -m scripts.pipeline_steps fetch -- --max-pages 50
+docker compose exec pipeline python -m scripts.pipeline_steps preprocess
+docker compose exec pipeline python -m scripts.pipeline_steps ocr
+docker compose exec pipeline python -m scripts.pipeline_steps moderate
+docker compose exec pipeline python -m scripts.pipeline_steps export
+```
+
+Полный запуск (как `daily_pipeline.py`):
+
+```
+docker compose exec pipeline python -m scripts.pipeline_steps all
+```
+
+Экспорт в Supabase выполняется после SQLite, если `SUPABASE_EXPORT_ENABLED=1`
+или передан флаг `--export-supabase` для `daily_pipeline.py`.
+
+Параметры ретраев/бэкоффа задаются через `REQUEST_RETRIES`,
+`REQUEST_RETRY_BASE`, `REQUEST_RETRY_BACKOFF`, `REQUEST_RETRY_MAX`,
+`REQUEST_RETRY_JITTER` (см. `.env.example`).
 
 ## Использование
 

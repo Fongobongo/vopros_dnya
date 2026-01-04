@@ -4,6 +4,7 @@ import logging
 import os
 import re
 import time
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from html.parser import HTMLParser
 from pathlib import Path
@@ -11,6 +12,7 @@ from typing import Any
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 
+from scripts.retry_utils import RetryConfig, load_retry_config, run_with_retry
 
 USER_AGENT = "Mozilla/5.0 (compatible; OCRFetcher/1.0; +https://t.me)"
 PHOTO_CLASSES = {
@@ -102,19 +104,31 @@ class TgPageParser(HTMLParser):
                 self._current["images"].append(src)
 
 
-def _fetch_page(channel: str, before_id: int | None) -> str:
+def _fetch_page(channel: str, before_id: int | None, retry_config: RetryConfig) -> str:
     url = f"https://t.me/s/{channel}"
     if before_id:
         url = f"{url}?before={before_id}"
     req = Request(url, headers={"User-Agent": USER_AGENT})
-    with urlopen(req, timeout=20) as resp:
-        return resp.read().decode("utf-8")
+    def _do_request() -> str:
+        with urlopen(req, timeout=20) as resp:
+            return resp.read().decode("utf-8")
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Fetch page failed (attempt %s/%s): %s; retrying in %.1fs",
+            attempt,
+            total,
+            exc,
+            delay,
+        )
+
+    return run_with_retry(_do_request, retry_config, _on_retry)
 
 
-def _download_image(url: str, dest: Path, retries: int, retry_sleep: float) -> None:
-    total_attempts = retries + 1
+def _download_image(url: str, dest: Path, retry_config: RetryConfig) -> None:
     tmp_path = dest.with_name(f"{dest.name}.part")
-    for attempt in range(total_attempts):
+
+    def _do_request() -> None:
         try:
             if tmp_path.exists():
                 tmp_path.unlink()
@@ -126,25 +140,25 @@ def _download_image(url: str, dest: Path, retries: int, retry_sleep: float) -> N
                         break
                     fh.write(chunk)
             tmp_path.replace(dest)
-            return
-        except Exception as exc:  # noqa: BLE001
+        except Exception:
             if tmp_path.exists():
                 try:
                     tmp_path.unlink()
                 except OSError:
                     pass
-            if attempt < retries:
-                LOGGER.warning(
-                    "Download failed (attempt %s/%s) for %s: %s",
-                    attempt + 1,
-                    total_attempts,
-                    url,
-                    exc,
-                )
-                if retry_sleep > 0:
-                    time.sleep(retry_sleep)
-                continue
             raise
+
+    def _on_retry(attempt: int, total: int, delay: float, exc: Exception) -> None:
+        LOGGER.warning(
+            "Download failed (attempt %s/%s) for %s: %s; retrying in %.1fs",
+            attempt,
+            total,
+            url,
+            exc,
+            delay,
+        )
+
+    run_with_retry(_do_request, retry_config, _on_retry)
 
 
 def _load_env_file(path: Path) -> None:
@@ -408,6 +422,12 @@ def fetch_channel_images(
             DEFAULT_DOWNLOAD_RETRY_SLEEP,
         ),
     )
+    retry_config = load_retry_config()
+    download_config = replace(
+        retry_config,
+        attempts=max(1, download_retries + 1),
+        base_sleep=download_retry_sleep,
+    )
     out_dir.mkdir(parents=True, exist_ok=True)
     state = _load_state(state_file)
 
@@ -436,7 +456,7 @@ def fetch_channel_images(
     )
 
     for _ in range(max(1, max_pages)):
-        html = _fetch_page(channel, before_id)
+        html = _fetch_page(channel, before_id, retry_config)
         parser = TgPageParser()
         parser.feed(html)
         messages = parser.messages
@@ -471,7 +491,7 @@ def fetch_channel_images(
                 if dest.exists():
                     continue
                 try:
-                    _download_image(url, dest, download_retries, download_retry_sleep)
+                    _download_image(url, dest, download_config)
                     downloaded.append(
                         {
                             "path": dest,

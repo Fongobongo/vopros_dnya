@@ -27,6 +27,8 @@ ENV/
 .env.local
 .env.*
 !.env.example
+config/*.env
+!config/*.env.example
 
 # Runtime data and logs
 data/
