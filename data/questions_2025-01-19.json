@@ -1,0 +1,25 @@
+[
+  {
+    "number": 312,
+    "datetime": null,
+    "filename": "tg_4091_1.jpg",
+    "text": "стоит ли указывать в резюме что умею орать как витас",
+    "tesseract_text": "стоит ли указывать в резюме что умею орать как витас",
+    "easyocr_text": "СТОИТ ЛИ указывать в резюме ЧТО умею орать как витас",
+    "ocrspace_text": "стоит ли указывать в резюме что умею орать как витас",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4091,
+    "tg_datetime_utc": "2025-01-19 12:22:44",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

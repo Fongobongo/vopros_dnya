@@ -1,0 +1,25 @@
+[
+  {
+    "number": 236,
+    "datetime": null,
+    "filename": "tg_3995_1.jpg",
+    "text": "как в маршрутке передавать за проезд и не выглядеть слабовольным",
+    "tesseract_text": "как в маршрутке передавать за проезд и не выглядеть слабовольным",
+    "easyocr_text": "как в маршрутке передавать за проезд и не выглядеть слабовольным",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3995,
+    "tg_datetime_utc": "2024-05-07 13:24:42",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 53,
+    "datetime": null,
+    "filename": "tg_3637_1.jpg",
+    "text": "почему про слабого человека говорят что он дерётся как девчонка если девки ебашатся как медведи разъяренные",
+    "tesseract_text": "почему про слабого человека говорят что он дерётся как девчонка если девки ебашатся как мепрели паэтавенные",
+    "easyocr_text": "почему про слабого человека говорят что он дерётся как девчонка если девки ебашатся как медведи разъяренные",
+    "ocrspace_text": "",
+    "mistral_text": "почему про слабого человека говорят что он дерётся как девчонка если девки ебашатся как медведи разъяренные",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3637,
+    "tg_datetime_utc": "2022-08-29 20:27:26",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

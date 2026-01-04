@@ -1,0 +1,25 @@
+[
+  {
+    "number": 948,
+    "datetime": null,
+    "filename": "tg_5154_1.jpg",
+    "text": "в чем прикол мужчины могут сдерживать слезы всю жизнь а кончать в течение минуты",
+    "tesseract_text": "в чем прикол мужчины могут сдерживать слезы всю жизнь а кончать в течение минуты",
+    "easyocr_text": "в чем прикол мужчины могут сдерживать слезы всю жизнь а кончать в течение минуты",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5154,
+    "tg_datetime_utc": "2025-09-17 17:48:24",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

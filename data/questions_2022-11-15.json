@@ -1,0 +1,25 @@
+[
+  {
+    "number": 124,
+    "datetime": null,
+    "filename": "tg_3725_1.jpg",
+    "text": "скидки на проституток по студенческому",
+    "tesseract_text": "скидки на проституток по студенческому",
+    "easyocr_text": "скидки на проституток по студенческому",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3725,
+    "tg_datetime_utc": "2022-11-15 08:37:10",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

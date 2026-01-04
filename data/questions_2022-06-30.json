@@ -1,0 +1,25 @@
+[
+  {
+    "number": 10,
+    "datetime": null,
+    "filename": "tg_3587_1.jpg",
+    "text": "пью каждый день почему не появляется зависимость",
+    "tesseract_text": "пью каждый день почему не появляется зависимость",
+    "easyocr_text": "ПЬю каждый день почему не появляется зависимость",
+    "ocrspace_text": "",
+    "mistral_text": "пью каждый день почему не появляется зависимость",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3587,
+    "tg_datetime_utc": "2022-06-30 15:24:30",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

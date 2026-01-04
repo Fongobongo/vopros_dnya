@@ -1,0 +1,25 @@
+[
+  {
+    "number": 339,
+    "datetime": null,
+    "filename": "tg_4119_1.jpg",
+    "text": "где люди кашляли до изобретения театра",
+    "tesseract_text": "где люди кашляли до изобретения театра",
+    "easyocr_text": "где люди кашляли до изобретения театра",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4119,
+    "tg_datetime_utc": "2025-02-12 13:05:43",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

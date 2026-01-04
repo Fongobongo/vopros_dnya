@@ -1,0 +1,25 @@
+[
+  {
+    "number": 334,
+    "datetime": null,
+    "filename": "tg_4114_1.jpg",
+    "text": "можно ли засосать стоматолога если он сам наклоняется к моему рту",
+    "tesseract_text": "можно ли засосать стоматолога если он сам наклоняется к моему рту",
+    "easyocr_text": "МОЖнО ЛИ засосать стоматолога если он сам наклоняется к моему рту",
+    "ocrspace_text": "можно ли засосать стоматолога если он сам наклоняется к моему рту",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4114,
+    "tg_datetime_utc": "2025-02-07 16:39:18",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

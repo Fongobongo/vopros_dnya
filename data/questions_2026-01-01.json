@@ -1,0 +1,25 @@
+[
+  {
+    "number": 25,
+    "datetime": null,
+    "filename": "tg_5531_1.jpg",
+    "text": "до какого числа допустимо завтракать шампанским",
+    "tesseract_text": "до какого числа допустимо завтракать шампанским",
+    "easyocr_text": "до какого числа допустимо завтракать шампанским",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5531,
+    "tg_datetime_utc": "2026-01-01 12:41:55",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

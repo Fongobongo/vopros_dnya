@@ -1,0 +1,25 @@
+[
+  {
+    "number": 297,
+    "datetime": null,
+    "filename": "tg_4075_1.jpg",
+    "text": "что делать если зп на декабрь уже закончилась а декабрь еще нет блять",
+    "tesseract_text": "что делать если зп на декабрь уже закончилась а декабрь еще нет блять",
+    "easyocr_text": "Что делать если зп на декабрь уже закончилась а декабрь еще нет блять",
+    "ocrspace_text": "что делать если зп на декабрь уже закончилась а декабрь еще нет блять",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4075,
+    "tg_datetime_utc": "2024-12-28 10:03:50",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

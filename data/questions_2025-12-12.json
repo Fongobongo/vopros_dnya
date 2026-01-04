@@ -1,0 +1,25 @@
+[
+  {
+    "number": 1189,
+    "datetime": null,
+    "filename": "tg_5479_1.jpg",
+    "text": "почему на сигаретах пишут предостережения о вреде здоровью а на новокузнецке нет",
+    "tesseract_text": "почему на сигаретах пишут предостережения о вреде здоровью а на новокузнецке нет",
+    "easyocr_text": "почему на сигаретах пишут предостережения 0 вреде здоровью а на новокузнецке нет",
+    "ocrspace_text": "почему на сигаретах пишут предостережения о вреде здоровью а на новокузнецке нет",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5479,
+    "tg_datetime_utc": "2025-12-12 14:18:02",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

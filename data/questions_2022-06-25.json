@@ -1,0 +1,25 @@
+[
+  {
+    "number": 7,
+    "datetime": null,
+    "filename": "tg_3583_1.jpg",
+    "text": "как поздравить бабушку лучше чем она",
+    "tesseract_text": "как поздравить бабушку лучше чем она",
+    "easyocr_text": "как поздравить бабушку лучше чем она",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3583,
+    "tg_datetime_utc": "2022-06-25 11:02:41",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

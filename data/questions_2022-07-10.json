@@ -1,0 +1,25 @@
+[
+  {
+    "number": 15,
+    "datetime": null,
+    "filename": "tg_3595_1.jpg",
+    "text": "",
+    "tesseract_text": "немецкое слово обозначающее ситуацию когдаты закинул слишком много экстази и эзастрап",
+    "easyocr_text": "немецкое слово обозначающее ситуацию когда ты закинул слишком МНОГО экстази и застрял хером в скворечнике",
+    "ocrspace_text": "немецкое слово обозначающее ситуацию когда ты закинул слишком много экстази и застрял хером в скворечнике",
+    "mistral_text": "немецкое слово обозначающее ситуацию когда ты закинул слишком много экстази и застрял хером в скворечнике",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": false,
+    "tg_message_id": 3595,
+    "tg_datetime_utc": "2022-07-10 17:12:54",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

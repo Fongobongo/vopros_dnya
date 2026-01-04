@@ -1,0 +1,25 @@
+[
+  {
+    "number": 125,
+    "datetime": null,
+    "filename": "tg_3727_1.jpg",
+    "text": "суицидальные колыбельные",
+    "tesseract_text": "суицидальные колыбельные",
+    "easyocr_text": "суицидальные колыбельные",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3727,
+    "tg_datetime_utc": "2022-11-16 18:01:37",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

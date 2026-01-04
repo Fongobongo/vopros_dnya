@@ -1,0 +1,25 @@
+[
+  {
+    "number": 336,
+    "datetime": null,
+    "filename": "tg_4116_1.jpg",
+    "text": "что делают трезвые на выходных",
+    "tesseract_text": "что делают трезвые на ВЫХОДНЫХ",
+    "easyocr_text": "ЧТО делают трезвые на выходных",
+    "ocrspace_text": "что делают трезвые на выходных",
+    "mistral_text": "что делают трезвые на выходных",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4116,
+    "tg_datetime_utc": "2025-02-09 10:47:30",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

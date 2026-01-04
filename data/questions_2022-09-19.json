@@ -1,0 +1,25 @@
+[
+  {
+    "number": 74,
+    "datetime": null,
+    "filename": "tg_3660_1.jpg",
+    "text": "как убрать из рекомендованных друзей всяких бичей страшнейших",
+    "tesseract_text": "как убрать из рекомендованных друзей всяких бичей страшнейших",
+    "easyocr_text": "как убрать из рекомендованных друзей всяких бичей страшнейших",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3660,
+    "tg_datetime_utc": "2022-09-19 09:10:00",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

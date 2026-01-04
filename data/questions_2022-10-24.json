@@ -1,0 +1,25 @@
+[
+  {
+    "number": 111,
+    "datetime": null,
+    "filename": "tg_3708_1.jpg",
+    "text": "служебные собаки где служили и выёбываются ли они по этому поводу перед обычными собаками",
+    "tesseract_text": "служебные собаки где служили и выёбываются ли они по этому поводу перед обычными собаками",
+    "easyocr_text": "служебные собаки где служили и выёбываются ли они по этому поводу перед обычными собаками",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3708,
+    "tg_datetime_utc": "2022-10-24 19:19:37",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

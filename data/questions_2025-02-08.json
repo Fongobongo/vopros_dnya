@@ -1,0 +1,25 @@
+[
+  {
+    "number": 335,
+    "datetime": null,
+    "filename": "tg_4115_1.jpg",
+    "text": "где вы берете друзей после 25 это в мфц надо или на госуслугах",
+    "tesseract_text": "где вы берете друзей после 25 это в мфц надо или на госуслугах",
+    "easyocr_text": "где вы берете друзей после 25 ЭТО В мфц надо или на госуслугах",
+    "ocrspace_text": "где вы берете друзей после 25 это в мфц надо или на госуслугах",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4115,
+    "tg_datetime_utc": "2025-02-08 11:28:58",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

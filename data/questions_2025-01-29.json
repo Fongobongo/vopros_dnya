@@ -1,0 +1,25 @@
+[
+  {
+    "number": 322,
+    "datetime": null,
+    "filename": "tg_4101_1.jpg",
+    "text": "почему ключ к моему сердцу это штопор",
+    "tesseract_text": "почему ключ к моему сердцу это штопор",
+    "easyocr_text": "почему ключ к моему сердцу это штопор",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4101,
+    "tg_datetime_utc": "2025-01-29 00:37:58",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

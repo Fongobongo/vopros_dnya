@@ -1,0 +1,25 @@
+[
+  {
+    "number": 658,
+    "datetime": null,
+    "filename": "tg_4687_1.jpg",
+    "text": "прерываются ли актеры в индийских порнофильмах чтобы петь и танцевать",
+    "tesseract_text": "прерываются ли актеры в индийских порнофильмах чтобы петь и танцевать",
+    "easyocr_text": "прерываются ли актеры В индийских порнофильмах чтобы петь и танцевать",
+    "ocrspace_text": "",
+    "mistral_text": "прерываются ли актеры в индийских порнофильмах чтобы петь и танцевать",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4687,
+    "tg_datetime_utc": "2025-06-01 18:37:14",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

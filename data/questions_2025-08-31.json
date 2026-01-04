@@ -1,0 +1,25 @@
+[
+  {
+    "number": 904,
+    "datetime": null,
+    "filename": "tg_5082_1.jpg",
+    "text": "что если некоторые люди не знают что если у тебя кашель нужно идти к врачу а не в театр",
+    "tesseract_text": "что если некоторые люди не знают что если у тебя кашель нужно идти к врачу а не в театр",
+    "easyocr_text": "чТО если некоторые люди не знают что если у тебя кашель нужно идти к врачу а не В театр",
+    "ocrspace_text": "что если некоторые люди не знают что если у тебя кашель нужно идти к врачу а не в театр",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5082,
+    "tg_datetime_utc": "2025-08-31 17:59:07",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "number": 267,
+    "datetime": null,
+    "filename": "tg_4043_1.jpg",
+    "text": "как блять перестать жрать почему все стоит денег почему я должна работать господи помоги",
+    "tesseract_text": "как олять перестать жрать почему все стоит денег почему я должна работать господи помоги",
+    "easyocr_text": "как блять перестать жрать почему все стоит денег почему я должна работать гОсПоди пОМОГИ",
+    "ocrspace_text": "как блять перестать жрать почему все стоит денег почему я должна работать ГОСПОдИ ПоМОГИ",
+    "mistral_text": "как блять перестать жрать почему все стоит денег почему я должна работать господи помоги",
+    "llm_validated": null,
+    "human_validated": null,
+    "is_correct": true,
+    "tg_message_id": 4043,
+    "tg_datetime_utc": "2024-10-06 12:17:46",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": false,
+    "is_ad": false
+  }
+]

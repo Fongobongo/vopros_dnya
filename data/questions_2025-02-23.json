@@ -1,0 +1,25 @@
+[
+  {
+    "number": 344,
+    "datetime": null,
+    "filename": "tg_4125_1.jpg",
+    "text": "с какой ноги встать чтобы ничего не бесило блять",
+    "tesseract_text": "с какой ноги встать чтобы ничего не бесило блять",
+    "easyocr_text": "какой ноги встать чтобы ничего не бесило блять",
+    "ocrspace_text": "с какой ноги встать чтобы ничего не бесило блять",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4125,
+    "tg_datetime_utc": "2025-02-23 10:29:24",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

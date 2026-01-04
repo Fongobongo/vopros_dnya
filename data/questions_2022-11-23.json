@@ -1,0 +1,25 @@
+[
+  {
+    "number": 132,
+    "datetime": null,
+    "filename": "tg_3734_1.jpg",
+    "text": "где зимуют комары чтобы взорвать их к хуям пока спят",
+    "tesseract_text": "где зимуют комары чтобы взорвать их к хуям пока спят",
+    "easyocr_text": "где зимуют комары чтобы взорвать их к хуям пока спят",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3734,
+    "tg_datetime_utc": "2022-11-23 11:18:04",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

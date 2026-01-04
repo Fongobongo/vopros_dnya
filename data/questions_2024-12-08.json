@@ -1,0 +1,25 @@
+[
+  {
+    "number": 287,
+    "datetime": null,
+    "filename": "tg_4065_1.jpg",
+    "text": "как повесить гирлянду и случайно не повесить себя",
+    "tesseract_text": "как повесить гирлянду и случайно не повесить себя",
+    "easyocr_text": "как повесить гирлянду и случайно не повесить себя",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4065,
+    "tg_datetime_utc": "2024-12-08 10:01:32",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

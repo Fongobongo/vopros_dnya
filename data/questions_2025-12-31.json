@@ -1,0 +1,25 @@
+[
+  {
+    "number": 24,
+    "datetime": null,
+    "filename": "tg_5529_1.jpg",
+    "text": "что сегодня отпраздновать чтобы не бухать просто так",
+    "tesseract_text": "что сегодня отпраздновать чтобы не бухать просто так",
+    "easyocr_text": "ЧТО сегодня отпраздновать чтобы не бухать просто так",
+    "ocrspace_text": "что сегодня отпраздновать чтобы не бухать просто так",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5529,
+    "tg_datetime_utc": "2025-12-31 05:58:05",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

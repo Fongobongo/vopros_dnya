@@ -1,0 +1,25 @@
+[
+  {
+    "number": 157,
+    "datetime": null,
+    "filename": "tg_3774_1.jpg",
+    "text": "как переписать квартиру бабушки на себя",
+    "tesseract_text": "как переписать квартиру бабушки на себя",
+    "easyocr_text": "как переписать квартиру бабушки на себя",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3774,
+    "tg_datetime_utc": "2023-03-10 16:55:45",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

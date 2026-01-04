@@ -1,0 +1,25 @@
+[
+  {
+    "number": 238,
+    "datetime": null,
+    "filename": "tg_3998_1.jpg",
+    "text": "каждый день все идет по пизде что за магия",
+    "tesseract_text": "каждый день все идет по пизде что за магия",
+    "easyocr_text": "каждый день все идет по пизде что за магия",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3998,
+    "tg_datetime_utc": "2024-05-15 11:58:56",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

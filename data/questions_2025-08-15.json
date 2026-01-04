@@ -1,0 +1,25 @@
+[
+  {
+    "number": 865,
+    "datetime": null,
+    "filename": "tg_5018_1.jpg",
+    "text": "пятничка любимая как не наебениться в хлам",
+    "tesseract_text": "пятничка любимая как не наебениться в хлам",
+    "easyocr_text": "пятничка любимая как не наебениться в хлам",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5018,
+    "tg_datetime_utc": "2025-08-15 06:20:04",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

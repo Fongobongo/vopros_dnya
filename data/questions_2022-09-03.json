@@ -1,0 +1,25 @@
+[
+  {
+    "number": 55,
+    "datetime": null,
+    "filename": "tg_3639_1.jpg",
+    "text": "когда уже шуфутинский стигмата и грин дэй запишут совместный трек про сентябрь",
+    "tesseract_text": "когда уже шуфутинский стигмата и грин дэй запишут совместный трек про сентябрь",
+    "easyocr_text": "когда уже шуфутинский стигмата и грин дэй запишут совместный трек про сентябрь",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3639,
+    "tg_datetime_utc": "2022-09-03 14:18:10",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

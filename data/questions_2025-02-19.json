@@ -1,0 +1,25 @@
+[
+  {
+    "number": 341,
+    "datetime": null,
+    "filename": "tg_4122_1.jpg",
+    "text": "почему кошка весом в 5 кг срёт как мужик весом 80 кг",
+    "tesseract_text": "почему кошка весом в 5 кг срёт как мужик весом 80 кг",
+    "easyocr_text": "почему кошка весом в 5 кГ срёт как мужик весом 80 кг",
+    "ocrspace_text": "почему кошка весом в 5 кг срёт как мужик весом 80 кг",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4122,
+    "tg_datetime_utc": "2025-02-19 12:19:52",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 36,
+    "datetime": null,
+    "filename": "tg_3617_1.jpg",
+    "text": "какой купальник купить чтобы плавать во всем этом дерьме",
+    "tesseract_text": "какой купальник купить чтобы плавать во всем этом дерьме",
+    "easyocr_text": "какой купальник купить чтобы плавать во всем этом дерьме",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3617,
+    "tg_datetime_utc": "2022-08-02 10:03:14",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

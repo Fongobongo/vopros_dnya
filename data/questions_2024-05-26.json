@@ -1,0 +1,25 @@
+[
+  {
+    "number": 241,
+    "datetime": null,
+    "filename": "tg_4005_1.jpg",
+    "text": "почему гимн моей страны начинается не со слов помогите спасите",
+    "tesseract_text": "почему гимн моей страны начинается не со слов помогите спасите",
+    "easyocr_text": "почему гимн моей страны начинается не CO СЛОВ помогите спасите",
+    "ocrspace_text": "почему гимн моей страны начинается не со слов помогите спасите",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4005,
+    "tg_datetime_utc": "2024-05-26 11:40:38",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": true,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

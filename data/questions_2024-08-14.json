@@ -1,0 +1,25 @@
+[
+  {
+    "number": 254,
+    "datetime": null,
+    "filename": "tg_4028_1.jpg",
+    "text": "крем для ухода на тот свет",
+    "tesseract_text": "крем для ухода на тот свет",
+    "easyocr_text": "крем для ухода на тот свет",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4028,
+    "tg_datetime_utc": "2024-08-14 10:49:48",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

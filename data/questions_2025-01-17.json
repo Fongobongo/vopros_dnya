@@ -1,0 +1,25 @@
+[
+  {
+    "number": 310,
+    "datetime": null,
+    "filename": "tg_4089_1.jpg",
+    "text": "чем разнообразить семейный ужин кроме поножовщины",
+    "tesseract_text": "чем разнообразить семейный ужин кроме поножовщины",
+    "easyocr_text": "чем разнообразить семейный ужин кроме поножовщины",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4089,
+    "tg_datetime_utc": "2025-01-17 13:47:51",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

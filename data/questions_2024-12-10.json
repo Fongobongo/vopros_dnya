@@ -1,0 +1,25 @@
+[
+  {
+    "number": 288,
+    "datetime": null,
+    "filename": "tg_4066_1.jpg",
+    "text": "почему когда говорят нахер тебе оно надо мне становится нужно еще сильнее",
+    "tesseract_text": "почему когда говорят нахер тебе оно надо мне становится нужно еще сильнее",
+    "easyocr_text": "почему когда говорят нахер тебе оно надо мне становится нужно еще сильнее'",
+    "ocrspace_text": "почему когда говорят нахер тебе оно надо мне становится нужно еще сильнее",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4066,
+    "tg_datetime_utc": "2024-12-10 08:46:37",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

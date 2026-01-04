@@ -1,0 +1,25 @@
+[
+  {
+    "number": 139,
+    "datetime": null,
+    "filename": "tg_3741_1.jpg",
+    "text": "что перегорит быстрее гирлянда или я",
+    "tesseract_text": "что перегорит быстрее гирлянда или я",
+    "easyocr_text": "ЧТО перегорит быстрее гирлянда или я",
+    "ocrspace_text": "что перегорит быстрее гирлянда или я",
+    "mistral_text": "что перегорит быстрее: гирлянда или я",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3741,
+    "tg_datetime_utc": "2022-12-06 13:20:40",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

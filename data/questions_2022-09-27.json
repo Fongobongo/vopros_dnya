@@ -1,0 +1,25 @@
+[
+  {
+    "number": 84,
+    "datetime": null,
+    "filename": "tg_3680_1.jpg",
+    "text": "Что делать если я спортивная подтянутая девушка запертая в теле plus size модели",
+    "tesseract_text": "что делать если я спортивная подтянутая девушка запертая в теле plus size модели",
+    "easyocr_text": "Что делать если я спортивная подтянутая девушка запертая в теле plus size модели",
+    "ocrspace_text": "",
+    "mistral_text": "Что делать если я спортивная подтянутая девушка запертая в теле plus size модели",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3680,
+    "tg_datetime_utc": "2022-09-27 20:10:37",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

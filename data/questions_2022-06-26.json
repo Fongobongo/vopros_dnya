@@ -1,0 +1,25 @@
+[
+  {
+    "number": 8,
+    "datetime": null,
+    "filename": "tg_3584_1.jpg",
+    "text": "кредит на свадьбу что за синдром",
+    "tesseract_text": "кредит на свадьбу что за синдром",
+    "easyocr_text": "кредит на свадьбу ЧТО за синдром",
+    "ocrspace_text": "",
+    "mistral_text": "кредит на свадьбу что за синдром",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3584,
+    "tg_datetime_utc": "2022-06-26 14:42:52",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

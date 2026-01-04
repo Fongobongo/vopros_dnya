@@ -1,0 +1,25 @@
+[
+  {
+    "number": 114,
+    "datetime": null,
+    "filename": "tg_3713_1.jpg",
+    "text": "как отмыть с тарелки гречку и не покончить с собой",
+    "tesseract_text": "как отмыть с тарелки гречку и не покончить с собой",
+    "easyocr_text": "как отмытЬ c тарелки гречку и не покончить c собой",
+    "ocrspace_text": "",
+    "mistral_text": "как отмыть с тарелки гречку и не покончить с собой",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3713,
+    "tg_datetime_utc": "2022-10-31 13:40:46",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

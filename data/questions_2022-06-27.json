@@ -1,0 +1,25 @@
+[
+  {
+    "number": 9,
+    "datetime": null,
+    "filename": "tg_3585_1.jpg",
+    "text": "забронировать место в маршрутке госуслуги",
+    "tesseract_text": "забронировать место в маршрутке госуслуги",
+    "easyocr_text": "забронировать место в маршрутке госуслуги",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3585,
+    "tg_datetime_utc": "2022-06-27 10:35:45",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

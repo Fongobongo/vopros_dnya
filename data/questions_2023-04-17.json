@@ -1,0 +1,25 @@
+[
+  {
+    "number": 173,
+    "datetime": null,
+    "filename": "tg_3795_1.jpg",
+    "text": "сесть за диплом или за репост что легче",
+    "tesseract_text": "сесть за диплом или за репост что легче",
+    "easyocr_text": "сесть за дипЛоМ или за репост Что легче",
+    "ocrspace_text": "сесть за диплом или за репост что легче",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3795,
+    "tg_datetime_utc": "2023-04-17 12:33:10",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

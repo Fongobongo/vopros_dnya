@@ -1,0 +1,25 @@
+[
+  {
+    "number": 140,
+    "datetime": null,
+    "filename": "tg_3742_1.jpg",
+    "text": "",
+    "tesseract_text": "правда ли что порно создаёт у молодёжи неправдоподобное и пагубное представление о скорости с которой сантехник",
+    "easyocr_text": "правда ли что порно создаёт у молодёжи неправдоподобное И пагубное представление 0 скорости c которой сантехник приходит на вызов",
+    "ocrspace_text": "правда ли что порно создаёт у молодёжи неправдоподобное и пагубное представление о скорости с которой сантехник приходит на вызов",
+    "mistral_text": "правда ли что порно создаёт у молодёжи неправдоподобное и пагубное представление о скорости с которой сантехник приходит на вызов",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": false,
+    "tg_message_id": 3742,
+    "tg_datetime_utc": "2022-12-13 11:40:42",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

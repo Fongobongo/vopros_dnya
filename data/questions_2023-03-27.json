@@ -1,0 +1,25 @@
+[
+  {
+    "number": 165,
+    "datetime": null,
+    "filename": "tg_3784_1.jpg",
+    "text": "что значит если мужчина называет меня мать",
+    "tesseract_text": "что значит если мужчина называет меня мать",
+    "easyocr_text": "ЧТО значит если мужчина называет меня мать",
+    "ocrspace_text": "что значит если мужчина называет меня мать",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3784,
+    "tg_datetime_utc": "2023-03-27 11:04:51",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

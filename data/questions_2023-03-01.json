@@ -1,0 +1,25 @@
+[
+  {
+    "number": 156,
+    "datetime": null,
+    "filename": "tg_3764_1.jpg",
+    "text": "зачем покупать девушке цветы если она еще жива",
+    "tesseract_text": "зачем покупать девушке цветы если она еще жива",
+    "easyocr_text": "зачем покупать девушке цветы если она еще жива",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3764,
+    "tg_datetime_utc": "2023-03-01 20:25:55",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

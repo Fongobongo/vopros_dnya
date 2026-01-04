@@ -1,0 +1,25 @@
+[
+  {
+    "number": 866,
+    "datetime": null,
+    "filename": "tg_5019_1.jpg",
+    "text": "как работать не выходя из запоя",
+    "tesseract_text": "как работать не выходя из запоя",
+    "easyocr_text": "как работать не выходя из запоя",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5019,
+    "tg_datetime_utc": "2025-08-18 13:45:55",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

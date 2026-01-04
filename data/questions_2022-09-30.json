@@ -1,0 +1,25 @@
+[
+  {
+    "number": 86,
+    "datetime": null,
+    "filename": "tg_3682_1.jpg",
+    "text": "вышла замуж за казаха могу ли хвастаться что за иностранца",
+    "tesseract_text": "вышла замуж за казаха могу ли хвастаться что за иностранца",
+    "easyocr_text": "вышла замуж за казаха могу ли хвастаться ЧТО за иностранца",
+    "ocrspace_text": "",
+    "mistral_text": "вышла замуж за казаха могу ли хвастаться что за иностранца",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3682,
+    "tg_datetime_utc": "2022-09-30 16:23:09",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

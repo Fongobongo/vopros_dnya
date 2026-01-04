@@ -1,0 +1,25 @@
+[
+  {
+    "number": 35,
+    "datetime": null,
+    "filename": "tg_3616_1.jpg",
+    "text": "как низко нужно понизить планку чтобы хоть блять кто-то смог её преодолеть",
+    "tesseract_text": "как низко нужно понизить планку чтобы хоть блять кто-то смог её преодолеть",
+    "easyocr_text": "как низКО нужно понизить планку чтобы хоть блять KТО-то смОГ её преодолеть",
+    "ocrspace_text": "",
+    "mistral_text": "как низко нужно понизить планку чтобы хоть блять кто-то смог её преодолеть",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3616,
+    "tg_datetime_utc": "2022-07-31 09:48:42",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

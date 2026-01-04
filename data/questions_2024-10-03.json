@@ -1,0 +1,25 @@
+[
+  {
+    "number": 266,
+    "datetime": null,
+    "filename": "tg_4042_1.jpg",
+    "text": "с хуя ли порядок шахматный если он шашечный",
+    "tesseract_text": "с хуя ли порядок шахматный если он шашечный",
+    "easyocr_text": "схуя ли порядок шахматный если он шашечный",
+    "ocrspace_text": "с хуя ли порядок шахматный",
+    "mistral_text": "с хуя ли порядок шахматный если он шашечный",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4042,
+    "tg_datetime_utc": "2024-10-03 15:31:04",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 283,
+    "datetime": null,
+    "filename": "tg_4061_1.jpg",
+    "text": "во мне бесконечно борются демон и димон как быть",
+    "tesseract_text": "во мне бесконечно борются демон и димон как быть",
+    "easyocr_text": "во мне бесконечно борются демон и димон как быть",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4061,
+    "tg_datetime_utc": "2024-11-18 14:31:42",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

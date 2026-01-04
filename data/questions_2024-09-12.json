@@ -1,0 +1,25 @@
+[
+  {
+    "number": 258,
+    "datetime": null,
+    "filename": "tg_4033_1.jpg",
+    "text": "как можно умиляться детям это же обычные люди только тупые",
+    "tesseract_text": "как можно умиляться детям это же обычные люди только тупые",
+    "easyocr_text": "как можно умиляться детям ЭтО же обычные люди только тупые",
+    "ocrspace_text": "как можно умиляться детям это же обычные люди только тупые",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4033,
+    "tg_datetime_utc": "2024-09-12 13:02:02",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

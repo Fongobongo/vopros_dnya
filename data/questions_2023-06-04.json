@@ -1,0 +1,25 @@
+[
+  {
+    "number": 178,
+    "datetime": null,
+    "filename": "tg_3808_1.jpg",
+    "text": "посмеялся с шутки в уральских пельменях куда идти получать пенсию",
+    "tesseract_text": "посмеялся с шутки в уральских пельменях куда идти получать пенсию",
+    "easyocr_text": "посмеялся c шутки в уральских пельменях куда идти получать пенсию",
+    "ocrspace_text": "посмеялся с шутки в уральских пельменях куда идти получать пенсию",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3808,
+    "tg_datetime_utc": "2023-06-04 17:43:56",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

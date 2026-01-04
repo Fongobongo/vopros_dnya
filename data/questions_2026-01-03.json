@@ -1,0 +1,25 @@
+[
+  {
+    "number": 27,
+    "datetime": null,
+    "filename": "tg_5535_1.jpg",
+    "text": "в смысле регулярный секс",
+    "tesseract_text": "в смысле регулярный секс",
+    "easyocr_text": "в смысле регулярный секс",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5535,
+    "tg_datetime_utc": "2026-01-03 09:25:52",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

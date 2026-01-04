@@ -1,0 +1,25 @@
+[
+  {
+    "number": 56,
+    "datetime": null,
+    "filename": "tg_3640_1.jpg",
+    "text": "почему после меня парни женятся на первой встречной",
+    "tesseract_text": "почему после меня парни женятся на первой встречной",
+    "easyocr_text": "почему после меня парни женятся на первой встречной",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3640,
+    "tg_datetime_utc": "2022-09-04 19:54:24",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 239,
+    "datetime": null,
+    "filename": "tg_4003_1.jpg",
+    "text": "почему люди которые должны принимать таблетки принимают законы",
+    "tesseract_text": "почему люди которые должны принимать таблетки принимают законы",
+    "easyocr_text": "почему люди которые должны принимать таблетки принимают законы",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4003,
+    "tg_datetime_utc": "2024-05-17 09:58:00",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": true,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

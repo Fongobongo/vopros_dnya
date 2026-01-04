@@ -1,0 +1,3 @@
+2026-01-04 07:56:44,279 UTC INFO Fetch start channel=vopros_dna backfill=True max_pages=2 before_id=4947
+2026-01-04 07:56:58,463 UTC INFO Fetch done downloaded=0 backfill_complete=False
+2026-01-04 07:56:58,487 UTC INFO Downloaded 0 images to data/photos

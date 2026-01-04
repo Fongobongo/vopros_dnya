@@ -1,0 +1,25 @@
+[
+  {
+    "number": 52,
+    "datetime": null,
+    "filename": "tg_3636_1.jpg",
+    "text": "почему трава не наркотик обычно говорят люди по которым видно что трава это наркотик",
+    "tesseract_text": "почему трава не наркотик обычно говорят люди по которым видно что трава это нлапкотим",
+    "easyocr_text": "почему трава не наркотик обычно говорят люди по которым видно что трава это наркотик",
+    "ocrspace_text": "",
+    "mistral_text": "почему трава не наркотик обычно говорят люди по которым видно что трава это наркотик",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3636,
+    "tg_datetime_utc": "2022-08-26 10:15:54",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 158,
+    "datetime": null,
+    "filename": "tg_3777_1.jpg",
+    "text": "почему поцелуй в щёчку на прощание есть а поцелуя в жопку на прощание нет(",
+    "tesseract_text": "почему поцелуй в щёчку на прощание есть а поцелуя в жопку на прощание нет(",
+    "easyocr_text": "почему поцелуй в щёчку на прощание есть a поцелуя в жопку на прощание нет(",
+    "ocrspace_text": "почему поцелуй в щёчку на прощание есть а поцелуя в жопку на прощание нет(",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3777,
+    "tg_datetime_utc": "2023-03-18 16:12:12",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

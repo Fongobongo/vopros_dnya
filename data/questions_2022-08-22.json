@@ -1,0 +1,25 @@
+[
+  {
+    "number": 49,
+    "datetime": null,
+    "filename": "tg_3632_1.jpg",
+    "text": "а что если хотя ладно похуй",
+    "tesseract_text": "а что если хотя ладно похуй",
+    "easyocr_text": "а что если хотя ладно похуй",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3632,
+    "tg_datetime_utc": "2022-08-22 16:36:30",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

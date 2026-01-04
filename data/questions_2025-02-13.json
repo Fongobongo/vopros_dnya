@@ -1,0 +1,25 @@
+[
+  {
+    "number": 340,
+    "datetime": null,
+    "filename": "tg_4121_1.jpg",
+    "text": "как объяснить корешам что в трек-листе между металликой и роллинг стоунз делает валерий леонтьев",
+    "tesseract_text": "как объяснить корешам что в трек-листе между металликой и роллинг стоунз делает валерий леонтьев",
+    "easyocr_text": "как объяснить корешам что в трек-листе между металликой и роллинг стоунз делает валерий леонтьев",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4121,
+    "tg_datetime_utc": "2025-02-13 14:27:22",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

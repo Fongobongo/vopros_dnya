@@ -1,0 +1,25 @@
+[
+  {
+    "number": 72,
+    "datetime": null,
+    "filename": "tg_3656_1.jpg",
+    "text": "как называется когда ещё не вышел из дома а уже все заебали",
+    "tesseract_text": "как называется когда ещё не вышел из дома а уже все заебали",
+    "easyocr_text": "как называется когда ещё не вышел из дома a уже все заебали",
+    "ocrspace_text": "",
+    "mistral_text": "как называется когда ещё не вышел из дома а уже все заебали",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3656,
+    "tg_datetime_utc": "2022-09-15 19:39:45",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

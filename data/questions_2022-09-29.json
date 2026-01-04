@@ -1,0 +1,25 @@
+[
+  {
+    "number": 85,
+    "datetime": null,
+    "filename": "tg_3681_1.jpg",
+    "text": "я что такая сексуальная что ли что жизнь ебёт меня при любом удобном случае",
+    "tesseract_text": "я что такая сексуальная что ли что жизнь ебёт меня при любом удобном случае",
+    "easyocr_text": "я что такая сексуальная чТО ЛИ ЧТО жиЗНЬ ебёт меня при любом удобном случае",
+    "ocrspace_text": "",
+    "mistral_text": "я что такая сексуальная что ли что жизнь ебёт меня при любом удобном случае",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3681,
+    "tg_datetime_utc": "2022-09-29 09:42:07",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

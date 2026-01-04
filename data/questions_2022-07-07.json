@@ -1,0 +1,25 @@
+[
+  {
+    "number": 13,
+    "datetime": null,
+    "filename": "tg_3593_1.jpg",
+    "text": "как улыбнуться человеку чтобы он сразу сдох",
+    "tesseract_text": "как улыбнуться человеку чтобы он сразу сдох",
+    "easyocr_text": "как улыбнуться человеку чтобы он сразу сдох",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3593,
+    "tg_datetime_utc": "2022-07-07 10:18:01",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

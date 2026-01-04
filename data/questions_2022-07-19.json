@@ -1,0 +1,25 @@
+[
+  {
+    "number": 25,
+    "datetime": null,
+    "filename": "tg_3605_1.jpg",
+    "text": "почему я нравлюсь только тем на кого мне насрать",
+    "tesseract_text": "почему я нравлюсь только тем на кого мне насрать",
+    "easyocr_text": "почему я нравлюсь только тем на кого мне насрать",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3605,
+    "tg_datetime_utc": "2022-07-19 12:18:25",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

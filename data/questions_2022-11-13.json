@@ -1,0 +1,25 @@
+[
+  {
+    "number": 123,
+    "datetime": null,
+    "filename": "tg_3724_1.jpg",
+    "text": "в какой фазе должен быть юпитер чтобы у меня случился секс",
+    "tesseract_text": "в какой фазе должен быть юпитер чтобы у меня случился секс",
+    "easyocr_text": "в какой фазе должен быть юпитер чтобы у меня случился секс",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3724,
+    "tg_datetime_utc": "2022-11-13 17:28:22",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

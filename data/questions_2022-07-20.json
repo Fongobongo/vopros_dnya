@@ -1,0 +1,25 @@
+[
+  {
+    "number": 26,
+    "datetime": null,
+    "filename": "tg_3606_1.jpg",
+    "text": "",
+    "tesseract_text": "правда ли что сутра натощак нужно выпивать бутылочку пива для поддержания р ие ee",
+    "easyocr_text": "правда ли что c утра натощак нужно выпивать бутылочку пива для поддержания физического и душевного здоровья на долгие годы",
+    "ocrspace_text": "правда ли что с утра натощак нужно выпивать бутылочку пива для поддержания физического и душевного здоровья на долгие годы",
+    "mistral_text": "правда ли что с утра натощак нужно выпивать бутылочку пива для поддержания физического и душевного здоровья",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": false,
+    "tg_message_id": 3606,
+    "tg_datetime_utc": "2022-07-20 09:04:09",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

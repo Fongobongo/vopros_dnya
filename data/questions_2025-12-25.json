@@ -1,0 +1,25 @@
+[
+  {
+    "number": 10,
+    "datetime": null,
+    "filename": "tg_5512_1.jpg",
+    "text": "забронировать место в маршрутке госуслуги",
+    "tesseract_text": "забронировать место в маршрутке госуслуги",
+    "easyocr_text": "забронировать место В маршрутке госуслуги",
+    "ocrspace_text": "забронировать место в маршрутке госуслуги",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5512,
+    "tg_datetime_utc": "2025-12-25 17:28:19",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

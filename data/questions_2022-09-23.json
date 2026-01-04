@@ -1,0 +1,25 @@
+[
+  {
+    "number": 80,
+    "datetime": null,
+    "filename": "tg_3667_1.jpg",
+    "text": "стрелец и мудила гороскоп совместимости",
+    "tesseract_text": "стрелец и мудила гороскоп совместимости",
+    "easyocr_text": "стрелец и мудила гороскоп совместимости",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3667,
+    "tg_datetime_utc": "2022-09-23 17:43:32",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

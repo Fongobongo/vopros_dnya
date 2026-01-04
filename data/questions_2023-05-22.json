@@ -1,0 +1,25 @@
+[
+  {
+    "number": 176,
+    "datetime": null,
+    "filename": "tg_3805_1.jpg",
+    "text": "я готовлюсь к какому-то международному чемпионату по жранью или что это блять происходит",
+    "tesseract_text": "я FOTOBJIIOCb к какому-то международному чемпионату по жранью или что это блять происходит",
+    "easyocr_text": "я готовлюсь к какому-то международному чемпионату по жранью или что это блять происходит",
+    "ocrspace_text": "я готовлюсь к какому-то международному чемпионату по жранью или что это блять происходит",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3805,
+    "tg_datetime_utc": "2023-05-22 19:13:52",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 164,
+    "datetime": null,
+    "filename": "tg_3783_1.jpg",
+    "text": "правда ли что человеку даётся только тот шанс который он в силах просрать",
+    "tesseract_text": "правда ли что человеку даётся только тот шанс который он в силах просрать",
+    "easyocr_text": "правда ли что человеку даётся только тот шанс который он в силах просрать",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3783,
+    "tg_datetime_utc": "2023-03-22 13:41:06",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 255,
+    "datetime": null,
+    "filename": "tg_4029_1.jpg",
+    "text": "если мужчины по природе полигамны а женщины моногамны то с кем полигамны мужчины",
+    "tesseract_text": "если мужчины по природе полигамны а женщины моногамны то с кем полигамны мужчины",
+    "easyocr_text": "если мужчины по природе полигамны a женщины моногамны тO € кем полигамны мужчиныl",
+    "ocrspace_text": "если мужчины по природе полигамны а женщины моногамны то с кем полигамны мужчины",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4029,
+    "tg_datetime_utc": "2024-08-20 20:56:46",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

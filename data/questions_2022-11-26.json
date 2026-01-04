@@ -1,0 +1,25 @@
+[
+  {
+    "number": 133,
+    "datetime": null,
+    "filename": "tg_3735_1.jpg",
+    "text": "почему пиковую даму в моей стране вызвать проще чем скорую",
+    "tesseract_text": "почему пиковую даму в моей стране вызвать проще чем скорую",
+    "easyocr_text": "почему пиковую даму в моей стране вызвать проще чем скорую",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3735,
+    "tg_datetime_utc": "2022-11-26 11:19:54",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

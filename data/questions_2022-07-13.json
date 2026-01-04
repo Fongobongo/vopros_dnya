@@ -1,0 +1,25 @@
+[
+  {
+    "number": 22,
+    "datetime": null,
+    "filename": "tg_3602_1.jpg",
+    "text": "к чему снятся бомжи",
+    "tesseract_text": "кчему снятся бомжи",
+    "easyocr_text": "к чему снятся бомжи",
+    "ocrspace_text": "",
+    "mistral_text": "к чему снятся бомжи",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3602,
+    "tg_datetime_utc": "2022-07-13 13:51:43",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

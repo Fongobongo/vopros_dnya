@@ -1,0 +1,25 @@
+[
+  {
+    "number": 44,
+    "datetime": null,
+    "filename": "tg_3627_1.jpg",
+    "text": "как спрыгнуть с кровати насмерть",
+    "tesseract_text": "как спрыгнуть с кровати насмерть",
+    "easyocr_text": "как спрыгнуть c кровати насмерть",
+    "ocrspace_text": "",
+    "mistral_text": "как спрыгнуть с кровати насмерть",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3627,
+    "tg_datetime_utc": "2022-08-14 12:33:35",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

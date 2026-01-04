@@ -1,0 +1,25 @@
+[
+  {
+    "number": 338,
+    "datetime": null,
+    "filename": "tg_4118_1.jpg",
+    "text": "чем развлечь себя пока сидишь в гинекологическом кресле",
+    "tesseract_text": "чем развлечь себя пока сидишь в гинекологическом кресле",
+    "easyocr_text": "чем развлечь себя пока сидишь в гинекологическом кресле",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4118,
+    "tg_datetime_utc": "2025-02-11 11:37:39",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

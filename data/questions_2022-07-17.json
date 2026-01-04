@@ -1,0 +1,25 @@
+[
+  {
+    "number": 24,
+    "datetime": null,
+    "filename": "tg_3604_1.jpg",
+    "text": "",
+    "tesseract_text": "правда ли что в питере заказывают проститутку только для того чтобы час а а OE ом, ма мм мы",
+    "easyocr_text": "правда ли что в питере заказывают проститутку только для тогО чтобы час укоризненно на неё смотреть",
+    "ocrspace_text": "правда ли что в питере заказывают проститутку только для того чтобы час укоризненно на неё смотреть",
+    "mistral_text": "правда ли что в питере заказывают проститутку только для того чтобы час укоризненно на неё смотреть",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": false,
+    "tg_message_id": 3604,
+    "tg_datetime_utc": "2022-07-17 08:02:38",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

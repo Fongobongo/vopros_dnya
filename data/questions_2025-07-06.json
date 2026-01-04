@@ -1,0 +1,25 @@
+[
+  {
+    "number": 755,
+    "datetime": null,
+    "filename": "tg_4861_1.jpg",
+    "text": "уронил в тюрьме любимое мыло камей с чувственным ароматом букета алых роз можно ли поднять",
+    "tesseract_text": "уронил в тюрьме любимое мыло камей с чувственным ароматом букета алых роз можно ли поднять",
+    "easyocr_text": "уронил в тюрьме любимое мыло камей c чувственным ароматом букета алых роз МОжнО лИ подНЯТЬ",
+    "ocrspace_text": "",
+    "mistral_text": "уронил в тюрьме любимое мыло камей с чувственным ароматом букета алых роз можно ли поднять",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4861,
+    "tg_datetime_utc": "2025-07-06 08:16:17",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

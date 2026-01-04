@@ -1,0 +1,25 @@
+[
+  {
+    "number": 30,
+    "datetime": null,
+    "filename": "tg_3610_1.jpg",
+    "text": "поют ли актеры в индийском порно",
+    "tesseract_text": "поют ли актеры в индийском порно",
+    "easyocr_text": "поют ЛИ актеры в ИНдИйском порно",
+    "ocrspace_text": "",
+    "mistral_text": "поют ли актеры в индийском порно",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3610,
+    "tg_datetime_utc": "2022-07-24 19:28:54",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

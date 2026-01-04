@@ -1,0 +1,25 @@
+[
+  {
+    "number": 244,
+    "datetime": null,
+    "filename": "tg_4014_1.jpg",
+    "text": "что в голове у людей которые женятся в 20",
+    "tesseract_text": "что в голове у людей которые женятся в 20",
+    "easyocr_text": "ЧТО в голове у людей которые женятся в 20",
+    "ocrspace_text": "что в голове у людей которые женятся в 20",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4014,
+    "tg_datetime_utc": "2024-06-23 08:58:45",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

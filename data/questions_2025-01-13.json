@@ -1,0 +1,25 @@
+[
+  {
+    "number": 301,
+    "datetime": null,
+    "filename": "tg_4080_1.jpg",
+    "text": "почему у моей бабушки всегда есть история в которой кто-то умер",
+    "tesseract_text": "почему у моей бабушки всегда есть история в которой кто-то умер",
+    "easyocr_text": "почемуу моей бабушки всегда есть история в которой кто-то умер",
+    "ocrspace_text": "почему у моей бабушки всегда есть история в которой кто-то умер",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4080,
+    "tg_datetime_utc": "2025-01-13 20:32:52",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

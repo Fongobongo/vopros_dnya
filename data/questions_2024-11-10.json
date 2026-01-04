@@ -1,0 +1,25 @@
+[
+  {
+    "number": 278,
+    "datetime": null,
+    "filename": "tg_4056_1.jpg",
+    "text": "пью каждый день почему не появляется зависимость",
+    "tesseract_text": "ПЬЮ каждый день почему не появляется зависимость",
+    "easyocr_text": "ПЬю каждый день почему не появляется зависимость",
+    "ocrspace_text": "пью каждый день почему не появляется зависимость",
+    "mistral_text": "пью каждый день почему не появляется зависимость",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4056,
+    "tg_datetime_utc": "2024-11-10 09:30:13",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 345,
+    "datetime": null,
+    "filename": "tg_4126_1.jpg",
+    "text": "что делать если очень хочется пукнуть в маршрутке а маршрутки всё нет и нет",
+    "tesseract_text": "что делать если очень хочется пукнуть в маршрутке а маршрутки всё нет и нет",
+    "easyocr_text": "Что делать если очень хочется пукнуть в маршрутке a маршрутки всё нет и нет",
+    "ocrspace_text": "что делать если очень хочется пукнуть в маршрутке а маршрутки всё нет и нет",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4126,
+    "tg_datetime_utc": "2025-02-24 14:37:00",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

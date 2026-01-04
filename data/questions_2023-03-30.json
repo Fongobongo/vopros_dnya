@@ -1,0 +1,25 @@
+[
+  {
+    "number": 166,
+    "datetime": null,
+    "filename": "tg_3786_1.jpg",
+    "text": "можно ли считать что у него был тройничок если у меня раздвоение личности",
+    "tesseract_text": "можно ли считать что у него был тройничок если у меня раздвоение личности",
+    "easyocr_text": "можно ли считать чТО у него был тройничок если у меня раздвоение личности",
+    "ocrspace_text": "можно ли считать что у него был тройничок если у меня раздвоение личности",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3786,
+    "tg_datetime_utc": "2023-03-30 10:46:56",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

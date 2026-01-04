@@ -1,0 +1,25 @@
+[
+  {
+    "number": 81,
+    "datetime": null,
+    "filename": "tg_3668_1.jpg",
+    "text": "можно ли назвать себя весёлым человеком если много шутишь но про смерть",
+    "tesseract_text": "можно ли назвать себя весёлым человеком если много шутишь но про смерть",
+    "easyocr_text": "можно лИ назвать себя весёлым человеком если много шутишь но про смерть",
+    "ocrspace_text": "",
+    "mistral_text": "можно ли назвать себя весёлым человеком если много шутишь но про смерть",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3668,
+    "tg_datetime_utc": "2022-09-24 10:27:38",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

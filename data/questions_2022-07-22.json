@@ -1,0 +1,25 @@
+[
+  {
+    "number": 28,
+    "datetime": null,
+    "filename": "tg_3608_1.jpg",
+    "text": "поймала венок на похоронах что означает",
+    "tesseract_text": "поймала венок на похоронах что означает",
+    "easyocr_text": "поймала венок на похоронах ЧтО означает",
+    "ocrspace_text": "",
+    "mistral_text": "поймала венок на похоронах что означает",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3608,
+    "tg_datetime_utc": "2022-07-22 09:55:04",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

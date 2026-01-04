@@ -1,0 +1,25 @@
+[
+  {
+    "number": 45,
+    "datetime": null,
+    "filename": "tg_3628_1.jpg",
+    "text": "как хоть пару секунд не думать о всякой хуйне",
+    "tesseract_text": "как хоть пару секунд не думать о всякой хуйне",
+    "easyocr_text": "как хоть пару секунд не думать 0 всякой хуйне",
+    "ocrspace_text": "",
+    "mistral_text": "как хоть пару секунд не думать о всякой хуйне",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3628,
+    "tg_datetime_utc": "2022-08-15 13:05:39",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 337,
+    "datetime": null,
+    "filename": "tg_4117_1.jpg",
+    "text": "если девушка человек и она молодая то можно ли назвать её молодой человек",
+    "tesseract_text": "если девушка человек и она молодая то можно ли назвать её молодой человек",
+    "easyocr_text": "если девушка человек и она молодая то можнО ЛИ назвать её молодой человек",
+    "ocrspace_text": "если девушка человек и она молодая то можно ли назвать её молодой человек",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4117,
+    "tg_datetime_utc": "2025-02-10 13:27:19",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

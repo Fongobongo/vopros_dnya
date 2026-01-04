@@ -1,0 +1,25 @@
+[
+  {
+    "number": 276,
+    "datetime": null,
+    "filename": "tg_4053_1.jpg",
+    "text": "как пропустить первые свидания и сразу перейти к той части где мы пьяные едим пельмени с пола",
+    "tesseract_text": "как пропустить пбрБыС свидания и сразу перейти ктой части где мы пьяные едим пельмени с пола",
+    "easyocr_text": "как пропустить первые свидания и сразу перейти к той части где мы пьяные едим пельмени c пола",
+    "ocrspace_text": "как пропустить первые свидания и сразу перейти к той части где мы пьяные едим пельмени с пола",
+    "mistral_text": "как пропустить первые свидания и сразу перейти к той части где мы пьяные едим пельмени с пола",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4053,
+    "tg_datetime_utc": "2024-11-02 18:51:22",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

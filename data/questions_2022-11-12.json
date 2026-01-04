@@ -1,0 +1,25 @@
+[
+  {
+    "number": 122,
+    "datetime": null,
+    "filename": "tg_3722_1.jpg",
+    "text": "как не вызвать подозрений если поперхнулась святой водой",
+    "tesseract_text": "как не вызвать подозрений если поперхнулась святой водой",
+    "easyocr_text": "как не вызвать подозрений если поперхнулась святой водой",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3722,
+    "tg_datetime_utc": "2022-11-12 11:20:11",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

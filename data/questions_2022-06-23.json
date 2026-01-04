@@ -1,0 +1,25 @@
+[
+  {
+    "number": 6,
+    "datetime": null,
+    "filename": "tg_3582_1.jpg",
+    "text": "если есть пролив дрейка то почему нет пролива кендрика ламара",
+    "tesseract_text": "если есть пролив дрейка то почему нет пролива кендрика ламара",
+    "easyocr_text": "если есть пролив дрейка то почему нет пролива кендрика ламара",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3582,
+    "tg_datetime_utc": "2022-06-23 14:24:06",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 51,
+    "datetime": null,
+    "filename": "tg_3635_1.jpg",
+    "text": "считается ли за измену если парень ходил в икею с другой",
+    "tesseract_text": "считается ли за измену если парень ходил в икею с другой",
+    "easyocr_text": "считается ли за измену если парень ходил в икею c другой",
+    "ocrspace_text": "",
+    "mistral_text": "считается ли за измену если парень ходил в икею с другой",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3635,
+    "tg_datetime_utc": "2022-08-25 11:06:42",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

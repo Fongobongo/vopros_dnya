@@ -1,0 +1,25 @@
+[
+  {
+    "number": 134,
+    "datetime": null,
+    "filename": "tg_3736_1.jpg",
+    "text": "как вернуть доверие мужчины если стреляла в него из травмата",
+    "tesseract_text": "как вернуть доверие мужчины если стреляла в него из травмата",
+    "easyocr_text": "как вернуть доверие мужчины если стреляла в него из травмата",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3736,
+    "tg_datetime_utc": "2022-11-27 21:35:41",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

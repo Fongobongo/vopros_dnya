@@ -1,0 +1,25 @@
+[
+  {
+    "number": 106,
+    "datetime": null,
+    "filename": "tg_3703_1.jpg",
+    "text": "можно ли уменьшить все свои проблемы до одной с помощью героина",
+    "tesseract_text": "можно ли уменьшить все свои проблемы до одной с помощью героина",
+    "easyocr_text": "МОЖНО ЛИ уменьшить все свои проблемы до одной c помощью героина",
+    "ocrspace_text": "",
+    "mistral_text": "можно ли уменьшить все свои проблемы до одной с помощью героина",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3703,
+    "tg_datetime_utc": "2022-10-11 20:19:51",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

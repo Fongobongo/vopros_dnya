@@ -1,0 +1,25 @@
+[
+  {
+    "number": 150,
+    "datetime": null,
+    "filename": "tg_3754_1.jpg",
+    "text": "почему все спрашивают ты че ебанулся но никто не спрашивает как я ебанулся",
+    "tesseract_text": "почему все спрашивают ты че ебанулся но никто не спрашивает как я ебанулся",
+    "easyocr_text": "почему все спрашивают ты че ебанулся но никто не спрашивает как я ебанулся",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3754,
+    "tg_datetime_utc": "2023-01-23 13:04:33",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

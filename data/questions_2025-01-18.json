@@ -1,0 +1,25 @@
+[
+  {
+    "number": 311,
+    "datetime": null,
+    "filename": "tg_4090_1.jpg",
+    "text": "почему я каждый раз иду покупать базовую одежду а возвращаюсь домой с концертными костюмами филиппа киркорова",
+    "tesseract_text": "почему я каждыи раз иду покупать базовую одежду а возвращаюсь домой с концертными костюмами",
+    "easyocr_text": "почему я каждый раз иду покупать базовую одежду a возвращаюсь домой c концертными костюмами филиппа киркорова",
+    "ocrspace_text": "почему я каждый раз иду покупать базовую одежду а возвращаюсь домой с концертными костюмами филиппа киркорова",
+    "mistral_text": "почему я каждый раз иду покупать базовую одежду а возвращаюсь домой с концертными костюмами филиппа киркорова",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4090,
+    "tg_datetime_utc": "2025-01-18 13:44:25",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

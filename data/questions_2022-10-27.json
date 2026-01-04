@@ -1,0 +1,25 @@
+[
+  {
+    "number": 112,
+    "datetime": null,
+    "filename": "tg_3709_1.jpg",
+    "text": "является ли заебался уважительной причиной",
+    "tesseract_text": "является ли заебался уважительной причиной",
+    "easyocr_text": "является ли заебался уважительной причиной",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3709,
+    "tg_datetime_utc": "2022-10-27 11:12:26",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

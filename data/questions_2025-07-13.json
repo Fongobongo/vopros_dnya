@@ -1,0 +1,25 @@
+[
+  {
+    "number": 775,
+    "datetime": null,
+    "filename": "tg_4885_1.jpg",
+    "text": "стоит ли начинать смотреть здоровье с малышевой если тело стало предсказывать погоду",
+    "tesseract_text": "стоит ли начинать смотреть здоровье с малышевой если тело стало предсказывать погоду",
+    "easyocr_text": "стоИТ ли начинать смотреть здоровье c малышевой если тело стало предсказывать погоду",
+    "ocrspace_text": "",
+    "mistral_text": "стоит ли начинать смотреть здоровье с малышевой если тело стало предсказывать погоду",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4885,
+    "tg_datetime_utc": "2025-07-13 20:32:29",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 47,
+    "datetime": null,
+    "filename": "tg_3630_1.jpg",
+    "text": "как быть если девушка в ответ на фотку моего члена прислала фотку своего",
+    "tesseract_text": "как быть если девушка в ответ на фотку моего члена прислала фотку своего",
+    "easyocr_text": "как быть если девушка в ответ на фотку моего члена прислала фотку своего",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3630,
+    "tg_datetime_utc": "2022-08-19 17:17:01",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

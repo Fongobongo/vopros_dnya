@@ -1,0 +1,25 @@
+[
+  {
+    "number": 87,
+    "datetime": null,
+    "filename": "tg_3683_1.jpg",
+    "text": "как перестать бояться залететь в 16 если мне уже 30",
+    "tesseract_text": "как перестать бояться залететь в 16 если мне уже 30",
+    "easyocr_text": "как перестать бояться залететь в 16 если мне уже 30",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3683,
+    "tg_datetime_utc": "2022-10-02 16:00:16",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

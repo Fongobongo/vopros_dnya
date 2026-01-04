@@ -1,0 +1,25 @@
+[
+  {
+    "number": 138,
+    "datetime": null,
+    "filename": "tg_3740_1.jpg",
+    "text": "после какого по счету секса можно спросить его имя",
+    "tesseract_text": "после какого по счету секса можно спросить его имя",
+    "easyocr_text": "после какого по счету секса можНО спроситЬ его имЯ",
+    "ocrspace_text": "после какого по счету секса можно спросить его имя",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3740,
+    "tg_datetime_utc": "2022-12-05 11:06:55",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

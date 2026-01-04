@@ -1,0 +1,25 @@
+[
+  {
+    "number": 245,
+    "datetime": null,
+    "filename": "tg_4015_1.jpg",
+    "text": "если не трахать мужику мозги то как он поймет что я его люблю",
+    "tesseract_text": "если не трахать мужику мозги то как он поймет что я его люблю",
+    "easyocr_text": "если не трахать мужику мозги TO как он поймет чТО я его люблю",
+    "ocrspace_text": "если не трахать мужику мозги то как он поймет что я его люблю",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4015,
+    "tg_datetime_utc": "2024-06-24 13:19:39",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

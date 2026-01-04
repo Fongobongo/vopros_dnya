@@ -1,0 +1,25 @@
+[
+  {
+    "number": 317,
+    "datetime": null,
+    "filename": "tg_4096_1.jpg",
+    "text": "в какой момент во время МЖМ девушка может загадывать желание",
+    "tesseract_text": "в какой момент во время МЖМ девушка может загадывать желание",
+    "easyocr_text": "в какой момент во время МЖМ девушка может загадывать желание",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4096,
+    "tg_datetime_utc": "2025-01-23 12:26:35",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

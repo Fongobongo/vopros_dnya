@@ -1,0 +1,25 @@
+[
+  {
+    "number": 152,
+    "datetime": null,
+    "filename": "tg_3756_1.jpg",
+    "text": "день защиты от криков мерзких детей",
+    "tesseract_text": "день защиты от криков мерзких детей",
+    "easyocr_text": "день защиты от криков мерзких детей",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3756,
+    "tg_datetime_utc": "2023-01-30 17:04:03",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 247,
+    "datetime": null,
+    "filename": "tg_4018_1.jpg",
+    "text": "правда ли что в питере заказывают проститутку только для того чтобы час укоризненно на неё смотреть",
+    "tesseract_text": "правда ли что в питере заказывают проститутку только для того чтобы час укоризненно на неё смотреть",
+    "easyocr_text": "правда ли что в питере заказывают проститутку только для того чтобы час укоризненно на неё смотреть",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4018,
+    "tg_datetime_utc": "2024-07-08 13:12:06",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 289,
+    "datetime": null,
+    "filename": "tg_4067_1.jpg",
+    "text": "если я надену носки наизнанку кто будет в носках я или вся окружающая вселенная",
+    "tesseract_text": "если я надепу носки наизнанку кто будет в носках я или вся окружающая вселенная",
+    "easyocr_text": "если я надену носки наизнанку кто будет в носках Я ИЛИ ВСЯ окружающая вселенная",
+    "ocrspace_text": "если я надену носки наизнанку кто будет в носках я или вся окружающая вселенная",
+    "mistral_text": "если я надену носки наизнанку кто будет в носках я или вся окружающая вселенная",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4067,
+    "tg_datetime_utc": "2024-12-12 16:06:52",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

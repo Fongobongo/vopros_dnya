@@ -1,0 +1,25 @@
+[
+  {
+    "number": 131,
+    "datetime": null,
+    "filename": "tg_3733_1.jpg",
+    "text": "правда ли что женщины сосут мужские пальцы потому что думают что там остались специи от сухариков",
+    "tesseract_text": "правда ли что женщины сосут мужские пальцы потому что думают что там остались специи от сухариков",
+    "easyocr_text": "правда ли что женщины сосут мужские пальцы потому ЧТО думают что там остались специи от сухариков",
+    "ocrspace_text": "правда ли что женщины сосут мужские пальцы потому что думают что там остались специи от сухариков",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3733,
+    "tg_datetime_utc": "2022-11-20 19:38:44",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

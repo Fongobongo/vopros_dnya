@@ -1,0 +1,25 @@
+[
+  {
+    "number": 26,
+    "datetime": null,
+    "filename": "tg_5534_1.jpg",
+    "text": "как перестать смотреть сериалы и начать жить",
+    "tesseract_text": "как перестать смотреть сериалы и начать жить",
+    "easyocr_text": "как перестать смотреть сериалы и начать жить",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5534,
+    "tg_datetime_utc": "2026-01-02 18:17:20",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

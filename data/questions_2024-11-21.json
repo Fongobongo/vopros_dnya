@@ -1,0 +1,25 @@
+[
+  {
+    "number": 285,
+    "datetime": null,
+    "filename": "tg_4063_1.jpg",
+    "text": "что делать если уменьшительно-ласкательные формы — не мой конь",
+    "tesseract_text": "что делать если уменьшительно-ласкательные формы — не мой конь",
+    "easyocr_text": "Что делать если уменьшительно-ласкательные формы не мой конь",
+    "ocrspace_text": "что делать если уменьшительно-ласкательные формы — не мой конь",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4063,
+    "tg_datetime_utc": "2024-11-21 16:34:09",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

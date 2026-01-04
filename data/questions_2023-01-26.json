@@ -1,0 +1,25 @@
+[
+  {
+    "number": 151,
+    "datetime": null,
+    "filename": "tg_3755_1.jpg",
+    "text": "как называется болезнь когда в свой выходной просыпаешься в 7 утра",
+    "tesseract_text": "как называется болезнь когда В СВОЙ ВЫХОДНОЙ просыпаешься в 7 утра",
+    "easyocr_text": "как называется болезнь когда В свой выходной просыпаешься в 7 утра",
+    "ocrspace_text": "как называется болезнь когда в свой выходной просыпаешься в 7 утра",
+    "mistral_text": "как называется болезнь когда в свой выходной просыпаешься в 7 утра",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3755,
+    "tg_datetime_utc": "2023-01-26 17:15:12",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 299,
+    "datetime": null,
+    "filename": "tg_4077_1.jpg",
+    "text": "девушка предложила выпить можно ли сразу жениться",
+    "tesseract_text": "девушка предложила выпить можно ли сразу жениться",
+    "easyocr_text": "девушка предложила выпить можно ли сразу жениться",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4077,
+    "tg_datetime_utc": "2025-01-11 10:14:38",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

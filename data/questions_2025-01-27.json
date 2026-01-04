@@ -1,0 +1,25 @@
+[
+  {
+    "number": 321,
+    "datetime": null,
+    "filename": "tg_4100_1.jpg",
+    "text": "что делать если не откладывать на потом у меня получается только деньги",
+    "tesseract_text": "что делать если не откладывать на потом у меня получается только деньги",
+    "easyocr_text": "Что делать если не откладывать на потом у меня получается только деньги",
+    "ocrspace_text": "что делать если не откладывать на потом у меня получается только деньги",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4100,
+    "tg_datetime_utc": "2025-01-27 22:34:46",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

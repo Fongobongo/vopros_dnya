@@ -1,0 +1,25 @@
+[
+  {
+    "number": 110,
+    "datetime": null,
+    "filename": "tg_3707_1.jpg",
+    "text": "где лучшие камеры в айфоне самсунге или норвежской тюрьме",
+    "tesseract_text": "где лучшие камеры в айфоне самсунге или норвежской тюрьме",
+    "easyocr_text": "где лучшие камеры в айфоне самсунге или норвежской тюрьме",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3707,
+    "tg_datetime_utc": "2022-10-19 14:56:53",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

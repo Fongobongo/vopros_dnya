@@ -1,0 +1,25 @@
+[
+  {
+    "number": 57,
+    "datetime": null,
+    "filename": "tg_3641_1.jpg",
+    "text": "почему так много книг \"как выйти замуж\" но нет ни одной \"зачем\"",
+    "tesseract_text": "почему так много книг \"как выйти замуж\" но нет ни одной \"зачем\"",
+    "easyocr_text": "почему так МНого книг как выйти замуж' но нет ни одной \"зачем'",
+    "ocrspace_text": "",
+    "mistral_text": "почему так много книг \"как выйти замуж\" но нет ни одной \"зачем\"",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3641,
+    "tg_datetime_utc": "2022-09-06 09:29:21",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

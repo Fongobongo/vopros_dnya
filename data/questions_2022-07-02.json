@@ -1,0 +1,25 @@
+[
+  {
+    "number": 11,
+    "datetime": null,
+    "filename": "tg_3589_1.jpg",
+    "text": "можно ли ударить клиента если он нихуя не прав сука",
+    "tesseract_text": "можно ли ударить клиента если он нихуя не прав сука",
+    "easyocr_text": "можно ли ударить клиента если он нихуя не прав сука",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3589,
+    "tg_datetime_utc": "2022-07-02 12:37:34",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

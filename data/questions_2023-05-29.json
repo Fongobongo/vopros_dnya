@@ -1,0 +1,25 @@
+[
+  {
+    "number": 177,
+    "datetime": null,
+    "filename": "tg_3806_1.jpg",
+    "text": "кто делает ремонт узбекам",
+    "tesseract_text": "кто делает ремонт узбекам",
+    "easyocr_text": "кто делает ремонт узбекам",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3806,
+    "tg_datetime_utc": "2023-05-29 18:13:30",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

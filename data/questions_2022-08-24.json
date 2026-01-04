@@ -1,0 +1,25 @@
+[
+  {
+    "number": 50,
+    "datetime": null,
+    "filename": "tg_3634_1.jpg",
+    "text": "если девушка просит не трогать её волосы считаются ли усы",
+    "tesseract_text": "если девушка просит не трогать её волосы считаются ли усы",
+    "easyocr_text": "если девушка просит не трогать её волосы считаются ли усы",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3634,
+    "tg_datetime_utc": "2022-08-24 12:02:00",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 146,
+    "datetime": null,
+    "filename": "tg_3748_1.jpg",
+    "text": "как выключить в голове музыку из мира животных каждый раз когда видишь коллег",
+    "tesseract_text": "как выключить в голове музыку из мира животных каждый раз когда видишь коллег",
+    "easyocr_text": "как Выключить в гОЛове музыку из мира животных каждый раз когда видишь коллег",
+    "ocrspace_text": "",
+    "mistral_text": "как выключить в голове музыку из мира животных каждый раз когда видишь коллег",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3748,
+    "tg_datetime_utc": "2022-12-21 15:25:50",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

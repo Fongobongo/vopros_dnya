@@ -1,0 +1,25 @@
+[
+  {
+    "number": 73,
+    "datetime": null,
+    "filename": "tg_3658_1.jpg",
+    "text": "",
+    "tesseract_text": "МОЖНО ЛИ ходить на кладбище в весёлом настроении",
+    "easyocr_text": "МоЖНо ЛИ ходить на кладбище В весёлом настроении",
+    "ocrspace_text": "можно ли ходить на кладбище в весёлом настроении",
+    "mistral_text": "Можно ли ходить на кладбище в весёлом настроении",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": false,
+    "tg_message_id": 3658,
+    "tg_datetime_utc": "2022-09-18 11:28:47",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

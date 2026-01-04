@@ -1,0 +1,25 @@
+[
+  {
+    "number": 34,
+    "datetime": null,
+    "filename": "tg_3615_1.jpg",
+    "text": "окрошка на пиве без окрошки рецепт",
+    "tesseract_text": "окрошка на пиве без окрошки рецепт",
+    "easyocr_text": "окрошка на пиве без окрошки рецепт",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3615,
+    "tg_datetime_utc": "2022-07-29 17:41:20",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

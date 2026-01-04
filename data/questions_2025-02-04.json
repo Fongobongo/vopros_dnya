@@ -1,0 +1,25 @@
+[
+  {
+    "number": 332,
+    "datetime": null,
+    "filename": "tg_4111_1.jpg",
+    "text": "как признаться друзьям что они геи",
+    "tesseract_text": "как признаться друзьям что они геи",
+    "easyocr_text": "как признаться друзьям что они геи",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4111,
+    "tg_datetime_utc": "2025-02-04 13:36:31",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

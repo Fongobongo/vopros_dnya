@@ -1,0 +1,25 @@
+[
+  {
+    "number": 237,
+    "datetime": null,
+    "filename": "tg_3996_1.jpg",
+    "text": "поле чудес кто умер в эфире от передоза",
+    "tesseract_text": "поле чудес кто умер в эфире от передоза",
+    "easyocr_text": "поле чудес кто умер в эфире от передоза",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3996,
+    "tg_datetime_utc": "2024-05-13 10:29:11",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

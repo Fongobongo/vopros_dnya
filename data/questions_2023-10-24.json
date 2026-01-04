@@ -1,0 +1,25 @@
+[
+  {
+    "number": 210,
+    "datetime": null,
+    "filename": "tg_3873_1.jpg",
+    "text": "почему обязательно долго разговативать с человеком прежде чем засунуть ему язык в рот",
+    "tesseract_text": "почему обязательно долго разговативать с человеком прежде чем засунуть ему язык в рот",
+    "easyocr_text": "почему обязательно долго разговативать c человеком прежде чем засунуть ему язык В рот",
+    "ocrspace_text": "почему обязательно долго разговативать с человеком прежде чем засунуть ему язык в рот",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3873,
+    "tg_datetime_utc": "2023-10-24 14:47:07",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

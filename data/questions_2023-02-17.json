@@ -1,0 +1,25 @@
+[
+  {
+    "number": 155,
+    "datetime": null,
+    "filename": "tg_3761_1.jpg",
+    "text": "как шутить не про суицид и члены",
+    "tesseract_text": "как шутить не про суицид и члены",
+    "easyocr_text": "как шутить не про суицид и члены",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3761,
+    "tg_datetime_utc": "2023-02-17 10:07:03",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

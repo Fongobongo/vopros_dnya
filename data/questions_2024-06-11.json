@@ -1,0 +1,25 @@
+[
+  {
+    "number": 243,
+    "datetime": null,
+    "filename": "tg_4012_1.jpg",
+    "text": "на каком свидании можно показывать член",
+    "tesseract_text": "на каком свидании можно показывать член",
+    "easyocr_text": "на каком свидании можНО показывать член",
+    "ocrspace_text": "на каком свидании можно показывать член",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4012,
+    "tg_datetime_utc": "2024-06-11 14:11:34",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

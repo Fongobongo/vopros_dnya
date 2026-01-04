@@ -1,0 +1,25 @@
+[
+  {
+    "number": 811,
+    "datetime": null,
+    "filename": "tg_4941_1.jpg",
+    "text": "суп из семи залуп юлия высоцкая видеорецепт",
+    "tesseract_text": "суп из семи залуп юлия высоцкая видеорецепт",
+    "easyocr_text": "суп из семи залуп юлия высоцкая видеорецепт",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4941,
+    "tg_datetime_utc": "2025-07-25 10:23:43",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

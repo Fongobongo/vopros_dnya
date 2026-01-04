@@ -1,0 +1,25 @@
+[
+  {
+    "number": 32,
+    "datetime": null,
+    "filename": "tg_3612_1.jpg",
+    "text": "можно ли перед сном вместо овец считать дебилов которых знаю",
+    "tesseract_text": "можно ли перед сном вместо овец считать дебилов которых знаю",
+    "easyocr_text": "можно ли перед сном вместо овец считать дебилов которых знаю",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3612,
+    "tg_datetime_utc": "2022-07-26 14:40:19",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

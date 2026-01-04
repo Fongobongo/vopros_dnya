@@ -1,0 +1,25 @@
+[
+  {
+    "number": 147,
+    "datetime": null,
+    "filename": "tg_3749_1.jpg",
+    "text": "как быть если хотела плюнуть на проблемы но по привычке сглотнула",
+    "tesseract_text": "как быть если хотела плюнуть на проблемы но по привычке сглотнула",
+    "easyocr_text": "как быть если хотела плюнуть на проблемы но по привычке сглотнула",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3749,
+    "tg_datetime_utc": "2022-12-25 13:39:47",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 31,
+    "datetime": null,
+    "filename": "tg_3611_1.jpg",
+    "text": "в семь утра на работу в семь с работы а жить то блять когда помогите",
+    "tesseract_text": "в семь утра на работу в семь с работы а жить то блять когда помогите",
+    "easyocr_text": "в семь утра на работу в семь с работы a жИТЬ TO блять когда помогите",
+    "ocrspace_text": "",
+    "mistral_text": "в семь утра на работу в семь с работы а жить то блять когда помогите",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3611,
+    "tg_datetime_utc": "2022-07-25 16:35:23",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

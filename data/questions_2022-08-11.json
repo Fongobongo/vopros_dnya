@@ -1,0 +1,25 @@
+[
+  {
+    "number": 43,
+    "datetime": null,
+    "filename": "tg_3625_1.jpg",
+    "text": "хуярить водочку минусы",
+    "tesseract_text": "хуярить водочку минусы",
+    "easyocr_text": "хуярить водочку минусы",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3625,
+    "tg_datetime_utc": "2022-08-11 17:21:18",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

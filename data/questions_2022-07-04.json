@@ -1,0 +1,25 @@
+[
+  {
+    "number": 12,
+    "datetime": null,
+    "filename": "tg_3591_1.jpg",
+    "text": "почему в детстве хотел стать космонавтом а сейчас хочу сдохнуть",
+    "tesseract_text": "почему в детстве хотел стать космонавтом а сейчас хочу сдохнуть",
+    "easyocr_text": "почему в детстве хотел стать космонавтом а сейчас хочу сдохнуть",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3591,
+    "tg_datetime_utc": "2022-07-04 15:38:39",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 27,
+    "datetime": null,
+    "filename": "tg_3607_1.jpg",
+    "text": "толстые люди это сексуальное меньшинство или большинство",
+    "tesseract_text": "толстые люди это сексуальное меньшинство или большинство",
+    "easyocr_text": "толстые люди это сексуальное меньшинство ИЛИ большинство",
+    "ocrspace_text": "",
+    "mistral_text": "толстые люди это сексуальное меньшинство или большинство",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3607,
+    "tg_datetime_utc": "2022-07-21 09:20:48",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 65,
+    "datetime": null,
+    "filename": "tg_3649_1.jpg",
+    "text": "как в игривой форме объяснить ребёнку куда пропал его папа",
+    "tesseract_text": "как в игривой форме объяснить ребёнку куда пропал его папа",
+    "easyocr_text": "как В игривой форме объяснить ребёнку куда пропал его папа",
+    "ocrspace_text": "",
+    "mistral_text": "как в игривой форме объяснить ребёнку куда пропал его папа",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3649,
+    "tg_datetime_utc": "2022-09-12 09:43:47",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

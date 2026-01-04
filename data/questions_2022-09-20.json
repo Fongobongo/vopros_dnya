@@ -1,0 +1,25 @@
+[
+  {
+    "number": 75,
+    "datetime": null,
+    "filename": "tg_3661_1.jpg",
+    "text": "сын всё время говорит о марках он что почтальон",
+    "tesseract_text": "сын всё время говорит о марках он что почтальон",
+    "easyocr_text": "сыН всё время говорит 0 марках он чТо почтальон",
+    "ocrspace_text": "",
+    "mistral_text": "сын всё время говорит о марках он что почтальон",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3661,
+    "tg_datetime_utc": "2022-09-20 10:07:44",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

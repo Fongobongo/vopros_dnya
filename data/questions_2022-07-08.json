@@ -1,0 +1,25 @@
+[
+  {
+    "number": 14,
+    "datetime": null,
+    "filename": "tg_3594_1.jpg",
+    "text": "",
+    "tesseract_text": "правда ли что за каждым великим мужчиной стоит женщина которая заебала —_- |",
+    "easyocr_text": "правда ли что за каждым веЛиким мужчиной стоИТ женщина которая заебала блядь честное слово",
+    "ocrspace_text": "правда ли что за каждым великим мужчиной стоит женщина которая заебала блядь честное слово",
+    "mistral_text": "правда ли что за каждым великим мужчиной стоит женщина которая заебала",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": false,
+    "tg_message_id": 3594,
+    "tg_datetime_utc": "2022-07-08 11:10:27",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": true,
+    "is_insults": true,
+    "is_threats": true,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

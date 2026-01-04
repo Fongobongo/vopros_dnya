@@ -1,0 +1,25 @@
+[
+  {
+    "number": 699,
+    "datetime": null,
+    "filename": "tg_4755_1.jpg",
+    "text": "пью сок добрый но блять не добрею",
+    "tesseract_text": "пью сок добрый но блять не добрею",
+    "easyocr_text": "ПЬЮ СОК добрый но блять не добрею",
+    "ocrspace_text": "",
+    "mistral_text": "пью сок добрый но блять не добрею",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4755,
+    "tg_datetime_utc": "2025-06-14 18:20:19",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

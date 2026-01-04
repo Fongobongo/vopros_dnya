@@ -1,0 +1,25 @@
+[
+  {
+    "number": 208,
+    "datetime": null,
+    "filename": "tg_3854_1.jpg",
+    "text": "если ты не кончила то нахуя ты тогда вообще начинала",
+    "tesseract_text": "если ты не кончила то нахуя ты тогда вообще начинала",
+    "easyocr_text": "если ты не кончила то нахуя ты тогда вообще начинала",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3854,
+    "tg_datetime_utc": "2023-08-30 10:28:21",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

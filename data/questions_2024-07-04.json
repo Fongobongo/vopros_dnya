@@ -1,0 +1,25 @@
+[
+  {
+    "number": 246,
+    "datetime": null,
+    "filename": "tg_4017_1.jpg",
+    "text": "в смысле две полоски",
+    "tesseract_text": "в смысле две полоски",
+    "easyocr_text": "в смысле две полоски",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4017,
+    "tg_datetime_utc": "2024-07-04 12:47:24",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

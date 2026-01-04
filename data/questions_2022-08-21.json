@@ -1,0 +1,25 @@
+[
+  {
+    "number": 48,
+    "datetime": null,
+    "filename": "tg_3631_1.jpg",
+    "text": "чем нужно кормить курицу чтобы вместо яиц сносила ебальники",
+    "tesseract_text": "чем нужно кормить курицу чтобы вместо яиц сносила ебальники",
+    "easyocr_text": "чем нужно кормить курицу чтобы вместо яиц сносила ебальники",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3631,
+    "tg_datetime_utc": "2022-08-21 09:52:32",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

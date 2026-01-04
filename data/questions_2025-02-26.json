@@ -1,0 +1,25 @@
+[
+  {
+    "number": 348,
+    "datetime": null,
+    "filename": "tg_4129_1.jpg",
+    "text": "как девушка за 3 минуты поняла что я плохой любовник",
+    "tesseract_text": "как девушка за 3 минуты поняла что я плохой любовник",
+    "easyocr_text": "как девушка за 3 минуты поняла ЧТО Я плОхой любовник",
+    "ocrspace_text": "как девушка за 3 минуты поняла что я ПЛоХой любовник",
+    "mistral_text": "как девушка за 3 минуты поняла что я плохой любовник",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4129,
+    "tg_datetime_utc": "2025-02-26 06:34:28",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

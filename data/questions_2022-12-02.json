@@ -1,0 +1,25 @@
+[
+  {
+    "number": 136,
+    "datetime": null,
+    "filename": "tg_3738_1.jpg",
+    "text": "парень изменил что делать с трупом",
+    "tesseract_text": "парень изменил что делать с трупом",
+    "easyocr_text": "парень изменил что делать c трупом",
+    "ocrspace_text": "парень изменил что делать с трупом",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3738,
+    "tg_datetime_utc": "2022-12-02 13:56:34",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": true,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

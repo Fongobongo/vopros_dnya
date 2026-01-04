@@ -1,0 +1,25 @@
+[
+  {
+    "number": 121,
+    "datetime": null,
+    "filename": "tg_3721_1.jpg",
+    "text": "как вообще господь может разгневаться если гнев один из смертных грехов",
+    "tesseract_text": "как вообще господь может разгневаться если гнев один из смертных грехов",
+    "easyocr_text": "как вообще господь может разгневаться если гнев один из смертных грехов",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3721,
+    "tg_datetime_utc": "2022-11-10 12:26:12",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

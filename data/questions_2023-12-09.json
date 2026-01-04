@@ -1,0 +1,25 @@
+[
+  {
+    "number": 232,
+    "datetime": null,
+    "filename": "tg_3921_1.jpg",
+    "text": "фантастические твари и откуда у них новогоднее настроение блять",
+    "tesseract_text": "фантастические твари и откуда у них новогоднее настроение блять",
+    "easyocr_text": "фантастические твари и откуда у них новогоднее настроение блять",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3921,
+    "tg_datetime_utc": "2023-12-09 09:52:57",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 320,
+    "datetime": null,
+    "filename": "tg_4099_1.jpg",
+    "text": "как готовить мастурбу",
+    "tesseract_text": "как готовить мастурбу",
+    "easyocr_text": "как готовить мастурбу",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4099,
+    "tg_datetime_utc": "2025-01-26 07:29:05",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 135,
+    "datetime": null,
+    "filename": "tg_3737_1.jpg",
+    "text": "забавные ситуации с верёвкой и мылом",
+    "tesseract_text": "забавные ситуации с верёвкой и мылом",
+    "easyocr_text": "забавные ситуации c верёвкой И МЫЛОм",
+    "ocrspace_text": "забавные ситуации с верёвкой и мылом",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3737,
+    "tg_datetime_utc": "2022-11-29 18:34:31",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

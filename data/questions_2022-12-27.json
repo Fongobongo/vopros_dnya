@@ -1,0 +1,25 @@
+[
+  {
+    "number": 148,
+    "datetime": null,
+    "filename": "tg_3750_1.jpg",
+    "text": "зачем поступать в вуз если главные профессии в россии закладчик вебкамщица и татуировщик",
+    "tesseract_text": "зачем поступать в вуз если главные профессии в россии закладчик вебкамщица и татуировщик",
+    "easyocr_text": "зачем поступать в вуз если главные профессии в россии закладчик вебкамщица и татуировщик",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3750,
+    "tg_datetime_utc": "2022-12-27 14:37:59",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": true,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

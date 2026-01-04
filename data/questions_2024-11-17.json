@@ -1,0 +1,25 @@
+[
+  {
+    "number": 282,
+    "datetime": null,
+    "filename": "tg_4060_1.jpg",
+    "text": "как не захлебнуться от благородства когда пропускаешь автомобиль выезжающий со второстепенки",
+    "tesseract_text": "как AE захлвопуться от благородства когда пропускаешь автомобиль выезжающий со",
+    "easyocr_text": "как не захлебнуться От благородства когда пропускаешь автомобиль выезжающий co второстепенки",
+    "ocrspace_text": "как не захлебнуться от благородства когда пропускаешь автомобиль выезжающий со второстепенки",
+    "mistral_text": "как не захлебнуться от благородства когда пропускаешь автомобиль выезжающий со второстепенки",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4060,
+    "tg_datetime_utc": "2024-11-17 11:13:45",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

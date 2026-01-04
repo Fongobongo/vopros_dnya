@@ -1,0 +1,25 @@
+[
+  {
+    "number": 349,
+    "datetime": null,
+    "filename": "tg_4130_1.jpg",
+    "text": "что делать если я умный и целеустремленный но занимаюсь какой-то хуйней",
+    "tesseract_text": "что делать если я умный и целеустремленный но занимаюсь какой-то хуйней",
+    "easyocr_text": "ЧТО делать если я умный и целеустремленный но занимаюсь какоЙ-то хуйней",
+    "ocrspace_text": "что делать если я умный и целеустремленный но занимаюсь какой-то хуйней",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4130,
+    "tg_datetime_utc": "2025-02-27 08:43:45",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

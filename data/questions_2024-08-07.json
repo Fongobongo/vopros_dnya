@@ -1,0 +1,25 @@
+[
+  {
+    "number": 253,
+    "datetime": null,
+    "filename": "tg_4026_1.jpg",
+    "text": "могу ли считать себя диснеевской принцессой если вокруг меня постоянно ошиваются какие-то животные",
+    "tesseract_text": "могу ли считать сеоя диснеевской принцессой если вокруг меня постоянно ошиваются какие-то",
+    "easyocr_text": "могу ли считать себя диснеевской принцессой если вокруг меня постоянно ошиваются какие-то животные",
+    "ocrspace_text": "могу ли считать себя диснеевской принцессой если вокруг меня постоянно ошиваются какие-то животные",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4026,
+    "tg_datetime_utc": "2024-08-07 11:30:19",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

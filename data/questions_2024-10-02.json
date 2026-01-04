@@ -1,0 +1,25 @@
+[
+  {
+    "number": 265,
+    "datetime": null,
+    "filename": "tg_4041_1.jpg",
+    "text": "дядя федор квадробер получается",
+    "tesseract_text": "дядя федор квадробер получается",
+    "easyocr_text": "дядя федор квадробер получается",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4041,
+    "tg_datetime_utc": "2024-10-02 08:27:51",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

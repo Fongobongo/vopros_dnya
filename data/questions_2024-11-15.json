@@ -1,0 +1,25 @@
+[
+  {
+    "number": 281,
+    "datetime": null,
+    "filename": "tg_4059_1.jpg",
+    "text": "почему когда говорят у меня к тебе интересное предложение это не секс алкоголь и приключения а напряжная тупая херня",
+    "tesseract_text": "почему когда говоряг у мепя к тебе интересное предложение это не секс алкоголь и HMO а а",
+    "easyocr_text": "почему когда говорят у меня к тебе интересное предложение это не секс алкоголь и приключения а напряжная тупая херня",
+    "ocrspace_text": "почему когда говорят у меня к тебе интересное предложение это не секс алкоголь и приключения а напряжная тупая херня",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4059,
+    "tg_datetime_utc": "2024-11-15 15:07:23",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

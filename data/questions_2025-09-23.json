@@ -1,0 +1,25 @@
+[
+  {
+    "number": 951,
+    "datetime": null,
+    "filename": "tg_5163_1.jpg",
+    "text": "как любить бабу чтобы не наглела",
+    "tesseract_text": "как любить бабу чтобы не наглела",
+    "easyocr_text": "как любить бабу чтобы не наглела",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5163,
+    "tg_datetime_utc": "2025-09-23 09:47:36",
+    "is_sexual": true,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": true,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

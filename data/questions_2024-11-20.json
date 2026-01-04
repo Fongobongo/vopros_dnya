@@ -1,0 +1,25 @@
+[
+  {
+    "number": 284,
+    "datetime": null,
+    "filename": "tg_4062_1.jpg",
+    "text": "в чем заключается героизм снегирей по замыслу иванушек интернешнл",
+    "tesseract_text": "в чем заключается героизм снегирей по замыслу иванушек интернешнл",
+    "easyocr_text": "в чем заключается героизм снегирей по замыслу иванушек интернешнл",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4062,
+    "tg_datetime_utc": "2024-11-20 09:24:16",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 274,
+    "datetime": null,
+    "filename": "tg_4050_1.jpg",
+    "text": "как перестать завидовать мужикам которые в 8 утра уже бухие пока я иду на работу",
+    "tesseract_text": "как перестать завидовать мужикам которые в 8 утра уже бухие пока я иду на работу",
+    "easyocr_text": "как перестать завидовать мужикам которые в 8 утра уже бухие пока я иду на работу",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4050,
+    "tg_datetime_utc": "2024-10-29 10:14:29",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

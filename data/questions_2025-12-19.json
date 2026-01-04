@@ -1,0 +1,25 @@
+[
+  {
+    "number": 1206,
+    "datetime": null,
+    "filename": "tg_5498_1.jpg",
+    "text": "в какую сторону открываются глаза на себя или от себя",
+    "tesseract_text": "в какую сторону открываются глаза на себя или от себя",
+    "easyocr_text": "В какую сторону открываются глаза на себя или от себя",
+    "ocrspace_text": "в какую сторону открываются глаза на себя или от себя",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 5498,
+    "tg_datetime_utc": "2025-12-19 05:44:04",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

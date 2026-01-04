@@ -1,0 +1,25 @@
+[
+  {
+    "number": 108,
+    "datetime": null,
+    "filename": "tg_3705_1.jpg",
+    "text": "правда ли что если ты любишь СВОИХ детей то ты не станешь их рожать",
+    "tesseract_text": "правда ли что если ты любишь своих детей то ты не станешь их рожать",
+    "easyocr_text": "правда ли что если ты любишь СВОИХ детей то ты не станешь их рожать",
+    "ocrspace_text": "",
+    "mistral_text": "правда ли что если ты любишь СВОИХ детей то ты не станешь их рожать",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3705,
+    "tg_datetime_utc": "2022-10-13 20:04:09",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

@@ -1,0 +1,25 @@
+[
+  {
+    "number": 120,
+    "datetime": null,
+    "filename": "tg_3720_1.jpg",
+    "text": "плохая ли примета видеть жениха в платье невесты до свадьбы",
+    "tesseract_text": "плохая ли примета видеть жениха в платье невесты до свадьбы",
+    "easyocr_text": "плохая ли примета видеть жениха в платье невесты до свадьбы",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3720,
+    "tg_datetime_utc": "2022-11-07 20:29:14",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

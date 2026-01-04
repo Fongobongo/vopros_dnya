@@ -1,0 +1,25 @@
+[
+  {
+    "number": 318,
+    "datetime": null,
+    "filename": "tg_4097_1.jpg",
+    "text": "можно ли вместо овец считать детей одноклассниц чтобы уснуть",
+    "tesseract_text": "можно ли вместо овец считать детей одноклассниц чтобы уснуть",
+    "easyocr_text": "можно ли вместо овец считать детей одноклассниц чтобы уснуть",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4097,
+    "tg_datetime_utc": "2025-01-24 09:05:49",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

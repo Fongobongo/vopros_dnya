@@ -1,0 +1,25 @@
+[
+  {
+    "number": 107,
+    "datetime": null,
+    "filename": "tg_3704_1.jpg",
+    "text": "можно ли праздновать день строителя если всё время строю недовольное ебало",
+    "tesseract_text": "можно ли праздновать день строителя если всё время строю недовольное ебало",
+    "easyocr_text": "можно лИ праздновать день строителя если всё время строю недовольное ебало",
+    "ocrspace_text": "",
+    "mistral_text": "можно ли праздновать день строителя если всё время строю недовольное ебало",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3704,
+    "tg_datetime_utc": "2022-10-12 17:49:26",
+    "is_sexual": false,
+    "is_profanity": true,
+    "is_politics": false,
+    "is_insults": true,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

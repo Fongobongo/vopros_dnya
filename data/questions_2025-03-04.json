@@ -1,0 +1,25 @@
+[
+  {
+    "number": 358,
+    "datetime": null,
+    "filename": "tg_4139_1.jpg",
+    "text": "сколько часов надо проспать чтобы сказали что хорош в постели",
+    "tesseract_text": "сколько часов надо проспать чтобы сказали что хорош в постели",
+    "easyocr_text": "СкОЛЬКО часов надо проспать чтобы сказали что хорош в постели",
+    "ocrspace_text": "сколько часов надо проспать чтобы сказали что хорош в постели",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 4139,
+    "tg_datetime_utc": "2025-03-04 06:50:14",
+    "is_sexual": true,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": true,
+    "is_racist": true
+  }
+]

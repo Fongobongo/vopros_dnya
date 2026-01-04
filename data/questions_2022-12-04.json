@@ -1,0 +1,25 @@
+[
+  {
+    "number": 137,
+    "datetime": null,
+    "filename": "tg_3739_1.jpg",
+    "text": "почему когда говорят от меня придёт человечек на встрече появляется не карлик",
+    "tesseract_text": "почему когда говорят от меня придёт человечек на встрече появляется не карлик",
+    "easyocr_text": "почему когда говорят от меня придёт человечек на встрече появляется не карлик",
+    "ocrspace_text": "",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3739,
+    "tg_datetime_utc": "2022-12-04 10:25:13",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]

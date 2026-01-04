@@ -1,0 +1,25 @@
+[
+  {
+    "number": 167,
+    "datetime": null,
+    "filename": "tg_3789_1.jpg",
+    "text": "в смысле не нужно думать что у тебя рак когда что-то резко заболело",
+    "tesseract_text": "в смысле не нужно думать что у тебя рак когда что-то резко заболело",
+    "easyocr_text": "в смысле не нужно думать чТО утебя рак когда что-то резко заболело",
+    "ocrspace_text": "в смысле не нужно думать что у тебя рак когда что-то резко заболело",
+    "mistral_text": "",
+    "llm_validated": false,
+    "human_validated": false,
+    "is_correct": true,
+    "tg_message_id": 3789,
+    "tg_datetime_utc": "2023-04-11 08:08:42",
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": true
+  }
+]
