@@ -19,5 +19,6 @@ htmlcov
 data
 .env
 .env.*
+!.env.example
 *.log
 tmp
