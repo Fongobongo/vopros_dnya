@@ -57,6 +57,14 @@ docker compose exec pipeline python -m scripts.pipeline_steps export
 docker compose exec pipeline python -m scripts.pipeline_steps all
 ```
 
+### Cron для Docker
+
+Запуск контейнера раз в сутки (00:00 UTC):
+
+```bash
+sudo crontab -l | { cat; echo 'CRON_TZ=UTC'; echo '0 0 * * * cd /opt/vopros_dnya && /usr/bin/docker compose run --rm pipeline'; } | sudo crontab -
+```
+
 Экспорт в Supabase выполняется после SQLite, если `SUPABASE_EXPORT_ENABLED=1`
 или передан флаг `--export-supabase` для `daily_pipeline.py`.
 
