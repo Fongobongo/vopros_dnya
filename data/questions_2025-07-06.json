@@ -13,13 +13,15 @@
     "is_correct": true,
     "tg_message_id": 4861,
     "tg_datetime_utc": "2025-07-06 08:16:17",
-    "is_sexual": true,
+    "is_sexual": false,
     "is_profanity": false,
     "is_politics": false,
     "is_insults": false,
     "is_threats": false,
     "is_harassment": false,
-    "is_twitch_banned": true,
-    "is_racist": true
+    "is_twitch_banned": false,
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

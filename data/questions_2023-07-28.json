@@ -20,7 +20,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 196,
@@ -43,7 +45,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 197,
@@ -66,7 +70,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 198,
@@ -89,7 +95,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 199,
@@ -112,7 +120,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 200,
@@ -128,14 +138,16 @@
     "is_correct": true,
     "tg_message_id": 3832,
     "tg_datetime_utc": "2023-07-28 11:58:32",
-    "is_sexual": false,
+    "is_sexual": true,
     "is_profanity": false,
     "is_politics": false,
     "is_insults": false,
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 201,
@@ -158,6 +170,8 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

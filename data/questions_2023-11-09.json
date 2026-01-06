@@ -20,7 +20,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": true,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 216,
@@ -43,7 +45,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 217,
@@ -66,7 +70,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 218,
@@ -89,7 +95,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 219,
@@ -112,7 +120,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 220,
@@ -135,7 +145,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 221,
@@ -158,6 +170,8 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

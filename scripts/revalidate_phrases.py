@@ -30,6 +30,7 @@ FLAGS = [
     "is_sexual",
     "is_profanity",
     "is_politics",
+    "is_religion",
     "is_insults",
     "is_threats",
     "is_harassment",

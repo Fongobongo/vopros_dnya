@@ -19,6 +19,7 @@ FLAGS = [
     "is_sexual",
     "is_profanity",
     "is_politics",
+    "is_religion",
     "is_insults",
     "is_threats",
     "is_harassment",
@@ -45,6 +46,7 @@ SQLITE_COLUMNS = [
     "is_sexual",
     "is_profanity",
     "is_politics",
+    "is_religion",
     "is_insults",
     "is_threats",
     "is_harassment",
@@ -219,6 +221,7 @@ def _ddl(schema: str, phrases_table: str, usage_schema: str, usage_table: str) -
         "  is_sexual BOOLEAN,\n"
         "  is_profanity BOOLEAN,\n"
         "  is_politics BOOLEAN,\n"
+        "  is_religion BOOLEAN,\n"
         "  is_insults BOOLEAN,\n"
         "  is_threats BOOLEAN,\n"
         "  is_harassment BOOLEAN,\n"

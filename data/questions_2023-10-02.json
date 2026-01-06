@@ -14,12 +14,14 @@
     "tg_message_id": 3869,
     "tg_datetime_utc": "2023-10-02 09:01:21",
     "is_sexual": false,
-    "is_profanity": false,
+    "is_profanity": true,
     "is_politics": false,
     "is_insults": true,
     "is_threats": true,
     "is_harassment": true,
     "is_twitch_banned": true,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

@@ -15,12 +15,14 @@
     "tg_datetime_utc": "2025-03-03 08:40:00",
     "is_sexual": false,
     "is_profanity": false,
-    "is_politics": true,
+    "is_politics": false,
     "is_insults": true,
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": true,
-    "is_racist": true
+    "is_racist": true,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 357,
@@ -43,6 +45,8 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

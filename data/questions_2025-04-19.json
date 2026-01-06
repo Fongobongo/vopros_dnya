@@ -13,14 +13,16 @@
     "is_correct": true,
     "tg_message_id": 4443,
     "tg_datetime_utc": "2025-04-19 07:05:04",
-    "is_sexual": true,
-    "is_profanity": true,
-    "is_politics": true,
-    "is_insults": true,
-    "is_threats": true,
-    "is_harassment": true,
-    "is_twitch_banned": true,
-    "is_racist": true
+    "is_sexual": false,
+    "is_profanity": false,
+    "is_politics": false,
+    "is_insults": false,
+    "is_threats": false,
+    "is_harassment": false,
+    "is_twitch_banned": false,
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 519,
@@ -43,7 +45,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": true,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 520,
@@ -61,11 +65,13 @@
     "tg_datetime_utc": "2025-04-19 19:14:00",
     "is_sexual": false,
     "is_profanity": false,
-    "is_politics": true,
+    "is_politics": false,
     "is_insults": false,
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

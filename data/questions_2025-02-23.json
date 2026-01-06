@@ -19,7 +19,9 @@
     "is_insults": false,
     "is_threats": false,
     "is_harassment": false,
-    "is_twitch_banned": true,
-    "is_racist": true
+    "is_twitch_banned": false,
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

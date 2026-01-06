@@ -186,6 +186,7 @@ def _init_db(conn: sqlite3.Connection) -> None:
                 is_sexual INTEGER,
                 is_profanity INTEGER,
                 is_politics INTEGER,
+                is_religion INTEGER,
                 is_insults INTEGER,
                 is_threats INTEGER,
                 is_harassment INTEGER,
@@ -291,6 +292,7 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             is_sexual,
             is_profanity,
             is_politics,
+            is_religion,
             is_insults,
             is_threats,
             is_harassment,
@@ -300,7 +302,7 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             source_json,
             imported_at_utc
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(filename) DO UPDATE SET
             date=excluded.date,
             number=excluded.number,
@@ -318,6 +320,7 @@ def _upsert_rows(conn: sqlite3.Connection, table: str, rows: list[tuple[Any, ...
             is_sexual=excluded.is_sexual,
             is_profanity=excluded.is_profanity,
             is_politics=excluded.is_politics,
+            is_religion=excluded.is_religion,
             is_insults=excluded.is_insults,
             is_threats=excluded.is_threats,
             is_harassment=excluded.is_harassment,
@@ -400,6 +403,7 @@ def main() -> int:
                     "mistral_text": "TEXT",
                     "is_ad": "INTEGER",
                     "is_racist": "INTEGER",
+                    "is_religion": "INTEGER",
                 },
             )
         if args.truncate:
@@ -465,6 +469,7 @@ def main() -> int:
                     _bool_to_int(record.get("is_sexual")),
                     _bool_to_int(record.get("is_profanity")),
                     _bool_to_int(record.get("is_politics")),
+                    _bool_to_int(record.get("is_religion")),
                     _bool_to_int(record.get("is_insults")),
                     _bool_to_int(record.get("is_threats")),
                     _bool_to_int(record.get("is_harassment")),

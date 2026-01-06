@@ -136,7 +136,7 @@ OCR скрипт создаёт отдельный JSON на каждую дат
 `tesseract_text`, `easyocr_text`, `ocrspace_text`, `mistral_text`,
 `llm_validated`, `human_validated`, `is_correct`, `tg_message_id`, `tg_datetime_utc`
 и поля цензуры `is_sexual`,
-`is_profanity`, `is_politics`, `is_insults`, `is_threats`, `is_harassment`,
+`is_profanity`, `is_politics`, `is_religion`, `is_insults`, `is_threats`, `is_harassment`,
 `is_twitch_banned`, `is_ad`, `is_racist`. По умолчанию `llm_validated`,
 `human_validated`, `is_correct` и поля цензуры — `null`.
 Время из Telegram пишется в UTC+0.
@@ -170,6 +170,7 @@ OCR скрипт создаёт отдельный JSON на каждую дат
     "is_sexual": null,
     "is_profanity": null,
     "is_politics": null,
+    "is_religion": null,
     "is_insults": null,
     "is_threats": null,
     "is_harassment": null,

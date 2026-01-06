@@ -21,6 +21,7 @@
     "is_harassment": false,
     "is_twitch_banned": false,
     "is_racist": false,
-    "is_ad": false
+    "is_ad": false,
+    "is_religion": true
   }
 ]

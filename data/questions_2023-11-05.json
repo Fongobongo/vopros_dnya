@@ -19,8 +19,10 @@
     "is_insults": false,
     "is_threats": true,
     "is_harassment": false,
-    "is_twitch_banned": true,
-    "is_racist": true
+    "is_twitch_banned": false,
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 212,
@@ -43,7 +45,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": true
   },
   {
     "number": 213,
@@ -66,7 +70,9 @@
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": false,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   },
   {
     "number": 214,
@@ -90,6 +96,7 @@
     "is_harassment": false,
     "is_twitch_banned": false,
     "is_racist": false,
-    "is_ad": true
+    "is_ad": true,
+    "is_religion": false
   }
 ]

@@ -32,6 +32,7 @@ FLAGS = [
     "is_sexual",
     "is_profanity",
     "is_politics",
+    "is_religion",
     "is_insults",
     "is_threats",
     "is_harassment",
@@ -512,8 +513,9 @@ def _mistral_request(
         trimmed = trimmed[:MAX_TEXT_CHARS]
     system_prompt = (
         "You are a strict moderation assistant. Return only JSON with keys: "
-        "is_sexual, is_profanity, is_politics, is_insults, is_threats, is_harassment, "
-        "is_twitch_banned, is_ad, is_racist. Use true if a category is present or has clear signs. "
+        "is_sexual, is_profanity, is_politics, is_religion, is_insults, is_threats, "
+        "is_harassment, is_twitch_banned, is_ad, is_racist. "
+        "Use true if a category is present or has clear signs. "
         "Use false only if you are confident it is absent. "
         "If text is empty or insufficient, return all censor flags true."
     )
@@ -577,7 +579,8 @@ def _mistral_batch_request(
     system_prompt = (
         "You are a strict moderation assistant. Return ONLY a JSON array. "
         "Each item must be an object with keys: id, is_sexual, is_profanity, "
-        "is_politics, is_insults, is_threats, is_harassment, is_twitch_banned, is_ad, is_racist. "
+        "is_politics, is_religion, is_insults, is_threats, is_harassment, "
+        "is_twitch_banned, is_ad, is_racist. "
         "Use true if the category is present or has clear signs. "
         "Use false only if you are confident it is absent. "
         "If the text is empty or insufficient, return all censor flags true."

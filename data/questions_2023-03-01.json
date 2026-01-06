@@ -17,9 +17,11 @@
     "is_profanity": false,
     "is_politics": false,
     "is_insults": true,
-    "is_threats": false,
+    "is_threats": true,
     "is_harassment": true,
     "is_twitch_banned": true,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]

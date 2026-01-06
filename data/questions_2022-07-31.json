@@ -16,10 +16,12 @@
     "is_sexual": false,
     "is_profanity": true,
     "is_politics": false,
-    "is_insults": false,
+    "is_insults": true,
     "is_threats": false,
     "is_harassment": false,
     "is_twitch_banned": true,
-    "is_racist": true
+    "is_racist": false,
+    "is_religion": false,
+    "is_ad": false
   }
 ]
